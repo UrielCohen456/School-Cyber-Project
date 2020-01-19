@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Installer_WPF_Client
+namespace Installer
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

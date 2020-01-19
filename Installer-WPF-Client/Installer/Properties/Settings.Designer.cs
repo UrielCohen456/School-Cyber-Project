@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Installer_WPF_Client.Properties
+namespace Installer.Properties
 {
 
 

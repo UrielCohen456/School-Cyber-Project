@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{01979720-A863-4D9B-9817-35C9592CAA6B}</ProjectGuid>
+    <ProjectGuid>{02B0CD5F-FAE0-483B-8F29-15AF7CAE7E4C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Installer_WCF_Server</RootNamespace>
-    <AssemblyName>Installer-WCF-Server</AssemblyName>
+    <RootNamespace>InstallerService</RootNamespace>
+    <AssemblyName>InstallerService</AssemblyName>
     <ProjectTypeGuids>{3D9AD99F-2412-4246-B90B-4EAA41C64699};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <StartArguments>/client:"WcfTestClient.exe"</StartArguments>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>

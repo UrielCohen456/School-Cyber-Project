@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Installer_WPF_Client
+namespace Installer
 {
     /// <summary>
     /// Interaction logic for App.xaml
