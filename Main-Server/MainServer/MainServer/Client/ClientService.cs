@@ -1,15 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using DataLayer;
-using System.ServiceModel.Channels;
+using System.ServiceModel;
 
 namespace MainServer
 {
+    [ServiceBehavior(
+        InstanceContextMode = InstanceContextMode.PerSession, 
+        ConcurrencyMode = ConcurrencyMode.Single)]
     public class ClientService : IClientService
     {
-        public User LoggedUser => throw new NotImplementedException();
+        #region Fields
 
+        private IClientDuplex DuplexChannel;
+
+        #endregion
+
+        #region Properties
+
+        public User LoggedUser { get; private set; }
+
+        #endregion
+
+        #region Constructors
+
+        public ClientService()
+        {
+            DuplexChannel = OperationContext.Current.GetCallbackChannel<IClientDuplex>();
+        }
+
+        #endregion
+
+        #region Service Methods
 
         public User Login(string username, string password)
         {
@@ -56,5 +78,10 @@ namespace MainServer
             throw new NotImplementedException();
         }
 
+        #endregion
+
+        #region Private Methods
+
+        #endregion
     }
 }

@@ -47,7 +47,10 @@
     <Compile Include="Models\GameSession.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="ORM\BaseDB.cs" />
+    <Compile Include="ORM\BaseEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
