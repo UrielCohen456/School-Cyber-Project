@@ -1,28 +1,29 @@
-﻿using System;
+﻿using DataLayer.ORM;
+using System;
 using System.Runtime.Serialization;
 
-namespace DataLayer
+namespace DataLayer.Models
 {
     /// <summary>
     /// Represents a friend of a user. 
     /// The Id of the user that is friends with the one inside this class is not given.
     /// </summary>
     [DataContract]
-    public class Friend
+    public class Friend : BaseEntity
     {
         #region Properties
-
+        
         /// <summary>
-        /// Id of the friendship inside the database
+        /// Id of the user
         /// </summary>
         [DataMember]
-        public int Id { get; set; }
+        public int UserId1 { get; set; }
 
         /// <summary>
-        /// Id of the friend user
+        /// Id of the user
         /// </summary>
         [DataMember]
-        public int FriendId { get; set; }
+        public int UserId2 { get; set; }
 
         /// <summary>
         /// The current status of the friendship

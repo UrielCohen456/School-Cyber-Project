@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace DataLayer
+namespace DataLayer.Models
 {
     [DataContract]
     public enum FriendStatus : byte

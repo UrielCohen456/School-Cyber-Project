@@ -1,6 +1,9 @@
 ﻿using DataLayer;
+using DataLayer.Models;
 using System;
 using System.Collections.Generic;
+using System.Net.Security;
+using System.Runtime.Serialization;
 using System.ServiceModel;
 
 namespace MainServer
@@ -8,7 +11,7 @@ namespace MainServer
     [ServiceContract(SessionMode= SessionMode.Required, CallbackContract=typeof(IClientDuplex))]
     public interface IClientService
     {
-        User LoggedUser { get; }
+        #region Authentication Methods
 
         /// <summary>
         /// Attempts to login.
@@ -17,6 +20,7 @@ namespace MainServer
         /// <param name="password">The password of the user (Not hashed)</param>
         /// <returns>User object if succesfull, otherwise null</returns>
         [OperationContract]
+        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign )]
         User Login(string username, string password);
         
         /// <summary>
@@ -34,6 +38,10 @@ namespace MainServer
         /// </summary>
         [OperationContract(IsOneWay=true)]
         void Logout();
+
+        #endregion
+
+        #region Friend Methods
 
         /// <summary>
         /// Gets all friends of the currently logged in user
@@ -68,20 +76,38 @@ namespace MainServer
         [OperationContract]
         bool SendMessage(int toUserId, string message);
 
+        #endregion 
+
         /// <summary>
         /// Returns all the active game sessions
         /// </summary>
         /// <returns>List of game sessions</returns>
         [OperationContract]
         List<GameSession> GetActiveGameSessions();
+    }
+
+    /// <summary>
+    /// Basic operation fault class
+    /// </summary>
+    [DataContract]
+    public class OperationFault
+    {
+        /// <summary>
+        /// The error that occured
+        /// </summary>
+        [DataMember]
+        public string ErrorMessage { get; set; }
 
         /// <summary>
-        /// Sends a request to get a game session identifier to be able to join it
+        /// The operation that caused this exception
         /// </summary>
-        /// <param name="sessionId">The game session id</param>
-        /// <param name="password">The password of the session (If the session doesnt have a password this is null)</param>
-        /// <returns>The identifier of the game session</returns>
-        [OperationContract]
-        string GetSessionIdentifier(int sessionId, string password);
+        [DataMember]
+        public string Operation { get; set; }
+
+        public OperationFault(string errorMessage, string operation)
+        {
+            ErrorMessage = errorMessage;
+            Operation = operation;
+        }
     }
 }

@@ -1,53 +1,72 @@
-﻿using System;
+﻿using DataLayer;
+using DataLayer.Managers;
+using DataLayer.Models;
+using DataLayer.ORM;
+using DataLayer.Repositories;
+using System;
 using System.Collections.Generic;
-using DataLayer;
 using System.ServiceModel;
 
 namespace MainServer
 {
     [ServiceBehavior(
-        InstanceContextMode = InstanceContextMode.PerSession, 
+        InstanceContextMode = InstanceContextMode.PerSession,
         ConcurrencyMode = ConcurrencyMode.Single)]
     public class ClientService : IClientService
     {
-        #region Fields
+        private static readonly UsersManager UsersManager = new UsersManager(new UsersRepository(new UsersDB()));
+        private User LoggedUser { get; set; }
 
-        private IClientDuplex DuplexChannel;
-
-        #endregion
-
-        #region Properties
-
-        public User LoggedUser { get; private set; }
-
-        #endregion
-
-        #region Constructors
+        private readonly IClientDuplex duplexChannel;
 
         public ClientService()
         {
-            DuplexChannel = OperationContext.Current.GetCallbackChannel<IClientDuplex>();
+            duplexChannel = OperationContext.Current.GetCallbackChannel<IClientDuplex>();
         }
 
-        #endregion
-
-        #region Service Methods
-
+        #region Authentication Methods
         public User Login(string username, string password)
         {
-            throw new NotImplementedException();
+            try
+            {
+                LoggedUser = UsersManager.Login(username, password);
+                return LoggedUser;
+            }
+            catch(Exception e)
+            {
+                throw new FaultException<OperationFault>(new OperationFault(e.Message, nameof(Login)));
+            }
         }
 
-        public User Signup(string username, string password, string name)
+        public User Signup(string name, string username, string password)
         {
-            throw new NotImplementedException();
+            try
+            {
+                LoggedUser = UsersManager.Signup(name, username, password);
+                return LoggedUser;
+            }
+            catch (Exception e)
+            {
+                throw new FaultException<OperationFault>(new OperationFault(e.Message, nameof(Signup)));
+            }
         }
 
         public void Logout()
         {
-            throw new NotImplementedException();
+            try
+            {
+                LoggedUser = null;
+                UsersManager.Logout(LoggedUser);
+            }
+            catch (Exception e)
+            {
+                throw new FaultException<OperationFault>(new OperationFault(e.Message, nameof(Logout)));
+            }
         }
 
+        #endregion
+
+        #region Friend Methods
         public List<Friend> GetFriends()
         {
             throw new NotImplementedException();
@@ -62,25 +81,30 @@ namespace MainServer
         {
             throw new NotImplementedException();
         }
-
         public bool SendMessage(int toUserId, string message)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<GameSession> GetActiveGameSessions()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetSessionIdentifier(int sessionId, string password)
         {
             throw new NotImplementedException();
         }
 
         #endregion
 
+        public List<GameSession> GetActiveGameSessions()
+        {
+            throw new NotImplementedException();
+        }
+
         #region Private Methods
+
+        public void Gal()
+        {
+            Console.WriteLine("Gal is gay");
+
+            Console.WriteLine();
+
+
+
+
+        }
 
         #endregion
     }
