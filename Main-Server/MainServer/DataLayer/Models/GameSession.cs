@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace DataLayer.Models
+namespace DataLayer
 {
     /// <summary>
     /// Represents an active game session

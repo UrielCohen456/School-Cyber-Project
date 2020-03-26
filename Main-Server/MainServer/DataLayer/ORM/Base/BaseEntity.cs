@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace DataLayer.ORM
+namespace DataLayer
 {
     [DataContract]
     public class BaseEntity

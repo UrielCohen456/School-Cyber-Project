@@ -1,12 +1,8 @@
-﻿using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DataLayer.ORM;
-using DataLayer.Models;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Collections.Generic;
 using System.Data.SqlClient;
-using DataLayer.Repositories;
 using System.Linq;
-using System.Security.Cryptography;
 
 namespace DataLayer.Tests
 {
@@ -20,7 +16,7 @@ namespace DataLayer.Tests
         public List<User> UsersList { get; set; }
 
         [TestInitialize()]
-        public void MyTestInitialize() 
+        public void MyTestInitialize()
         {
             var user1 = new User { Id = 1, Name = "Uriel", Username = "uriel123" };
             var user2 = new User { Id = 2, Name = "Idan", Username = "idan123" };
@@ -128,7 +124,7 @@ namespace DataLayer.Tests
                     list2.Add(added);
                     added.Id = 3;
                 });
-            
+
             var usersRepository = new UsersRepository(usersDbMock.Object);
             var user = new User { Name = "NewUser" };
             usersRepository.Insert(user);
@@ -146,7 +142,7 @@ namespace DataLayer.Tests
             list2.AddRange(UsersList);
 
             usersDbMock.Setup(db =>
-                db.Insert(It.IsAny<User>())).Callback(() => 
+                db.Insert(It.IsAny<User>())).Callback(() =>
                 {
                     throw new System.Exception("User exists already");
                 });
@@ -175,14 +171,18 @@ namespace DataLayer.Tests
                 if (parameters.Length == 1 &&
                     parameters[0].ParameterName == "@Username" &&
                     parameters[0].Value as string == username)
+                {
                     parameterCheck = true;
+                }
                 else
+                {
                     parameterCheck = false;
+                }
             }).Returns(new List<User>() { userToTest });
 
             var usersRepository = new UsersRepository(usersDbMock.Object);
             var user = usersRepository.SelectSpecificUser(username);
-            
+
             Assert.AreNotEqual(user, null);
             Assert.AreEqual(parameterCheck, true);
             Assert.AreEqual(user.Id, userToTest.Id);
@@ -202,9 +202,13 @@ namespace DataLayer.Tests
                 if (parameters.Length == 1 &&
                     parameters[0].ParameterName == "@Username" &&
                     parameters[0].Value as string == username)
+                {
                     parameterCheck = true;
+                }
                 else
+                {
                     parameterCheck = false;
+                }
             }).Returns(new List<User>());
 
             var usersRepository = new UsersRepository(usersDbMock.Object);

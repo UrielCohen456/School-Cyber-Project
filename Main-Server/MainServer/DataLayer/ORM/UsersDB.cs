@@ -1,9 +1,9 @@
-﻿using DataLayer.Models;
+﻿using DataLayer;
 using System;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace DataLayer.ORM
+namespace DataLayer
 {
     public class UsersDB : Db<User>
     {

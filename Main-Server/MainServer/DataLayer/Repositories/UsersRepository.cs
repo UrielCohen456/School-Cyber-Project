@@ -1,12 +1,8 @@
-﻿
-using DataLayer.Models;
-using DataLayer.ORM;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 
-namespace DataLayer.Repositories
+namespace DataLayer
 {
     public interface IUsersRepository : IDb<User>
     {
@@ -29,7 +25,7 @@ namespace DataLayer.Repositories
 
         public void Insert(User entity)
         {
-            Db.Insert(entity);        
+            Db.Insert(entity);
         }
 
         public IEnumerable<User> Select(int count = 20, string condition = null, SqlParameter[] sqlParameters = null)

@@ -1,9 +1,9 @@
 ﻿using System;
-using DataLayer.Models;
+using DataLayer;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace DataLayer.ORM
+namespace DataLayer
 {
     public class MessagesDB : Db<Message>
     {

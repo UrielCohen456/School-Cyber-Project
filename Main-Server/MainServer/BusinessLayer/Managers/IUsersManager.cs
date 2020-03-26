@@ -1,6 +1,6 @@
-﻿using DataLayer.Models;
+﻿using DataLayer;
 
-namespace DataLayer.Managers
+namespace BusinessLayer
 {
     public interface IUsersManager
     {

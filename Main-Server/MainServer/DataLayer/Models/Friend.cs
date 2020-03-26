@@ -1,8 +1,8 @@
-﻿using DataLayer.ORM;
+﻿using DataLayer;
 using System;
 using System.Runtime.Serialization;
 
-namespace DataLayer.Models
+namespace DataLayer
 {
     /// <summary>
     /// Represents a friend of a user. 

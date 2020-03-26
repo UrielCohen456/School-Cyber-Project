@@ -1,7 +1,7 @@
-﻿using DataLayer.ORM;
+﻿using DataLayer;
 using System.Runtime.Serialization;
 
-namespace DataLayer.Models
+namespace DataLayer
 {
     /// <summary>
     /// Message that is sent from one user to another

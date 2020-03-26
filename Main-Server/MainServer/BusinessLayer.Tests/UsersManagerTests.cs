@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DataLayer.Managers;
-using DataLayer.Models;
-using DataLayer.Repositories;
+using DataLayer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 

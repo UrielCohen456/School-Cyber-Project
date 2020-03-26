@@ -1,11 +1,9 @@
-﻿using DataLayer;
-using DataLayer.Managers;
-using DataLayer.Models;
-using DataLayer.ORM;
-using DataLayer.Repositories;
+﻿using BusinessLayer;
+using DataLayer;
 using System;
 using System.Collections.Generic;
 using System.ServiceModel;
+using Unity;
 
 namespace MainServer
 {
@@ -14,7 +12,7 @@ namespace MainServer
         ConcurrencyMode = ConcurrencyMode.Single)]
     public class ClientService : IClientService
     {
-        private static readonly UsersManager UsersManager = new UsersManager(new UsersRepository(new UsersDB()));
+        private static readonly UsersManager UsersManager = IoC.Container.Resolve<UsersManager>();
         private User LoggedUser { get; set; }
 
         private readonly IClientDuplex duplexChannel;

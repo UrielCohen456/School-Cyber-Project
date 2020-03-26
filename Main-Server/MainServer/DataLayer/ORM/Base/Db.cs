@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace DataLayer.ORM
+namespace DataLayer
 {
     public interface IDb<T> where T : BaseEntity, new()
     {

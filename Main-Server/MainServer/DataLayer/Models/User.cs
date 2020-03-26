@@ -1,9 +1,9 @@
-﻿using DataLayer.ORM;
+﻿using DataLayer;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Cryptography;
 
-namespace DataLayer.Models
+namespace DataLayer
 {
     /// <summary>
     /// Represents a user
