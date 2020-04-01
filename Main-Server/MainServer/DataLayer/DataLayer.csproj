@@ -57,6 +57,7 @@
     <Compile Include="ORM\MessagesDB.cs" />
     <Compile Include="ORM\UsersDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\FriendsRepository.cs" />
     <Compile Include="Repositories\UsersRepository.cs" />
   </ItemGroup>
   <ItemGroup />

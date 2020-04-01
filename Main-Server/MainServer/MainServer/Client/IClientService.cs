@@ -1,6 +1,4 @@
 ﻿using DataLayer;
-using DataLayer.Models;
-using System;
 using System.Collections.Generic;
 using System.Net.Security;
 using System.Runtime.Serialization;
@@ -8,7 +6,7 @@ using System.ServiceModel;
 
 namespace MainServer
 {
-    [ServiceContract(SessionMode= SessionMode.Required, CallbackContract=typeof(IClientDuplex))]
+    [ServiceContract(SessionMode = SessionMode.Required, CallbackContract = typeof(IClientDuplex))]
     public interface IClientService
     {
         #region Authentication Methods
@@ -20,9 +18,9 @@ namespace MainServer
         /// <param name="password">The password of the user (Not hashed)</param>
         /// <returns>User object if succesfull, otherwise null</returns>
         [OperationContract]
-        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign )]
+        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
         User Login(string username, string password);
-        
+
         /// <summary>
         /// Attempts to Signup. If succesfull the user is logged in.
         /// </summary>
@@ -31,12 +29,14 @@ namespace MainServer
         /// <param name="name">The public name of the user (Other users see this)</param>
         /// <returns>User object if succesfull, otherwise null</returns>
         [OperationContract]
+        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
         User Signup(string username, string password, string name);
 
         /// <summary>
         /// Logs out the connected user. If no one is connected throws an exception.
         /// </summary>
-        [OperationContract(IsOneWay=true)]
+        [OperationContract(IsOneWay = true)]
+        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
         void Logout();
 
         #endregion
@@ -48,7 +48,8 @@ namespace MainServer
         /// </summary>
         /// <returns>A list of all the friends of the currently logged user</returns>
         [OperationContract]
-        List<Friend> GetFriends();
+        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
+        List<Friend> GetFriends(int friendCount);
 
         /// <summary>
         /// Sends a request to add the friend.
@@ -56,6 +57,7 @@ namespace MainServer
         /// <param name="userId">Id of the user to add as a friend</param>
         /// <returns>Friend object of the friendship and its details</returns>
         [OperationContract]
+        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
         Friend AddFriend(int userId);
 
         /// <summary>
@@ -64,17 +66,27 @@ namespace MainServer
         /// </summary>
         /// <param name="friendId">The id of the friendship (not the friend's userId)</param>
         /// <param name="status">The requested status</param>
-        [OperationContract(IsOneWay=true)]
-        void ChangeFriendStatus(int friendId, FriendStatus status);
+        [OperationContract(IsOneWay = true)]
+        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
+        void ChangeFriendStatus(int userId, FriendStatus status);
 
         /// <summary>
         /// Sends a message to a requested user
         /// </summary>
         /// <param name="toUserId">The id of the user to send the message to</param>
         /// <param name="message">The message</param>
-        /// <returns>True if the message was accepted, false if it is stored</returns>
-        [OperationContract]
-        bool SendMessage(int toUserId, string message);
+        [OperationContract(IsOneWay = true)]
+        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
+        void SendMessage(int userId, string message);
+
+        /// <summary>
+        /// Retrieves the full conversation with the requested friend userId 
+        /// </summary>
+        /// <param name="userId">The friend's userId</param>
+        /// <returns></returns>
+        [OperationContract(IsOneWay = true)]
+        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
+        List<Message> GetConversationWithUser(int userId);
 
         #endregion 
 
@@ -83,6 +95,7 @@ namespace MainServer
         /// </summary>
         /// <returns>List of game sessions</returns>
         [OperationContract]
+        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
         List<GameSession> GetActiveGameSessions();
     }
 
@@ -109,5 +122,6 @@ namespace MainServer
             ErrorMessage = errorMessage;
             Operation = operation;
         }
+
     }
 }

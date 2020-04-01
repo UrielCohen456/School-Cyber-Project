@@ -43,7 +43,7 @@ namespace BusinessLayer.Tests
                 r.SelectSpecificUser(userToAdd.Username))
                 .Returns(userToAdd);
 
-            var usersManager = new UsersManager(usersRepositoryMock.Object);
+            var usersManager = new UsersManager(usersRepositoryMock.Object, null);
             usersManager.Login(userToAdd.Username, userToAdd.Username);
 
             // Check that threw connected exception
@@ -60,7 +60,7 @@ namespace BusinessLayer.Tests
             usersRepositoryMock.Setup(r =>
                 r.SelectSpecificUser(userToAdd.Username))
                 .Returns(userToAdd);
-            var usersManager = new UsersManager(usersRepositoryMock.Object);
+            var usersManager = new UsersManager(usersRepositoryMock.Object, null);
 
             Assert.ThrowsException<Exception>(
                 () => usersManager.Login(userToAdd.Username, ""));
@@ -77,7 +77,7 @@ namespace BusinessLayer.Tests
                 r.SelectSpecificUser(userToAdd.Username))
                 .Returns(userToAdd);
 
-            var usersManager = new UsersManager(usersRepositoryMock.Object);
+            var usersManager = new UsersManager(usersRepositoryMock.Object, null);
 
             var user = usersManager.Login(userToAdd.Username, userToAdd.Username);
 
@@ -102,7 +102,7 @@ namespace BusinessLayer.Tests
                 r.SelectSpecificUser(It.IsAny<string>()))
                 .Returns(usersQueue.Dequeue);
 
-            var usersManager = new UsersManager(usersRepositoryMock.Object);
+            var usersManager = new UsersManager(usersRepositoryMock.Object, null);
             var user = usersManager.Login(connectedUser.Username, connectedUser.Username);
 
             Assert.ThrowsException<Exception>(
@@ -124,7 +124,7 @@ namespace BusinessLayer.Tests
                 r.SelectSpecificUser(userToAdd.Username))
                 .Returns(userToAdd);
 
-            var usersManager = new UsersManager(usersRepositoryMock.Object);
+            var usersManager = new UsersManager(usersRepositoryMock.Object, null);
             usersManager.Login(userToAdd.Username, userToAdd.Username);
 
             Assert.ThrowsException<Exception>(
@@ -141,7 +141,7 @@ namespace BusinessLayer.Tests
                 r.SelectSpecificUser(userToAdd.Username))
                 .Returns(userToAdd);
 
-            var usersManager = new UsersManager(usersRepositoryMock.Object);
+            var usersManager = new UsersManager(usersRepositoryMock.Object, null);
 
             Assert.ThrowsException<Exception>(
                 () => usersManager.Signup(userToAdd.Name, userToAdd.Username, userToAdd.Username));
@@ -167,7 +167,7 @@ namespace BusinessLayer.Tests
                     Assert.AreEqual(true, user.IsHashedPasswordCorrect(userToAdd.Username));
                 });
                 
-            var usersManager = new UsersManager(usersRepositoryMock.Object);
+            var usersManager = new UsersManager(usersRepositoryMock.Object, null);
 
             var userSigned = usersManager.Signup(userToAdd.Name, userToAdd.Username, userToAdd.Username);
 
@@ -187,7 +187,7 @@ namespace BusinessLayer.Tests
             var userToDisconnect = new User();
 
             var usersRepositoryMock = new Mock<IUsersRepository>();
-            var usersManager = new UsersManager(usersRepositoryMock.Object);
+            var usersManager = new UsersManager(usersRepositoryMock.Object, null);
 
             Assert.ThrowsException<Exception>(
                 () => usersManager.Logout(userToDisconnect));
@@ -203,7 +203,7 @@ namespace BusinessLayer.Tests
                 r.SelectSpecificUser(userToDisconnect.Username))
                 .Returns(userToDisconnect);
             
-            var usersManager = new UsersManager(usersRepositoryMock.Object);
+            var usersManager = new UsersManager(usersRepositoryMock.Object, null);
             
             usersManager.Login(userToDisconnect.Username, userToDisconnect.Username);
             Assert.AreEqual(1, usersManager.UserCount);

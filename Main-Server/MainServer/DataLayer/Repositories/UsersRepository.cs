@@ -7,6 +7,8 @@ namespace DataLayer
     public interface IUsersRepository : IDb<User>
     {
         User SelectSpecificUser(string username);
+        
+        User SelectSpecificUser(int userId);
     }
 
     public class UsersRepository : IUsersRepository
@@ -43,6 +45,17 @@ namespace DataLayer
             var sqlWhereString = $"WHERE Username = @Username";
             var sqlParameters = new SqlParameter[1];
             sqlParameters[0] = new SqlParameter("@Username", System.Data.SqlDbType.NVarChar) { Value = username };
+
+            var user = Db.Select(1, sqlWhereString, sqlParameters).FirstOrDefault();
+
+            return user;
+        }
+
+        public User SelectSpecificUser(int userId)
+        {
+            var sqlWhereString = $"WHERE Id = @Id";
+            var sqlParameters = new SqlParameter[1];
+            sqlParameters[0] = new SqlParameter("@Id", System.Data.SqlDbType.Int) { Value = userId };
 
             var user = Db.Select(1, sqlWhereString, sqlParameters).FirstOrDefault();
 

@@ -58,13 +58,13 @@ namespace DataLayer
             sqlCommand = new SqlCommand() { Connection = sqlConnection };
         }
 
-        public virtual IEnumerable<T> Select(int count = 20, string condition = null, SqlParameter[] sqlParameters = null)
+        public virtual IEnumerable<T> Select(int count = 20, string addedSql = null, SqlParameter[] sqlParameters = null)
         {
             IEnumerable<T> entities = null;
             try
             {
                 sqlConnection.Open();
-                sqlCommand.CommandText = GetSQLSelectString(count) + condition;
+                sqlCommand.CommandText = GetSQLSelectString(count) + addedSql;
                 if (sqlParameters != null)
                     sqlCommand.Parameters.AddRange(sqlParameters);
 

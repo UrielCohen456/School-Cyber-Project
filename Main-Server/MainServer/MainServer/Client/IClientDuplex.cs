@@ -1,6 +1,5 @@
-﻿using DataLayer.Models;
+﻿using DataLayer;
 using System.ServiceModel;
-using System.ServiceModel.Channels;
 
 namespace MainServer
 {
