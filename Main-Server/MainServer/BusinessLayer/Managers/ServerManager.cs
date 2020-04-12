@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace BusinessLayer
 {
-    public sealed class UsersManager : IUsersManager
+    public sealed class ServerManager : IServerManager
     {
         private readonly IUsersRepository usersRepository;
         private readonly IFriendsRepository friendsRepository;
@@ -16,7 +16,7 @@ namespace BusinessLayer
 
         public int UserCount => LoggedUsers.Count();
 
-        public UsersManager(IUsersRepository usersRepository, IFriendsRepository friendsRepository)
+        public ServerManager(IUsersRepository usersRepository, IFriendsRepository friendsRepository)
         {
             this.usersRepository = usersRepository;
             this.friendsRepository = friendsRepository;
@@ -49,12 +49,9 @@ namespace BusinessLayer
             if (user != null) // User exists
                 throw new Exception("User already exists");
 
-            user = new User { Name = name, Username = username };
-            var hashedPassword = User.HashPassword(password);
-            user.Salt = hashedPassword.Salt;
-            user.Password = hashedPassword.Password;
-
-            usersRepository.Insert(user);
+            user = usersRepository.AddUser(name, username, password);
+            if (user == null) // Couldn't add him
+                throw new Exception("Couldn't add user, something went wrong.");
 
             LoggedUsers.TryAdd(user.Id, user);
 
@@ -66,13 +63,13 @@ namespace BusinessLayer
             if (user == null)
                 throw new Exception("Can't logout without logging in");
 
-            if (!IsUserConnected(user.Username))
+            if (!IsUserConnected(user.Id))
                 throw new Exception("User is not logged in");
 
             if (!LoggedUsers.TryRemove(user.Id, out _))
-                throw new Exception("Couldn't remove user");
+                throw new Exception("Couldn't remove user, something went wrong");
 
-            usersRepository.Delete(user);
+            usersRepository.RemoveUser(user);
         }
 
         public bool IsUserConnected(string username)
@@ -97,18 +94,12 @@ namespace BusinessLayer
 
         public IEnumerable<Friend> GetFriendsOfUser(int userId, int friendsCount = 20)
         {
-            return friendsRepository.Select(friendsCount, 
-                "WHERE userId1 = @userId OR userId2 = @userId", 
-                new SqlParameter[1] { new SqlParameter("@userId", userId) { SqlDbType = System.Data.SqlDbType.Int } });
+            return friendsRepository.GetFriendsOfUser(userId, friendsCount);
         }
 
         public Friend AddFriend(int userId, int friendUserId)
         {
-            var friend = new Friend() { DateAdded = DateTime.Now, UserId1 = userId, UserId2 = friendUserId, Status = FriendStatus.Waiting };
-
-            friendsRepository.Insert(friend);
-
-            return friend;
+            return friendsRepository.CreateFriend(userId, friendUserId);
         }
 
         public Friend GetExistingFriend(int userId, int friendUserId)
@@ -118,8 +109,7 @@ namespace BusinessLayer
 
         public void ChangeFriendStatus(Friend friend, FriendStatus newStatus)
         {
-            friend.Status = newStatus;
-            friendsRepository.Update(friend);
+            friendsRepository.ChangeFriendStatus(friend, newStatus);
         }
 
         public bool DoesUserExist(int userId)

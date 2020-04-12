@@ -1,14 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 
 namespace DataLayer
 {
-    public interface IFriendsRepository : IDb<Friend>
+    public interface IFriendsRepository 
     {
         bool DoesFriendExist(int userId1, int userId2);
 
-        Friend GetSpecificFriend(int userId1, int userId2);
+        Friend GetSpecificFriend(int userId, int friendUserId);
+
+        Friend CreateFriend(int userId1, int userId2);
+
+        IEnumerable<Friend> GetFriendsOfUser(int userId, int friendsCount = 20);
+
+        void ChangeFriendStatus(Friend friend, FriendStatus status);
     }
 
     public class FriendsRepository : IFriendsRepository
@@ -20,24 +27,20 @@ namespace DataLayer
             Db = db;
         }
 
-        public void Delete(Friend entity)
+        public Friend CreateFriend(int userId, int friendUserId)
         {
-            Db.Delete(entity);
+            var friend = new Friend() { DateAdded = DateTime.Now, UserId1 = userId, UserId2 = friendUserId, Status = FriendStatus.Waiting };
+
+            Db.Insert(friend);
+
+            return friend;
         }
 
-        public void Insert(Friend entity)
+        public IEnumerable<Friend> GetFriendsOfUser(int userId, int friendsCount = 20)
         {
-            Db.Insert(entity);
-        }
-
-        public IEnumerable<Friend> Select(int count = 20, string condition = null, SqlParameter[] sqlParameters = null)
-        {
-            return Db.Select(count, condition, sqlParameters);
-        }
-
-        public void Update(Friend entity)
-        {
-            Db.Update(entity);
+            return Db.Select(friendsCount,
+               "WHERE userId1 = @userId OR userId2 = @userId",
+               new SqlParameter[1] { new SqlParameter("@userId", userId) { SqlDbType = System.Data.SqlDbType.Int } });
         }
 
         public Friend GetSpecificFriend(int userId1, int userId2)
@@ -56,8 +59,11 @@ namespace DataLayer
         {
             return GetSpecificFriend(userId1, userId2) != null;
         }
-
-
-
+        
+        public void ChangeFriendStatus(Friend friend, FriendStatus status)
+        {
+            friend.Status = status;
+            Db.Update(friend);
+        }
     }
 }

@@ -16,10 +16,13 @@ namespace MainServer
 
         private static void Configure()
         {
+            // Setting up the container
             Container
                 .RegisterType<IDb<User>, UsersDB>()
                 .RegisterType<IUsersRepository, UsersRepository>()
-                .RegisterType<IUsersManager, UsersManager>();
+                .RegisterType<IDb<Friend>, FriendsDB>()
+                .RegisterType<IFriendsRepository, FriendsRepository>()
+                .RegisterType<IServerManager, ServerManager>();
         }
     }
 }

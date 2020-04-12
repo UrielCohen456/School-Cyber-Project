@@ -17,8 +17,7 @@ namespace MainServer
     public class ClientService : IClientService, IDisposable
     {
         private static readonly ConcurrentDictionary<int, IClientDuplex> userCallbacks = new ConcurrentDictionary<int, IClientDuplex>();
-        private static readonly UsersManager usersManager = IoC.Container.Resolve<UsersManager>();
-        private static readonly MessagesManager messagesManager = IoC.Container.Resolve<MessagesManager>();
+        private static readonly ServerManager serverManager = IoC.Container.Resolve<ServerManager>();
 
         private User LoggedUser { get; set; }
         private readonly IClientDuplex duplexChannel;
@@ -47,14 +46,13 @@ namespace MainServer
                 return;
 
             userCallbacks.TryRemove(LoggedUser.Id, out _);
-            usersManager.Logout(LoggedUser);
+            serverManager.Logout(LoggedUser);
             LoggedUser = null;
         }
 
         /// <summary>
         /// Checks wheter the user is logged in. If user is not logged in throws a FaultException of OperationFault
         /// </summary>
-        /// <param name="operation">name of the operation this was called in</param>
         private void CheckIsUserAuthenticated()
         {
             if (LoggedUser == null)
@@ -63,7 +61,7 @@ namespace MainServer
 
         private void CheckDoesUserExist(int userId)
         {
-            if (!usersManager.DoesUserExist(userId))
+            if (!serverManager.DoesUserExist(userId))
                 throw new Exception("User requested doesn't exist");
         }
 
@@ -74,7 +72,7 @@ namespace MainServer
 
         private void NotifyUserFriendStatusChanged(int userId, Friend friend)
         {
-            if (usersManager.IsUserConnected(userId))
+            if (serverManager.IsUserConnected(userId))
                 userCallbacks.ElementAt(userId).Value.FriendStatusChanged(friend);
         }
 
@@ -86,7 +84,7 @@ namespace MainServer
         {
             try
             {
-                var user = usersManager.Login(username, password);
+                var user = serverManager.Login(username, password);
                 AddUser(user);
                 return user;
             }
@@ -100,7 +98,7 @@ namespace MainServer
         {
             try
             {
-                var user = usersManager.Signup(name, username, password);
+                var user = serverManager.Signup(name, username, password);
                 AddUser(user);
                 return user;
             }
@@ -132,7 +130,7 @@ namespace MainServer
             {
                 CheckIsUserAuthenticated();
 
-                return usersManager.GetFriendsOfUser(LoggedUser.Id, friendCount).ToList();
+                return serverManager.GetFriendsOfUser(LoggedUser.Id, friendCount).ToList();
             }
             catch (Exception e)
             {
@@ -147,10 +145,10 @@ namespace MainServer
                 CheckIsUserAuthenticated();
                 CheckDoesUserExist(userId);
 
-                if (usersManager.DoesFriendExist(LoggedUser.Id, userId))
+                if (serverManager.DoesFriendExist(LoggedUser.Id, userId))
                     throw new Exception("Can't add a friend twice");
 
-                var friend = usersManager.AddFriend(LoggedUser.Id, userId);
+                var friend = serverManager.AddFriend(LoggedUser.Id, userId);
 
                 // Notifying the user if he is connected someone added him
                 NotifyUserFriendStatusChanged(userId, friend);
@@ -171,16 +169,16 @@ namespace MainServer
                 CheckIsUserAuthenticated();
                 CheckDoesUserExist(userId);
 
-                if (!usersManager.DoesFriendExist(LoggedUser.Id, userId))
+                if (!serverManager.DoesFriendExist(LoggedUser.Id, userId))
                     throw new Exception("No such friendship exists");
 
-                var friend = usersManager.GetExistingFriend(LoggedUser.Id, userId);
+                var friend = serverManager.GetExistingFriend(LoggedUser.Id, userId);
 
                 if (!friend.IsChangePossible(status, LoggedUser.Id))
                     throw new Exception("Friend status change is not possible");
 
                 // Updating the database with the changed status
-                usersManager.ChangeFriendStatus(friend, status);
+                serverManager.ChangeFriendStatus(friend, status);
 
                 // Notifying the other user the friend status has changed
                 var friendUserId = friend.UserId1 != LoggedUser.Id ? friend.UserId1 : friend.UserId2;
@@ -199,6 +197,11 @@ namespace MainServer
                 CheckIsUserAuthenticated();
                 CheckDoesUserExist(userId);
 
+                // Check if we are even friends
+                if (!serverManager.DoesFriendExist(LoggedUser.Id, userId))
+                    throw new Exception("Can only send messages to friends");
+
+                // Adding to messages
                 //TODO: Send messages only to friends, add to db, if other user is online notify him
 
                 //new MessagesDB().Insert(new Message() { Content = message, FromId = LoggedUser.Id, ToId = userId });

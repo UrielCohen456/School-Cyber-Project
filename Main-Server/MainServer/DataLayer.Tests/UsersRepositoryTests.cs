@@ -1,21 +1,17 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
 
 namespace DataLayer.Tests
 {
-    /// <summary>
-    /// Tests for the users repository
-    /// </summary>
     [TestClass]
     public class UsersRepositoryTests
     {
-        public IDb<User> Db { get; set; }
         public List<User> UsersList { get; set; }
 
-        [TestInitialize()]
+        [TestInitialize]
         public void MyTestInitialize()
         {
             var user1 = new User { Id = 1, Name = "Uriel", Username = "uriel123" };
@@ -30,192 +26,191 @@ namespace DataLayer.Tests
             };
         }
 
-        #region Select Tests
+        #region SelectByUsername
 
         [TestMethod]
-        public void ReturnUsersFromRepository_NoSearchCondition_ReturnsTwoUsers()
+        public void SelectByUsername_UserDoesntExist_ReturnsNull()
         {
             var usersDbMock = new Mock<IDb<User>>();
-
 
             usersDbMock.Setup(db =>
                 db.Select(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<SqlParameter[]>()))
-            .Returns(UsersList);
+            .Returns(default(IEnumerable<User>));
 
             var usersRepository = new UsersRepository(usersDbMock.Object);
-            var users = usersRepository.Select();
+            var user1 = usersRepository.SelectSpecificUser("");
+            var user2 = usersRepository.SelectSpecificUser(UsersList[0].Username);
 
-            Assert.AreEqual(users.Count(), 3);
-            Assert.AreEqual(users.ElementAt(0).Id, UsersList[0].Id);
-            Assert.AreEqual(users.ElementAt(1).Id, UsersList[1].Id);
-            Assert.AreEqual(users.ElementAt(2).Id, UsersList[2].Id);
+            Assert.AreEqual(user1, null);
+            Assert.AreEqual(user2, null);
         }
 
         [TestMethod]
-        public void ReturnUsersFromRepository_IdEquals1_ReturnsFirstUser()
+        public void SelectByUsername_UserExists_ReturnsUser()
         {
             var usersDbMock = new Mock<IDb<User>>();
-            var index = 0;
-            var userToTest = UsersList[index];
-
-            var parameters = new SqlParameter[] { new SqlParameter("@Id", System.Data.SqlDbType.Int) { Value = userToTest.Id } };
+            var userToSearch = UsersList[0];
 
             usersDbMock.Setup(db =>
-                db.Select(It.IsInRange(1, int.MaxValue, Range.Inclusive), "WHERE Id = @Id", parameters))
-            .Returns(new List<User> { userToTest });
+                db.Select(1, It.IsAny<string>(), It.IsAny<SqlParameter[]>()))
+            .Callback((int count, string sql, SqlParameter[] parameters) =>
+            {
+                Assert.AreEqual(parameters[0].ParameterName, "@Username");
+                Assert.AreEqual(parameters[0].Value, userToSearch.Username);
+            })
+            .Returns(new List<User> { userToSearch });
 
             var usersRepository = new UsersRepository(usersDbMock.Object);
-            var users = usersRepository.Select(1, "WHERE Id = @Id", parameters);
+            var user = usersRepository.SelectSpecificUser(userToSearch.Username);
 
-            Assert.AreEqual(1, users.Count());
-            Assert.AreEqual(userToTest.Id, users.ElementAt(index).Id);
-        }
-
-        [TestMethod]
-        public void ReturnUsersFromRepository_IdEquals3_ReturnsLastUser()
-        {
-            var usersDbMock = new Mock<IDb<User>>();
-            var index = 2;
-            var userToTest = UsersList[index];
-
-            var parameters = new SqlParameter[] { new SqlParameter("@Id", System.Data.SqlDbType.Int) { Value = userToTest.Id } };
-
-            usersDbMock.Setup(db =>
-                db.Select(It.IsInRange(1, int.MaxValue, Range.Inclusive), "WHERE Id = @Id", parameters))
-            .Returns(new List<User> { userToTest });
-
-            var usersRepository = new UsersRepository(usersDbMock.Object);
-            var users = usersRepository.Select(1, "WHERE Id = @Id", parameters);
-
-            Assert.AreEqual(1, users.Count());
-            Assert.AreEqual(userToTest.Id, users.ElementAt(0).Id);
-        }
-
-        [TestMethod]
-        public void ReturnUsersFromRepository_IdEquals4_ReturnsEmptyList()
-        {
-            var usersDbMock = new Mock<IDb<User>>();
-            var parameters = new SqlParameter[] { new SqlParameter("@Id", System.Data.SqlDbType.Int) { Value = 3 } };
-
-            usersDbMock.Setup(db =>
-                db.Select(It.IsInRange(1, int.MaxValue, Range.Inclusive), "WHERE Id = @Id", parameters))
-            .Returns(new List<User>());
-
-            var usersRepository = new UsersRepository(usersDbMock.Object);
-            var users = usersRepository.Select(1, "WHERE Id = @Id", parameters);
-
-            Assert.AreEqual(0, users.Count());
+            Assert.IsTrue(user != null);
+            Assert.AreEqual(user.Id, userToSearch.Id);
+            Assert.AreEqual(user.Username, userToSearch.Username);
+            Assert.AreEqual(user.Name, userToSearch.Name);
         }
 
         #endregion
 
-        #region Insert Tests
+        #region SelectById
 
         [TestMethod]
-        public void InsertUserToDB_3UsersInDb_InsertsUserAndSetsItsIdTo4()
+        public void SelectById_UserDoesntExist_ReturnsNull()
         {
             var usersDbMock = new Mock<IDb<User>>();
-            var list2 = new List<User>();
-            list2.AddRange(UsersList);
 
             usersDbMock.Setup(db =>
-                db.Insert(It.IsAny<User>())).Callback((User added) =>
-                {
-                    list2.Add(added);
-                    added.Id = 3;
-                });
+                db.Select(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<SqlParameter[]>()))
+            .Returns(default(IEnumerable<User>));
 
             var usersRepository = new UsersRepository(usersDbMock.Object);
-            var user = new User { Name = "NewUser" };
-            usersRepository.Insert(user);
+            var user1 = usersRepository.SelectSpecificUser(0);
+            var user2 = usersRepository.SelectSpecificUser(1);
 
-            Assert.AreEqual(list2.Count(), 4);
-            Assert.AreEqual(list2.ElementAt(3).Id, user.Id);
-            Assert.AreEqual(list2.ElementAt(3).Name, user.Name);
+            Assert.AreEqual(user1, null);
+            Assert.AreEqual(user2, null);
         }
 
         [TestMethod]
-        public void InsertUserToDB_3UsersInDb_InsertsExistingUserThrowException()
+        public void SelectById_UserExists_ReturnsUser()
         {
             var usersDbMock = new Mock<IDb<User>>();
-            var list2 = new List<User>();
-            list2.AddRange(UsersList);
+            var userToSearch = UsersList[0];
 
             usersDbMock.Setup(db =>
-                db.Insert(It.IsAny<User>())).Callback(() =>
-                {
-                    throw new System.Exception("User exists already");
-                });
+                db.Select(1, It.IsAny<string>(), It.IsAny<SqlParameter[]>()))
+            .Callback((int count, string sql, SqlParameter[] parameters) =>
+            {
+                Assert.AreEqual(parameters[0].ParameterName, "@Id");
+                Assert.AreEqual(parameters[0].Value, userToSearch.Id);
+            })
+            .Returns(new List<User> { userToSearch });
 
             var usersRepository = new UsersRepository(usersDbMock.Object);
-            var user = new User { Name = "NewUser" };
-            var exception = Assert.ThrowsException<System.Exception>(() => usersRepository.Insert(user));
+            var user = usersRepository.SelectSpecificUser(userToSearch.Id);
 
-            Assert.AreEqual(exception.Message, "User exists already");
+            Assert.IsTrue(user != null);
+            Assert.AreEqual(user.Id, userToSearch.Id);
+            Assert.AreEqual(user.Username, userToSearch.Username);
+            Assert.AreEqual(user.Name, userToSearch.Name);
         }
 
         #endregion
 
+        #region RemoveUser
+
         [TestMethod]
-        public void SelectSpecificUser_UserIsInDatabase_ReturnsUser()
+        public void RemoveUser_UserDoesntExist_ReturnsFalse()
         {
             var usersDbMock = new Mock<IDb<User>>();
-            var userToTest = UsersList[2];
-            var username = userToTest.Username;
-            var parameterCheck = false;
 
             usersDbMock.Setup(db =>
-                db.Select(It.IsAny<int>(), "WHERE Username = @Username", It.IsAny<SqlParameter[]>()))
-            .Callback((int count, string sql, SqlParameter[] parameters) =>
-            {
-                if (parameters.Length == 1 &&
-                    parameters[0].ParameterName == "@Username" &&
-                    parameters[0].Value as string == username)
-                {
-                    parameterCheck = true;
-                }
-                else
-                {
-                    parameterCheck = false;
-                }
-            }).Returns(new List<User>() { userToTest });
+                db.Delete(It.IsAny<User>()))
+                .Throws<Exception>()
+                .Verifiable();
 
             var usersRepository = new UsersRepository(usersDbMock.Object);
-            var user = usersRepository.SelectSpecificUser(username);
+            var removed = usersRepository.RemoveUser(UsersList[0]);
 
-            Assert.AreNotEqual(user, null);
-            Assert.AreEqual(parameterCheck, true);
-            Assert.AreEqual(user.Id, userToTest.Id);
+            usersDbMock.Verify();
+            Assert.IsFalse(removed);
         }
 
         [TestMethod]
-        public void SelectSpecificUser_UserIsNotInDatabase_ReturnsNull()
+        public void RemoveUser_UserExists_ReturnsTrue()
         {
             var usersDbMock = new Mock<IDb<User>>();
-            var username = "doesntexist123";
-            var parameterCheck = false;
+            var existingUser = UsersList[0];
 
             usersDbMock.Setup(db =>
-                db.Select(It.IsAny<int>(), "WHERE Username = @Username", It.IsAny<SqlParameter[]>()))
-            .Callback((int count, string sql, SqlParameter[] parameters) =>
-            {
-                if (parameters.Length == 1 &&
-                    parameters[0].ParameterName == "@Username" &&
-                    parameters[0].Value as string == username)
-                {
-                    parameterCheck = true;
-                }
-                else
-                {
-                    parameterCheck = false;
-                }
-            }).Returns(new List<User>());
+                db.Delete(existingUser))
+                .Verifiable();
 
             var usersRepository = new UsersRepository(usersDbMock.Object);
-            var user = usersRepository.SelectSpecificUser(username);
+            var removed = usersRepository.RemoveUser(existingUser);
 
-            Assert.AreEqual(parameterCheck, true);
-            Assert.AreEqual(user, null);
+            Assert.IsTrue(removed);
+            usersDbMock.Verify();
         }
+
+        #endregion
+
+        #region AddUser
+
+        [TestMethod]
+        public void AddUser_InvalidFields_ReturnsNull()
+        {
+            var usersDbMock = new Mock<IDb<User>>();
+            var insertIsCalled = false;
+
+            usersDbMock.Setup(db =>
+                db.Insert(It.IsAny<User>()))
+                .Callback((User user) => insertIsCalled = true);
+
+            var usersRepository = new UsersRepository(usersDbMock.Object);
+
+            Assert.IsNull(usersRepository.AddUser(null, "username", "password"));
+            Assert.IsNull(usersRepository.AddUser("name", null, "password"));
+            Assert.IsNull(usersRepository.AddUser("name", "username", null));
+            Assert.IsFalse(insertIsCalled);
+        }
+
+        [TestMethod]
+        public void AddUser_AddWorks_ReturnsUser()
+        {
+            var usersDbMock = new Mock<IDb<User>>();
+            var userToAdd = UsersList[0];
+
+            usersDbMock.Setup(db =>
+                db.Insert(It.IsAny<User>()))
+                .Callback((User u) => u.Id = 1)
+                .Verifiable();
+
+            var usersRepository = new UsersRepository(usersDbMock.Object);
+            var userAdded = usersRepository.AddUser(userToAdd.Name, userToAdd.Username, "password");
+
+            Assert.IsNotNull(userAdded);
+            Assert.AreEqual(1, userAdded.Id);
+            Assert.AreEqual(userToAdd.Name, userAdded.Name);
+            Assert.AreEqual(userToAdd.Username, userAdded.Username);
+        }
+
+        [TestMethod]
+        public void AddUser_AddCrashes_ReturnsNull()
+        {
+            var usersDbMock = new Mock<IDb<User>>();
+            var userToAdd = UsersList[0];
+
+            usersDbMock.Setup(db =>
+                db.Insert(It.IsAny<User>()))
+                .Throws<Exception>()
+                .Verifiable();
+
+            var usersRepository = new UsersRepository(usersDbMock.Object);
+            var userAdded = usersRepository.AddUser(userToAdd.Name, userToAdd.Username, "password");
+
+            Assert.IsNull(userAdded);
+        }
+
+        #endregion        
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BusinessLayer
 {
-    public interface IUsersManager
+    public interface IServerManager
     {
         public int UserCount { get; }
 
