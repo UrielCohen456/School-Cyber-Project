@@ -24,7 +24,7 @@ namespace Client.ViewModels
     {
         #region Fields
 
-        private string username;
+        private string username = "Uriel1";
 
         #endregion
 
@@ -49,29 +49,13 @@ namespace Client.ViewModels
         /// <summary>
         /// Command that switches the view model to a signup view model
         /// </summary>
-        public ICommand SwitchToSignupViewCommand => new RelayCommand(() =>
-        {
-            // TODO: Change to signup
-            ViewModelController.ChangeViewModel(new SignupViewModel());
-        });
+        public ICommand SwitchToSignupViewCommand => new RelayCommand(SwitchToSignupView);
 
         /// <summary>
         /// Command that needs to receive a password box and then sends a login request to the server based 
         /// on the username and the password inside the password box
         /// </summary>
-        public ICommand LoginCommand => new RelayCommand<PasswordBox>(async (passBox) =>
-        {
-            try
-            {
-                var result = await Connection.Instance.Service.LoginAsync(Username, passBox?.Password);
-                MessageBox.Show(result.Id.ToString());
-                MessageBox.Show(result.Name);
-            }
-            catch (FaultException<OperationFault> fault)
-            {
-                MessageBox.Show(fault.Detail.ErrorMessage);
-            }
-        });
+        public ICommand LoginCommand => new RelayCommand<PasswordBox>(Login);
 
         #endregion
 
@@ -79,6 +63,25 @@ namespace Client.ViewModels
         #endregion
 
         #region Methods
-        #endregion
-    }
+
+        private void SwitchToSignupView()
+        {
+            ViewModelController.ChangeViewModel(new SignupViewModel());
+        }
+
+        private async void Login(PasswordBox passwordBox)
+        {
+            try
+            {
+                Globals.LoggedUser = await Connection.Instance.Service.LoginAsync(Username, passwordBox?.Password);
+                ViewModelController.ChangeViewModel(new MainViewModel());
+            }
+            catch (FaultException<OperationFault> fault)
+            {
+                MessageBox.Show(fault.Detail.ErrorMessage);
+            }
+        }
+
+    #endregion
+}
 }

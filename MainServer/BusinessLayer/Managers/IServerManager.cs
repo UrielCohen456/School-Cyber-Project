@@ -13,6 +13,10 @@ namespace BusinessLayer
 
         void Logout(User user);
 
+        User GetUserById(int id);
+
+        List<User> GetUsersByQuery(string searchQuery, int userCount);
+
         bool IsUserConnected(int id);
 
         bool IsUserConnected(string username);

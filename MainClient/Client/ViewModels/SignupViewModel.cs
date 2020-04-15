@@ -54,28 +54,13 @@ namespace Client.ViewModels
         /// <summary>
         /// Command that switches the view model to a login view model
         /// </summary>
-        public ICommand SwitchToLoginViewCommand => new RelayCommand(() =>
-        {
-            ViewModelController.ChangeViewModel(new LoginViewModel());
-        });
+        public ICommand SwitchToLoginViewCommand => new RelayCommand(SwitchToLoginView);
 
         /// <summary>
         /// Command that needs to receive a password box and then sends an async singup request to the server based
         /// on the username and the password inside the password box
         /// </summary>
-        public ICommand SignupCommand => new RelayCommand<PasswordBox>(async (passBox) =>
-        {
-            try
-            {
-                var result = await Connection.Instance.Service?.SignupAsync(Username, passBox?.Password, Name);
-                MessageBox.Show(result.Id.ToString());
-                MessageBox.Show(result.Name);
-            }
-            catch (FaultException<OperationFault> fault)
-            {
-                MessageBox.Show(fault.Detail.ErrorMessage);
-            }
-        });
+        public ICommand SignupCommand => new RelayCommand<PasswordBox>(Signup);
 
         #endregion
 
@@ -83,6 +68,25 @@ namespace Client.ViewModels
         #endregion
 
         #region Methods
+
+        private void SwitchToLoginView()
+        {
+            ViewModelController.ChangeViewModel(new LoginViewModel());
+        }
+
+        private async void Signup(PasswordBox passwordBox)
+        {
+            try
+            {
+                Globals.LoggedUser = await Connection.Instance.Service?.SignupAsync(Name, Username, passwordBox?.Password);
+                ViewModelController.ChangeViewModel(new MainViewModel());
+            }
+            catch (FaultException<OperationFault> fault)
+            {
+                MessageBox.Show(fault.Detail.ErrorMessage);
+            }
+        } 
+
         #endregion
     }
 }

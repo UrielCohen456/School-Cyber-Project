@@ -30,7 +30,7 @@ namespace MainServer
         /// <returns>User object if succesfull, otherwise null</returns>
         [OperationContract]
         [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
-        User Signup(string username, string password, string name);
+        User Signup(string name, string username, string password);
 
         /// <summary>
         /// Logs out the connected user. If no one is connected throws an exception.
@@ -38,6 +38,27 @@ namespace MainServer
         [OperationContract]
         [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
         void Logout();
+
+        #endregion
+
+        #region Users Methods
+
+        /// <summary>
+        /// Gets a specific user based on his id
+        /// </summary>
+        /// <returns>The selected user or null if not found</returns>
+        [OperationContract]
+        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
+        User GetUser(int id);
+
+
+        /// <summary>
+        /// Gets all users based on a query (or just first users if it is empty)
+        /// </summary>
+        /// <returns>A list of all the friends of the currently logged user</returns>
+        [OperationContract]
+        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
+        List<User> GetUsers(string searchQuery, int userCount);
 
         #endregion
 
@@ -77,7 +98,7 @@ namespace MainServer
         /// <param name="message">The message</param>
         [OperationContract]
         [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
-        void SendMessage(int userId, string message);
+        Message SendMessage(int userId, string messageText);
 
         /// <summary>
         /// Retrieves the full conversation with the requested friend userId 

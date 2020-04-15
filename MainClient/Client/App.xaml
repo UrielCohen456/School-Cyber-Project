@@ -12,7 +12,13 @@
             <DataTemplate DataType="{x:Type ViewModels:SignupViewModel}">
                 <Views:SignupView/>
             </DataTemplate>
-
+            <DataTemplate DataType="{x:Type ViewModels:MainViewModel}">
+                <Views:MenuView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModels:FriendsViewModel}">
+                <Views:FriendsView/>
+            </DataTemplate>
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -74,6 +74,15 @@ namespace BusinessLayer
             usersRepository.RemoveUser(user);
         }
 
+        public User GetUserById(int id)
+        {
+            return usersRepository.SelectSpecificUser(id);
+        }
+        public List<User> GetUsersByQuery(string searchQuery, int userCount = 20)
+        {
+            return usersRepository.GetUsersByQuery(searchQuery, userCount);
+        }
+
         public bool IsUserConnected(string username)
         {
             return !string.IsNullOrEmpty(username) && LoggedUsers.ToList().Exists(item => item.Value.Username == username);
@@ -122,14 +131,14 @@ namespace BusinessLayer
 
         public Message SaveMessage(int fromId, int toId, string text)
         {
-            throw new NotImplementedException();
+            return messagesRepository.SaveMessage(fromId, toId, text);
         }
 
         public IEnumerable<Message> GetConversation(int userId1, int userId2, int messagesCount = 50)
         {
-            throw new NotImplementedException();
+            return messagesRepository.GetConversation(userId1, userId2, messagesCount);
         }
 
-        
+
     }
 }

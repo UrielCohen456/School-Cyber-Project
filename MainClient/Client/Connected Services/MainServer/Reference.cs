@@ -439,10 +439,10 @@ namespace Client.MainServer {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/Signup", ReplyAction="http://tempuri.org/IClientService/SignupResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/SignupOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
-        Client.MainServer.User Signup(string username, string password, string name);
+        Client.MainServer.User Signup(string name, string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/Signup", ReplyAction="http://tempuri.org/IClientService/SignupResponse")]
-        System.Threading.Tasks.Task<Client.MainServer.User> SignupAsync(string username, string password, string name);
+        System.Threading.Tasks.Task<Client.MainServer.User> SignupAsync(string name, string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/Logout", ReplyAction="http://tempuri.org/IClientService/LogoutResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/LogoutOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
@@ -450,6 +450,20 @@ namespace Client.MainServer {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/Logout", ReplyAction="http://tempuri.org/IClientService/LogoutResponse")]
         System.Threading.Tasks.Task LogoutAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/GetUser", ReplyAction="http://tempuri.org/IClientService/GetUserResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/GetUserOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
+        Client.MainServer.User GetUser(int id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/GetUser", ReplyAction="http://tempuri.org/IClientService/GetUserResponse")]
+        System.Threading.Tasks.Task<Client.MainServer.User> GetUserAsync(int id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/GetUsers", ReplyAction="http://tempuri.org/IClientService/GetUsersResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/GetUsersOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
+        System.Collections.Generic.List<Client.MainServer.User> GetUsers(string searchQuery, int userCount);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/GetUsers", ReplyAction="http://tempuri.org/IClientService/GetUsersResponse")]
+        System.Threading.Tasks.Task<System.Collections.Generic.List<Client.MainServer.User>> GetUsersAsync(string searchQuery, int userCount);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/GetFriends", ReplyAction="http://tempuri.org/IClientService/GetFriendsResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/GetFriendsOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
@@ -474,10 +488,10 @@ namespace Client.MainServer {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/SendMessage", ReplyAction="http://tempuri.org/IClientService/SendMessageResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/SendMessageOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
-        void SendMessage(int userId, string message);
+        Client.MainServer.Message SendMessage(int userId, string messageText);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/SendMessage", ReplyAction="http://tempuri.org/IClientService/SendMessageResponse")]
-        System.Threading.Tasks.Task SendMessageAsync(int userId, string message);
+        System.Threading.Tasks.Task<Client.MainServer.Message> SendMessageAsync(int userId, string messageText);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/GetConversationWithUser", ReplyAction="http://tempuri.org/IClientService/GetConversationWithUserResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/GetConversationWithUserOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
@@ -501,7 +515,7 @@ namespace Client.MainServer {
         void NewUserJoinedGameSession(Client.MainServer.User user);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/NewMessageReceived", ReplyAction="http://tempuri.org/IClientService/NewMessageReceivedResponse")]
-        void NewMessageReceived(Client.MainServer.User user, string messageContent);
+        void NewMessageReceived(Client.MainServer.User user, Client.MainServer.Message message);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/FriendStatusChanged", ReplyAction="http://tempuri.org/IClientService/FriendStatusChangedResponse")]
         void FriendStatusChanged(Client.MainServer.Friend friend);
@@ -543,12 +557,12 @@ namespace Client.MainServer {
             return base.Channel.LoginAsync(username, password);
         }
         
-        public Client.MainServer.User Signup(string username, string password, string name) {
-            return base.Channel.Signup(username, password, name);
+        public Client.MainServer.User Signup(string name, string username, string password) {
+            return base.Channel.Signup(name, username, password);
         }
         
-        public System.Threading.Tasks.Task<Client.MainServer.User> SignupAsync(string username, string password, string name) {
-            return base.Channel.SignupAsync(username, password, name);
+        public System.Threading.Tasks.Task<Client.MainServer.User> SignupAsync(string name, string username, string password) {
+            return base.Channel.SignupAsync(name, username, password);
         }
         
         public void Logout() {
@@ -557,6 +571,22 @@ namespace Client.MainServer {
         
         public System.Threading.Tasks.Task LogoutAsync() {
             return base.Channel.LogoutAsync();
+        }
+        
+        public Client.MainServer.User GetUser(int id) {
+            return base.Channel.GetUser(id);
+        }
+        
+        public System.Threading.Tasks.Task<Client.MainServer.User> GetUserAsync(int id) {
+            return base.Channel.GetUserAsync(id);
+        }
+        
+        public System.Collections.Generic.List<Client.MainServer.User> GetUsers(string searchQuery, int userCount) {
+            return base.Channel.GetUsers(searchQuery, userCount);
+        }
+        
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<Client.MainServer.User>> GetUsersAsync(string searchQuery, int userCount) {
+            return base.Channel.GetUsersAsync(searchQuery, userCount);
         }
         
         public System.Collections.Generic.List<Client.MainServer.Friend> GetFriends(int friendCount) {
@@ -583,12 +613,12 @@ namespace Client.MainServer {
             return base.Channel.ChangeFriendStatusAsync(userId, status);
         }
         
-        public void SendMessage(int userId, string message) {
-            base.Channel.SendMessage(userId, message);
+        public Client.MainServer.Message SendMessage(int userId, string messageText) {
+            return base.Channel.SendMessage(userId, messageText);
         }
         
-        public System.Threading.Tasks.Task SendMessageAsync(int userId, string message) {
-            return base.Channel.SendMessageAsync(userId, message);
+        public System.Threading.Tasks.Task<Client.MainServer.Message> SendMessageAsync(int userId, string messageText) {
+            return base.Channel.SendMessageAsync(userId, messageText);
         }
         
         public System.Collections.Generic.List<Client.MainServer.Message> GetConversationWithUser(int userId) {

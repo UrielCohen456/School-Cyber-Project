@@ -12,6 +12,7 @@ namespace ServerHost
             {
                 host.Open();
 
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 foreach (var uri in host.BaseAddresses)
                     Console.WriteLine($"Listening on: {uri.AbsoluteUri}");
                 Console.WriteLine("Press <Enter> to stop the service.");

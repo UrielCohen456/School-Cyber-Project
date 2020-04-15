@@ -132,11 +132,11 @@ namespace DataLayer
 
         private IEnumerable<T> CreateModel(SqlDataReader reader)
         {
-            var entities = new T[reader.FieldCount];
-            for (var i = 0; reader.Read(); i++)
-            {
-                entities[i] = CreateEntity(reader);
-            }
+            var entities = new List<T>();
+
+            while(reader.Read())
+                entities.Add(CreateEntity(reader));
+
             return entities;
         }
     }

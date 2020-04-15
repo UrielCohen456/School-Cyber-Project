@@ -16,6 +16,12 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="BaseEntity" nillable="true" type="tns:BaseEntity" />
+  <xs:complexType name="ArrayOfUser">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="User" nillable="true" type="tns:User" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfUser" nillable="true" type="tns:ArrayOfUser" />
   <xs:complexType name="ArrayOfFriend">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="Friend" nillable="true" type="tns:Friend" />
@@ -49,12 +55,6 @@
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="FriendStatus" nillable="true" type="tns:FriendStatus" />
-  <xs:complexType name="ArrayOfMessage">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="Message" nillable="true" type="tns:Message" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfMessage" nillable="true" type="tns:ArrayOfMessage" />
   <xs:complexType name="Message">
     <xs:complexContent mixed="false">
       <xs:extension base="tns:BaseEntity">
@@ -67,6 +67,12 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="Message" nillable="true" type="tns:Message" />
+  <xs:complexType name="ArrayOfMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Message" nillable="true" type="tns:Message" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMessage" nillable="true" type="tns:ArrayOfMessage" />
   <xs:complexType name="ArrayOfGameSession">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="GameSession" nillable="true" type="tns:GameSession" />
@@ -88,10 +94,4 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="GameSessionData" nillable="true" type="tns:GameSessionData" />
-  <xs:complexType name="ArrayOfUser">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="User" nillable="true" type="tns:User" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfUser" nillable="true" type="tns:ArrayOfUser" />
 </xs:schema>

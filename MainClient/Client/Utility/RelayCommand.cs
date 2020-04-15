@@ -66,14 +66,17 @@ namespace Client.Utility
     {
         private readonly Action action;
 
+        private readonly Predicate<object> predicate;
+
         public event EventHandler CanExecuteChanged = (sender, e) => { };
 
         /// <summary>
         /// Default constructor
         /// </summary>
-        public RelayCommand(Action action)
+        public RelayCommand(Action action, Predicate<object> predicate = null)
         {
             this.action = action;
+            this.predicate = predicate;
         }
 
         /// <summary>
@@ -83,7 +86,9 @@ namespace Client.Utility
         /// <returns>true</returns>
         public bool CanExecute(object parameter)
         {
-            return true;
+            if (predicate == null)
+                return true;
+            return predicate(null);
         }
 
         /// <summary>

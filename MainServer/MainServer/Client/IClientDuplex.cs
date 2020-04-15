@@ -20,7 +20,7 @@ namespace MainServer
         /// </summary>
         /// <param name="message"></param>
         [OperationContract(IsOneWay=false)]
-        void NewMessageReceived(User user, string messageContent);
+        void NewMessageReceived(User user, Message message);
 
         /// <summary>
         /// Tells the client that a certian friend status has changed

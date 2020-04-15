@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 
@@ -35,6 +36,14 @@ namespace DataLayer
         /// <param name="password">password for logging in</param>
         /// <returns>The user that was created</returns>
         User AddUser(string name, string username, string password);
+
+        /// <summary>
+        /// Attempts to search users based on a query
+        /// </summary>
+        /// <param name="searchQuery"></param>
+        /// <param name="userCount"></param>
+        /// <returns></returns>
+        List<User> GetUsersByQuery(string searchQuery = "", int userCount = 20);
     }
 
     public class UsersRepository : IUsersRepository
@@ -73,7 +82,7 @@ namespace DataLayer
 
                 return user;
             }
-            catch (Exception e)
+            catch
             {
                 return null;
             }
@@ -93,6 +102,22 @@ namespace DataLayer
                 return null;
 
             return SelectSpecificUser(userId, "Id", System.Data.SqlDbType.Int);
+        }
+
+        public List<User> GetUsersByQuery(string searchQuery = "", int userCount = 20)
+        {
+            try
+            {
+                searchQuery = $"%{searchQuery?.Trim()}%";
+                var sqlWhereString = $"WHERE Name LIKE @SearchQuery";
+                var sqlParameters = new SqlParameter[1];
+                sqlParameters[0] = new SqlParameter($"@SearchQuery", System.Data.SqlDbType.NVarChar, 100) { Value = searchQuery };
+
+                var users = Db.Select(userCount, sqlWhereString, sqlParameters);
+
+                return users.ToList();
+            }
+            catch { return null; }
         }
 
         private User SelectSpecificUser(object value, string name, System.Data.SqlDbType dbType)

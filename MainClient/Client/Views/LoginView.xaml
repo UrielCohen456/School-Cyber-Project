@@ -39,8 +39,7 @@
                         </StackPanel>
                         <StackPanel Orientation="Vertical">
                             <Label Content="Password" HorizontalContentAlignment="Center"/>
-                            <PasswordBox x:Name="passwordBox" HorizontalContentAlignment="Center"
-                                 Password="1234"/>
+                            <PasswordBox x:Name="passwordBox" HorizontalContentAlignment="Center" Password="Uriel1"/>
                         </StackPanel>
 
                         <Button Command="{Binding LoginCommand}"

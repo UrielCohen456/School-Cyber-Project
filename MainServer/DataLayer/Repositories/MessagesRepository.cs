@@ -24,10 +24,10 @@ namespace DataLayer
         {
             try
             {
-                var userId1Name = "UserId1";
-                var userId2Name = "UserId2";
-                var sqlString = $"WHERE ({userId1Name} == @{userId1Name} AND {userId2Name} == @{userId2Name})" +
-                    $" OR ({userId1Name} == @{userId2Name} AND {userId2Name} == @{userId1Name})";
+                var userId1Name = "FromId";
+                var userId2Name = "ToId";
+                var sqlString = $"WHERE ({userId1Name} = @{userId1Name} AND {userId2Name} = @{userId2Name})" +
+                    $" OR ({userId1Name} = @{userId2Name} AND {userId2Name} = @{userId1Name})";
                 
                 var param1 = new SqlParameter($"@{userId1Name}", userId1) { SqlDbType = System.Data.SqlDbType.Int };
                 var param2 = new SqlParameter($"@{userId2Name}", userId2) { SqlDbType = System.Data.SqlDbType.Int };

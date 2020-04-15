@@ -20,6 +20,8 @@ namespace Client
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            if (Globals.LoggedUser != null)
+                Connection.Instance.Service?.Logout();
             if (Connection.Instance.Service.State == System.ServiceModel.CommunicationState.Opened)
                 Connection.Instance.Service?.Close();
         }

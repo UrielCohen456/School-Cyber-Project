@@ -46,9 +46,9 @@ namespace Client.Models.Networking
         }
 
         public event EventHandler<NewMessageReceivedEventArgs> NewMessageReceivedEvent;
-        public void NewMessageReceived(User user, string messageContent)
+        public void NewMessageReceived(User user, Message message)
         {
-            NewMessageReceivedEvent?.Invoke(this, new NewMessageReceivedEventArgs(user, messageContent));
+            NewMessageReceivedEvent?.Invoke(this, new NewMessageReceivedEventArgs(user, message));
         }
 
         // TODO: Implement this when starting to work on the game
