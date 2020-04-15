@@ -1,0 +1,18 @@
+﻿<Application x:Class="Client.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ViewModels="clr-namespace:Client.ViewModels"
+             xmlns:Views="clr-namespace:Client.Views"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <DataTemplate DataType="{x:Type ViewModels:LoginViewModel}">
+                <Views:LoginView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModels:SignupViewModel}">
+                <Views:SignupView/>
+            </DataTemplate>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
