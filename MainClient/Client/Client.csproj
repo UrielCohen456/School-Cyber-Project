@@ -73,11 +73,15 @@
     <Compile Include="Utility\RelayCommand.cs" />
     <Compile Include="Utility\ViewModelController.cs" />
     <Compile Include="ViewModels\FriendsViewModel.cs" />
+    <Compile Include="ViewModels\FriendViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SignupViewModel.cs" />
     <Compile Include="Views\FriendsView.xaml.cs">
       <DependentUpon>FriendsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FriendView.xaml.cs">
+      <DependentUpon>FriendView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
@@ -101,6 +105,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\FriendsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FriendView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

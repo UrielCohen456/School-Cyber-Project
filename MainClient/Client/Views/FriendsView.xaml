@@ -12,11 +12,6 @@
         <Converters:MessageIdToAlignmentConverter x:Key="MessageIdToAlignmentConverter" />
     </UserControl.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="auto" />
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" />
             <ColumnDefinition Width="3*" />
@@ -28,34 +23,59 @@
             TextBlock.FontSize="24"
             Content="{Binding Username}" /> -->
 
-        <Grid Grid.Row="1">
+        <!-- Friends Tab -->
+        <Grid Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1.5*"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="10*"/>
             </Grid.RowDefinitions>
             
             <!-- Add friend -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Text="{Binding SearchQuery}"/>
+                <Button Grid.Column="1"
+                        Content="Search"
+                        Command="{Binding SearchForUsersByQueryCommand}" /> 
+            </Grid>
+            
+            <!-- Change Selection -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0"
+                        Content="Accepted"
+                        Command="{Binding GetFriendsByStatusCommand}"
+                        CommandParameter="Accepted"/>
+                <Button Grid.Column="1"
+                        Content="Waiting"
+                        Command="{Binding GetFriendsByStatusCommand}"
+                        CommandParameter="Waiting"/>
+                <Button Grid.Column="2"
+                        Content="Denied"
+                        Command="{Binding GetFriendsByStatusCommand}"
+                        CommandParameter="Denied"/>
+                <Button Grid.Column="3"
+                        Content="Removed"
+                        Command="{Binding GetFriendsByStatusCommand}"
+                        CommandParameter="Removed"/>
+            </Grid>
             
             <!-- Friends list -->
-            <ListBox Grid.Row="1"
-                     HorizontalAlignment="Stretch"
+            <ListBox Grid.Row="2"
                      ItemsSource="{Binding FriendsList}"
-                     SelectedItem="{Binding SelectedUser}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Id}"
-                                       FontSize="24" 
-                                       Margin="0 0 10 0"/>
-                            <TextBlock Text="{Binding Name}"
-                                       FontSize="24"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                     SelectedItem="{Binding SelectedUser}"/>
         </Grid>
         
-        <!-- User conversation -->
+        <!-- User Conversation Tab -->
         <Grid Grid.Row="1" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="4*"/>
@@ -86,9 +106,11 @@
                 </Grid.ColumnDefinitions>
                 <TextBox Text="{Binding MessageText}" 
                          Grid.Column="0" 
-                         HorizontalAlignment="Stretch"/>
+                         HorizontalAlignment="Stretch"
+                         IsEnabled="{Binding CanSendMessage, Mode=OneWay}"/>
                 <Button Grid.Column="2" Content="Send"
                         Command="{Binding SendMessageCommand}"
+                        IsEnabled="{Binding CanSendMessage, Mode=OneWay}"
                         />
 
             </Grid>

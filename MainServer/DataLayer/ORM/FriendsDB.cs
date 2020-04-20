@@ -47,7 +47,7 @@ namespace DataLayer
         {
             sqlCommand.Parameters.Add("@UserId1", SqlDbType.Int).Value = entity.UserId1;
             sqlCommand.Parameters.Add("@UserId2", SqlDbType.Int).Value = entity.UserId2;
-            sqlCommand.Parameters.Add("@Status",  SqlDbType.Char).Value = (byte)entity.Status;
+            sqlCommand.Parameters.Add("@Status",  SqlDbType.TinyInt).Value = (byte)entity.Status;
             sqlCommand.Parameters.Add("@DateAdded", SqlDbType.DateTime).Value = entity.DateAdded;
         }
     }

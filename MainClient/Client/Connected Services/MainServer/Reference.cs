@@ -467,10 +467,17 @@ namespace Client.MainServer {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/GetFriends", ReplyAction="http://tempuri.org/IClientService/GetFriendsResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/GetFriendsOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
-        System.Collections.Generic.List<Client.MainServer.Friend> GetFriends(int friendCount);
+        System.Collections.Generic.List<Client.MainServer.Friend> GetFriends(Client.MainServer.FriendStatus status, int friendCount);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/GetFriends", ReplyAction="http://tempuri.org/IClientService/GetFriendsResponse")]
-        System.Threading.Tasks.Task<System.Collections.Generic.List<Client.MainServer.Friend>> GetFriendsAsync(int friendCount);
+        System.Threading.Tasks.Task<System.Collections.Generic.List<Client.MainServer.Friend>> GetFriendsAsync(Client.MainServer.FriendStatus status, int friendCount);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/GetFriendIfExists", ReplyAction="http://tempuri.org/IClientService/GetFriendIfExistsResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/GetFriendIfExistsOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
+        Client.MainServer.Friend GetFriendIfExists(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/GetFriendIfExists", ReplyAction="http://tempuri.org/IClientService/GetFriendIfExistsResponse")]
+        System.Threading.Tasks.Task<Client.MainServer.Friend> GetFriendIfExistsAsync(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/AddFriend", ReplyAction="http://tempuri.org/IClientService/AddFriendResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/AddFriendOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
@@ -589,12 +596,20 @@ namespace Client.MainServer {
             return base.Channel.GetUsersAsync(searchQuery, userCount);
         }
         
-        public System.Collections.Generic.List<Client.MainServer.Friend> GetFriends(int friendCount) {
-            return base.Channel.GetFriends(friendCount);
+        public System.Collections.Generic.List<Client.MainServer.Friend> GetFriends(Client.MainServer.FriendStatus status, int friendCount) {
+            return base.Channel.GetFriends(status, friendCount);
         }
         
-        public System.Threading.Tasks.Task<System.Collections.Generic.List<Client.MainServer.Friend>> GetFriendsAsync(int friendCount) {
-            return base.Channel.GetFriendsAsync(friendCount);
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<Client.MainServer.Friend>> GetFriendsAsync(Client.MainServer.FriendStatus status, int friendCount) {
+            return base.Channel.GetFriendsAsync(status, friendCount);
+        }
+        
+        public Client.MainServer.Friend GetFriendIfExists(int userId) {
+            return base.Channel.GetFriendIfExists(userId);
+        }
+        
+        public System.Threading.Tasks.Task<Client.MainServer.Friend> GetFriendIfExistsAsync(int userId) {
+            return base.Channel.GetFriendIfExistsAsync(userId);
         }
         
         public Client.MainServer.Friend AddFriend(int userId) {

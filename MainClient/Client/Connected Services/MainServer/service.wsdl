@@ -517,6 +517,75 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
+  <wsp:Policy wsu:Id="WSDualHttpBinding_IClientService_GetFriendIfExists_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="Sequence" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="SequenceAcknowledgement" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="AckRequested" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="ChannelInstance" Namespace="http://schemas.microsoft.com/ws/2005/02/duplex" />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSDualHttpBinding_IClientService_GetFriendIfExists_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="Sequence" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="SequenceAcknowledgement" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="AckRequested" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="ChannelInstance" Namespace="http://schemas.microsoft.com/ws/2005/02/duplex" />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSDualHttpBinding_IClientService_GetFriendIfExists_OperationFaultFault_Fault">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="Sequence" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="SequenceAcknowledgement" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="AckRequested" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="ChannelInstance" Namespace="http://schemas.microsoft.com/ws/2005/02/duplex" />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
   <wsp:Policy wsu:Id="WSDualHttpBinding_IClientService_AddFriend_Input_policy">
     <wsp:ExactlyOne>
       <wsp:All>
@@ -1062,6 +1131,15 @@
   <wsdl:message name="IClientService_GetFriends_OperationFaultFault_FaultMessage">
     <wsdl:part xmlns:q6="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q6:OperationFault" />
   </wsdl:message>
+  <wsdl:message name="IClientService_GetFriendIfExists_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFriendIfExists" />
+  </wsdl:message>
+  <wsdl:message name="IClientService_GetFriendIfExists_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFriendIfExistsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IClientService_GetFriendIfExists_OperationFaultFault_FaultMessage">
+    <wsdl:part xmlns:q7="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q7:OperationFault" />
+  </wsdl:message>
   <wsdl:message name="IClientService_AddFriend_InputMessage">
     <wsdl:part name="parameters" element="tns:AddFriend" />
   </wsdl:message>
@@ -1069,7 +1147,7 @@
     <wsdl:part name="parameters" element="tns:AddFriendResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_AddFriend_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q7="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q7:OperationFault" />
+    <wsdl:part xmlns:q8="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q8:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_ChangeFriendStatus_InputMessage">
     <wsdl:part name="parameters" element="tns:ChangeFriendStatus" />
@@ -1078,7 +1156,7 @@
     <wsdl:part name="parameters" element="tns:ChangeFriendStatusResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_ChangeFriendStatus_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q8="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q8:OperationFault" />
+    <wsdl:part xmlns:q9="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q9:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_SendMessage_InputMessage">
     <wsdl:part name="parameters" element="tns:SendMessage" />
@@ -1087,7 +1165,7 @@
     <wsdl:part name="parameters" element="tns:SendMessageResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_SendMessage_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q9="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q9:OperationFault" />
+    <wsdl:part xmlns:q10="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q10:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetConversationWithUser_InputMessage">
     <wsdl:part name="parameters" element="tns:GetConversationWithUser" />
@@ -1096,7 +1174,7 @@
     <wsdl:part name="parameters" element="tns:GetConversationWithUserResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetConversationWithUser_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q10="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q10:OperationFault" />
+    <wsdl:part xmlns:q11="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q11:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetActiveGameSessions_InputMessage">
     <wsdl:part name="parameters" element="tns:GetActiveGameSessions" />
@@ -1105,7 +1183,7 @@
     <wsdl:part name="parameters" element="tns:GetActiveGameSessionsResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetActiveGameSessions_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q11="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q11:OperationFault" />
+    <wsdl:part xmlns:q12="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q12:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_NewUserJoinedGameSession_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:NewUserJoinedGameSession" />
@@ -1155,6 +1233,11 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IClientService/GetFriends" message="tns:IClientService_GetFriends_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IClientService/GetFriendsResponse" message="tns:IClientService_GetFriends_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IClientService/GetFriendsOperationFaultFault" name="OperationFaultFault" message="tns:IClientService_GetFriends_OperationFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetFriendIfExists">
+      <wsdl:input wsaw:Action="http://tempuri.org/IClientService/GetFriendIfExists" message="tns:IClientService_GetFriendIfExists_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IClientService/GetFriendIfExistsResponse" message="tns:IClientService_GetFriendIfExists_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IClientService/GetFriendIfExistsOperationFaultFault" name="OperationFaultFault" message="tns:IClientService_GetFriendIfExists_OperationFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="AddFriend">
       <wsdl:input wsaw:Action="http://tempuri.org/IClientService/AddFriend" message="tns:IClientService_AddFriend_InputMessage" />
@@ -1284,6 +1367,21 @@
       </wsdl:output>
       <wsdl:fault name="OperationFaultFault">
         <wsp:PolicyReference URI="#WSDualHttpBinding_IClientService_GetFriends_OperationFaultFault_Fault" />
+        <soap12:fault use="literal" name="OperationFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetFriendIfExists">
+      <soap12:operation soapAction="http://tempuri.org/IClientService/GetFriendIfExists" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSDualHttpBinding_IClientService_GetFriendIfExists_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSDualHttpBinding_IClientService_GetFriendIfExists_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="OperationFaultFault">
+        <wsp:PolicyReference URI="#WSDualHttpBinding_IClientService_GetFriendIfExists_OperationFaultFault_Fault" />
         <soap12:fault use="literal" name="OperationFaultFault" namespace="" />
       </wsdl:fault>
     </wsdl:operation>

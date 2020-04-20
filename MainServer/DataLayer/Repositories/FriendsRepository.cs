@@ -13,7 +13,7 @@ namespace DataLayer
 
         Friend CreateFriend(int userId1, int userId2);
 
-        IEnumerable<Friend> GetFriendsOfUser(int userId, int friendsCount = 20);
+        IEnumerable<Friend> GetFriendsOfUserByStatus(int userId, FriendStatus status, int friendsCount = 20);
 
         void ChangeFriendStatus(Friend friend, FriendStatus status);
     }
@@ -40,13 +40,17 @@ namespace DataLayer
             { return null; }
         }
 
-        public IEnumerable<Friend> GetFriendsOfUser(int userId, int friendsCount = 20)
+        public IEnumerable<Friend> GetFriendsOfUserByStatus(int userId, FriendStatus status, int friendsCount = 20)
         {
             try
             {
                 return Db.Select(friendsCount,
-                   "WHERE userId1 = @userId OR userId2 = @userId",
-                   new SqlParameter[1] { new SqlParameter("@userId", userId) { SqlDbType = System.Data.SqlDbType.Int } });
+                   "WHERE ((UserId1 = @UserId) OR (UserId2 = @UserId)) AND Status = @Status",
+                   new SqlParameter[2] 
+                   { 
+                       new SqlParameter("@UserId", userId) { SqlDbType = System.Data.SqlDbType.Int },
+                       new SqlParameter("@Status", (byte)status) { SqlDbType = System.Data.SqlDbType.TinyInt }
+                   });
             }
             catch { return null; }
         }
@@ -54,11 +58,14 @@ namespace DataLayer
         public Friend GetSpecificFriend(int userId1, int userId2)
         {
             try
-            { 
-                var sqlWhereString = $"WHERE (userId1 = @userId1 AND userId2 = @userId2) OR (userId1 = @userId2 AND userId2 = @userId1)";
+            {
+                var userIdName1 = "UserId1";
+                var userIdName2 = "UserId2";
+                var sqlWhereString = $"WHERE ({userIdName1} = @{userIdName1} AND {userIdName2} = @{userIdName2}) " +
+                    $"OR ({userIdName1} = @{userIdName2} AND {userIdName2} = @{userIdName1})";
                 var sqlParameters = new SqlParameter[2];
-                sqlParameters[0] = new SqlParameter("@userId1", System.Data.SqlDbType.Int) { Value = userId1 };
-                sqlParameters[1] = new SqlParameter("@userId2", System.Data.SqlDbType.Int) { Value = userId2 };
+                sqlParameters[0] = new SqlParameter($"@{userIdName1}", System.Data.SqlDbType.Int) { Value = userId1 };
+                sqlParameters[1] = new SqlParameter($"@{userIdName2}", System.Data.SqlDbType.Int) { Value = userId2 };
 
                 var user = Db.Select(1, sqlWhereString, sqlParameters).FirstOrDefault();
 

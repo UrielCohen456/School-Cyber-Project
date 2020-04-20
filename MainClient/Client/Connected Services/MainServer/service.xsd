@@ -74,6 +74,7 @@
   <xs:element name="GetFriends">
     <xs:complexType>
       <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="status" type="q5:FriendStatus" />
         <xs:element minOccurs="0" name="friendCount" type="xs:int" />
       </xs:sequence>
     </xs:complexType>
@@ -81,7 +82,21 @@
   <xs:element name="GetFriendsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="GetFriendsResult" nillable="true" type="q5:ArrayOfFriend" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="GetFriendsResult" nillable="true" type="q6:ArrayOfFriend" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFriendIfExists">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFriendIfExistsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="GetFriendIfExistsResult" nillable="true" type="q7:Friend" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -95,7 +110,7 @@
   <xs:element name="AddFriendResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="AddFriendResult" nillable="true" type="q6:Friend" />
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="AddFriendResult" nillable="true" type="q8:Friend" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -103,7 +118,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="userId" type="xs:int" />
-        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="status" type="q7:FriendStatus" />
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="status" type="q9:FriendStatus" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -123,7 +138,7 @@
   <xs:element name="SendMessageResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="SendMessageResult" nillable="true" type="q8:Message" />
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="SendMessageResult" nillable="true" type="q10:Message" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -137,7 +152,7 @@
   <xs:element name="GetConversationWithUserResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="GetConversationWithUserResult" nillable="true" type="q9:ArrayOfMessage" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="GetConversationWithUserResult" nillable="true" type="q11:ArrayOfMessage" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -149,14 +164,14 @@
   <xs:element name="GetActiveGameSessionsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="GetActiveGameSessionsResult" nillable="true" type="q10:ArrayOfGameSession" />
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="GetActiveGameSessionsResult" nillable="true" type="q12:ArrayOfGameSession" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="NewUserJoinedGameSession">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="user" nillable="true" type="q11:User" />
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="user" nillable="true" type="q13:User" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -168,8 +183,8 @@
   <xs:element name="NewMessageReceived">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="user" nillable="true" type="q12:User" />
-        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="message" nillable="true" type="q13:Message" />
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="user" nillable="true" type="q14:User" />
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="message" nillable="true" type="q15:Message" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -181,7 +196,7 @@
   <xs:element name="FriendStatusChanged">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="friend" nillable="true" type="q14:Friend" />
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="friend" nillable="true" type="q16:Friend" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

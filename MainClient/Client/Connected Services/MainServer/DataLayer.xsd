@@ -22,6 +22,20 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOfUser" nillable="true" type="tns:ArrayOfUser" />
+  <xs:simpleType name="FriendStatus">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedByte" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Waiting" />
+      <xs:enumeration value="Accepted" />
+      <xs:enumeration value="Denied" />
+      <xs:enumeration value="Removed" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="FriendStatus" nillable="true" type="tns:FriendStatus" />
   <xs:complexType name="ArrayOfFriend">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="Friend" nillable="true" type="tns:Friend" />
@@ -41,20 +55,6 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="Friend" nillable="true" type="tns:Friend" />
-  <xs:simpleType name="FriendStatus">
-    <xs:annotation>
-      <xs:appinfo>
-        <ActualType Name="unsignedByte" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
-      </xs:appinfo>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Waiting" />
-      <xs:enumeration value="Accepted" />
-      <xs:enumeration value="Denied" />
-      <xs:enumeration value="Removed" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:element name="FriendStatus" nillable="true" type="tns:FriendStatus" />
   <xs:complexType name="Message">
     <xs:complexContent mixed="false">
       <xs:extension base="tns:BaseEntity">

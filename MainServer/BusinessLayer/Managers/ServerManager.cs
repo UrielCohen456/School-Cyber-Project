@@ -108,9 +108,9 @@ namespace BusinessLayer
             return friendsRepository.DoesFriendExist(userId1, userId2);
         }
 
-        public IEnumerable<Friend> GetFriendsOfUser(int userId, int friendsCount = 20)
+        public IEnumerable<Friend> GetFriendsOfUserByStatus(int userId, FriendStatus status, int friendsCount = 20)
         {
-            return friendsRepository.GetFriendsOfUser(userId, friendsCount);
+            return friendsRepository.GetFriendsOfUserByStatus(userId, status, friendsCount);
         }
 
         public Friend AddFriend(int userId, int friendUserId)

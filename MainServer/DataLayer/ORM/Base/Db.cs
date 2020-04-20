@@ -66,8 +66,7 @@ namespace DataLayer
             {
                 sqlConnection.Open();
                 sqlCommand.CommandText = GetSQLSelectString(count) + addedSql;
-                if (sqlParameters != null)
-                    sqlCommand.Parameters.AddRange(sqlParameters);
+                sqlCommand.Parameters.AddRange(sqlParameters);
 
                 sqlCommand.CommandType = CommandType.Text;
                 using var reader = sqlCommand.ExecuteReader();

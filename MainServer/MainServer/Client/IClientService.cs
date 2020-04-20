@@ -70,7 +70,17 @@ namespace MainServer
         /// <returns>A list of all the friends of the currently logged user</returns>
         [OperationContract]
         [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
-        List<Friend> GetFriends(int friendCount);
+        List<Friend> GetFriends(FriendStatus status, int friendCount);
+
+        /// <summary>
+        /// Gets the friend for the requested user if it exists.
+        /// If not returns null
+        /// </summary>
+        /// <param name="userId">The requested user's id</param>
+        /// <returns></returns>
+        [OperationContract]
+        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
+        Friend GetFriendIfExists(int userId);
 
         /// <summary>
         /// Sends a request to add the friend.

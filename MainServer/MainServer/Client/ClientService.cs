@@ -133,7 +133,10 @@ namespace MainServer
             {
                 CheckIsUserAuthenticated();
 
-                return serverManager.GetUsersByQuery(searchQuery, userCount).ToList();
+                var users = serverManager.GetUsersByQuery(searchQuery, userCount).ToList();
+                users.RemoveAll(u => u.Id == LoggedUser.Id);
+                
+                return users;
             });
         }
 
@@ -142,15 +145,24 @@ namespace MainServer
         #region Friend Methods
 
 
-        public List<Friend> GetFriends(int friendCount)
+        public List<Friend> GetFriends(FriendStatus status, int friendCount)
         {
             return Operation(() =>
             {
                 CheckIsUserAuthenticated();
 
-                return serverManager.GetFriendsOfUser(LoggedUser.Id, friendCount).ToList();
+                return serverManager.GetFriendsOfUserByStatus(LoggedUser.Id, status, friendCount).ToList();
             });
+        }
 
+        public Friend GetFriendIfExists(int userId)
+        {
+            return Operation(() =>
+            {
+                CheckIsUserAuthenticated();
+                
+                return serverManager.GetExistingFriend(LoggedUser.Id, userId);
+            });
         }
 
         public Friend AddFriend(int userId)

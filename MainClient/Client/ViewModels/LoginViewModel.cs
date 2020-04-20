@@ -57,6 +57,16 @@ namespace Client.ViewModels
         /// </summary>
         public ICommand LoginCommand => new RelayCommand<PasswordBox>(Login);
 
+        public ICommand Idan1 => new RelayCommand<PasswordBox>((passBox) => {
+            Username = "Idan1";
+            passBox.Password = "Idan1";
+        });
+        public ICommand Uriel1 => new RelayCommand<PasswordBox>((passBox) => {
+            Username = "Uriel1";
+            passBox.Password = "Uriel1";
+        });
+
+
         #endregion
 
         #region Constructors

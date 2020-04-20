@@ -27,7 +27,7 @@ namespace BusinessLayer
 
         bool DoesFriendExist(int userId1, int userId2);
 
-        IEnumerable<Friend> GetFriendsOfUser(int userId, int friendsCount = 20);
+        IEnumerable<Friend> GetFriendsOfUserByStatus(int userId, FriendStatus status, int friendsCount = 20);
 
         Friend AddFriend(int userId, int friendUserId);
 

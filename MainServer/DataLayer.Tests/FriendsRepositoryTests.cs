@@ -57,7 +57,7 @@ namespace DataLayer.Tests
                 .Verifiable();
             var friendsRepository = new FriendsRepository(dbMock.Object);
 
-            var friends = friendsRepository.GetFriendsOfUser(0);
+            var friends = friendsRepository.GetFriendsOfUserByStatus(0);
             Assert.IsNotNull(friends);
             Assert.AreEqual(2, friends.Count());
             dbMock.Verify();
@@ -73,7 +73,7 @@ namespace DataLayer.Tests
                 .Verifiable();
             var friendsRepository = new FriendsRepository(dbMock.Object);
 
-            var friends = friendsRepository.GetFriendsOfUser(0);
+            var friends = friendsRepository.GetFriendsOfUserByStatus(0);
             Assert.IsNotNull(friends);
             Assert.AreEqual(0, friends.Count());
             dbMock.Verify();
