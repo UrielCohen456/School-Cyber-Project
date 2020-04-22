@@ -57,35 +57,21 @@ namespace DataLayer
 
         public bool RemoveUser(User user)
         {
-            try
-            {
-                Db.Delete(user);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            Db.Delete(user);
+            return true;
         }
 
         public User AddUser(string name, string username, string password)
         {
-            try
-            {
-                if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-                    throw new Exception("Some fields were missing or invalid");
-                var user = new User { Name = name, Username = username };
-                var hashedPassword = User.HashPassword(password);
-                user.Salt = hashedPassword.Salt;
-                user.Password = hashedPassword.Password;
-                Db.Insert(user);
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                throw new Exception("Some fields were missing or invalid");
+            var user = new User { Name = name, Username = username };
+            var hashedPassword = User.HashPassword(password);
+            user.Salt = hashedPassword.Salt;
+            user.Password = hashedPassword.Password;
+            Db.Insert(user);
 
-                return user;
-            }
-            catch
-            {
-                return null;
-            }
+            return user;
         }
 
         public User SelectSpecificUser(string username)
@@ -106,33 +92,25 @@ namespace DataLayer
 
         public List<User> GetUsersByQuery(string searchQuery = "", int userCount = 20)
         {
-            try
-            {
-                searchQuery = $"%{searchQuery?.Trim()}%";
-                var sqlWhereString = $"WHERE Name LIKE @SearchQuery";
-                var sqlParameters = new SqlParameter[1];
-                sqlParameters[0] = new SqlParameter($"@SearchQuery", System.Data.SqlDbType.NVarChar, 100) { Value = searchQuery };
+            searchQuery = $"%{searchQuery?.Trim()}%";
+            var sqlWhereString = $"WHERE Name LIKE @SearchQuery";
+            var sqlParameters = new SqlParameter[1];
+            sqlParameters[0] = new SqlParameter($"@SearchQuery", System.Data.SqlDbType.NVarChar, 100) { Value = searchQuery };
 
-                var users = Db.Select(userCount, sqlWhereString, sqlParameters);
+            var users = Db.Select(userCount, sqlWhereString, sqlParameters);
 
-                return users.ToList();
-            }
-            catch { return null; }
+            return users.ToList();
         }
 
         private User SelectSpecificUser(object value, string name, System.Data.SqlDbType dbType)
         {
-            try
-            {
-                var sqlWhereString = $"WHERE {name} = @{name}";
-                var sqlParameters = new SqlParameter[1];
-                sqlParameters[0] = new SqlParameter($"@{name}", dbType) { Value = value };
+            var sqlWhereString = $"WHERE {name} = @{name}";
+            var sqlParameters = new SqlParameter[1];
+            sqlParameters[0] = new SqlParameter($"@{name}", dbType) { Value = value };
 
-                var user = Db.Select(1, sqlWhereString, sqlParameters)?.FirstOrDefault();
+            var user = Db.Select(1, sqlWhereString, sqlParameters)?.FirstOrDefault();
 
-                return user;
-            }
-            catch { return null; }
+            return user;
         }
     }
 }

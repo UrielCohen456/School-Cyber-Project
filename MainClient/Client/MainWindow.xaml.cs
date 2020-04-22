@@ -1,6 +1,9 @@
-﻿using Client.Models.Networking;
+﻿using Client.MainServer;
+using Client.Models.Networking;
 using Client.Utility;
 using Client.ViewModels;
+using System;
+using System.ServiceModel;
 using System.Windows;
 
 namespace Client
@@ -20,10 +23,27 @@ namespace Client
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (Globals.LoggedUser != null)
-                Connection.Instance.Service?.Logout();
-            if (Connection.Instance.Service.State == System.ServiceModel.CommunicationState.Opened)
-                Connection.Instance.Service?.Close();
+            try
+            {
+                if (Globals.LoggedUser != null && Connection.Instance.Service.State == CommunicationState.Opened)
+                    Connection.Instance.Service?.Logout();
+                if (Connection.Instance.Service.State == CommunicationState.Opened)
+                    Connection.Instance.Service?.Close();
+            }
+            catch (FaultException<OperationFault> faultException)
+            {
+                MessageBox.Show(faultException.Detail.ErrorMessage,
+                                $"Error in: {faultException.Detail.Operation}",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message,
+                                $"Error in:",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+            }
         }
     }
 }

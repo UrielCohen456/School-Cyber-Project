@@ -40,9 +40,9 @@ namespace Client.Models.Networking
         #region Duplex Events
 
         public event EventHandler<FriendStatusChangedEventArgs> FriendStatusChangedEvent;
-        public void FriendStatusChanged(Friend friend)
+        public void FriendStatusChanged(Friend friend, User friendUser)
         {
-            FriendStatusChangedEvent?.Invoke(this, new FriendStatusChangedEventArgs(friend));
+            FriendStatusChangedEvent?.Invoke(this, new FriendStatusChangedEventArgs(friend, friendUser));
         }
 
         public event EventHandler<NewMessageReceivedEventArgs> NewMessageReceivedEvent;

@@ -73,9 +73,16 @@ namespace Client.ViewModels
 
         private void Logout()
         {
-            Connection.Instance.Service.Logout();
-            Globals.LoggedUser = null;
-            ViewModelController.ChangeViewModel(new LoginViewModel());
+            try
+            {
+                Connection.Instance.Service.Logout();
+                Globals.LoggedUser = null;
+                ViewModelController.ChangeViewModel(new LoginViewModel());
+            }
+            catch (FaultException<OperationFault> of)
+            {
+                ShowFault(of);
+            }
         }
 
         #endregion

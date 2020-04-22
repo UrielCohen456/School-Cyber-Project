@@ -7,8 +7,9 @@
         mc:Ignorable="d"
         Closing="Window_Closing"
         Title="Uriel's Skribbl"
-        FontSize="30"
-        Height="720" Width="1280">
+        FontSize="26"
+        Height="720" Width="1280"
+        MinHeight="720" MinWidth="1280">
     <Grid>
         <ContentControl Content="{Binding CurrentViewModel}" />
     </Grid>

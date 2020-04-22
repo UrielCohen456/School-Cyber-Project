@@ -11,7 +11,7 @@ namespace Client.Utility
     /// A relay command that takes a parameter T
     /// </summary>
     /// <typeparam name="T">paramter for relay command</typeparam>
-    public class RelayCommand<T> : ICommand where T : class
+    public class RelayCommand<T> : ICommand //where T : class
     {
         readonly Action<T> action = null;
         readonly Predicate<T> canExecute = null;
@@ -36,7 +36,7 @@ namespace Client.Utility
         /// <returns>true if this command can be executed; otherwise, false.</returns>
         public bool CanExecute(object parameter)
         {
-            return canExecute == null ? true : canExecute(parameter as T);
+            return canExecute == null ? true : canExecute((T)parameter);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Client.Utility
         /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to <see langword="null" />.</param>
         public void Execute(object parameter)
         {
-            action(parameter as T);
+            action((T)parameter);
         }
     }
 

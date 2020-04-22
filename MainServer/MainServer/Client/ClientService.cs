@@ -47,11 +47,11 @@ namespace MainServer
             if (LoggedUser == null)
                 throw new Exception("User is not logged in");
 
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"Removed user: {LoggedUser.Name}");
-
             userCallbacks.TryRemove(LoggedUser.Id, out _);
             serverManager.Logout(LoggedUser);
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"Removed user: {LoggedUser.Name}");
             LoggedUser = null;
         }
 
@@ -75,10 +75,14 @@ namespace MainServer
             return new FaultException<OperationFault>(new OperationFault(message, operation));
         }
 
-        private void NotifyUserFriendStatusChanged(int userId, Friend friend)
+        private void NotifyUserFriendStatusChanged(int userId, Friend friend, User friendUser)
         {
             if (serverManager.IsUserConnected(userId))
-                userCallbacks.ElementAt(userId).Value.FriendStatusChanged(friend);
+            {
+                var pair = userCallbacks.Where(p => p.Key == userId).First();
+                var callback = pair.Value;
+                callback.FriendStatusChanged(friend, friendUser);
+            }
         }
 
         #endregion
@@ -178,16 +182,16 @@ namespace MainServer
                 var friend = serverManager.AddFriend(LoggedUser.Id, userId);
 
                 // Notifying the user if he is connected someone added him
-                NotifyUserFriendStatusChanged(userId, friend);
+                NotifyUserFriendStatusChanged(userId, friend, LoggedUser);
 
                 return friend;
             });
         }
 
-        public void ChangeFriendStatus(int userId, FriendStatus status)
+        public Friend ChangeFriendStatus(int userId, FriendStatus status)
         {
             // TODO: Write code to test all the new functions in UsersManager and FriendsRepository
-            Operation(() =>
+            return Operation(() =>
             {
                 CheckIsUserAuthenticated();
                 CheckDoesUserExist(userId);
@@ -205,7 +209,9 @@ namespace MainServer
 
                 // Notifying the other user the friend status has changed
                 var friendUserId = friend.UserId1 != LoggedUser.Id ? friend.UserId1 : friend.UserId2;
-                NotifyUserFriendStatusChanged(friendUserId, friend);
+                NotifyUserFriendStatusChanged(friendUserId, friend, LoggedUser);
+
+                return friend;
             });
         }
 

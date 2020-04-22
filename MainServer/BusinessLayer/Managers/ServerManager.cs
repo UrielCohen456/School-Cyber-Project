@@ -70,8 +70,6 @@ namespace BusinessLayer
 
             if (!LoggedUsers.TryRemove(user.Id, out _))
                 throw new Exception("Couldn't remove user, something went wrong");
-
-            usersRepository.RemoveUser(user);
         }
 
         public User GetUserById(int id)

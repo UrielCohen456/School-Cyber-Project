@@ -62,6 +62,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\FriendStatusToVisibilityConverter.cs" />
     <Compile Include="Converters\MessageIdToAlignmentConverter.cs" />
     <Compile Include="Converters\MessageIdToColorBackgroundConverter.cs" />
     <Compile Include="Models\Globals.cs" />

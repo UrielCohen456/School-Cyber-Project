@@ -6,10 +6,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.ServiceModel;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Client.ViewModels
 {
@@ -41,11 +40,16 @@ namespace Client.ViewModels
         /// Dictates wheter the user can send a message
         /// </summary>
         private bool canSendMessage;
-        
+
         /// <summary>
         /// The friends list with the selected status
         /// </summary>
         private ObservableCollection<FriendViewModel> friendsList;
+
+        /// <summary>
+        /// The status that the user selected to filter the friends list
+        /// </summary>
+        private string selectedStatusFilter;
 
         #endregion
 
@@ -87,7 +91,9 @@ namespace Client.ViewModels
                         CurrentConversation = new ObservableCollection<Message>(result);
                     }
                     else
+                    {
                         CurrentConversation = null;
+                    }
                 }
             }
         }
@@ -137,28 +143,38 @@ namespace Client.ViewModels
         public ObservableCollection<FriendViewModel> FriendsList
         {
             get => friendsList;
-            set 
-            { 
-                friendsList = value; 
+            set
+            {
+                friendsList = value;
                 OnPropertyChanged();
                 SelectedUser = null;
             }
         }
 
         /// <summary>
-        /// Sends a message to the current conversation
+        /// Binding to selectedFilter element
         /// </summary>
-        public ICommand SendMessageCommand => new RelayCommand(SendMessage);
-
-        /// <summary>
-        /// Retrieves all friends that have the requested status
-        /// </summary>
-        public ICommand GetFriendsByStatusCommand => new RelayCommand<string>(async (str) => await GetFriendsByStatus(str));
+        public string SelectedStatusFilter
+        {
+            get => selectedStatusFilter;
+            set
+            {
+                selectedStatusFilter = value;
+                OnPropertyChanged();
+                if (selectedStatusFilter != null)
+                    Dispatcher.CurrentDispatcher.InvokeAsync(GetFriendsByStatus);
+            }
+        }
 
         /// <summary>
         /// Sends the search query to look for possible friends
         /// </summary>
         public ICommand SearchForUsersByQueryCommand => new RelayCommand(async () => await SearchForUsersByQuery());
+
+        /// <summary>
+        /// Sends the current message to the current selected friend
+        /// </summary>
+        public ICommand SendMessageCommand => new RelayCommand(async () => await SendMessage());
 
         #endregion
 
@@ -167,12 +183,16 @@ namespace Client.ViewModels
         public FriendsViewModel()
         {
             Connection.Instance.NewMessageReceivedEvent += OnNewMessageReceived;
+            Connection.Instance.FriendStatusChangedEvent += OnFriendStatusChanged;
+            SelectedStatusFilter = "All";
+            Dispatcher.CurrentDispatcher.InvokeAsync(GetFriendsByStatus);
         }
 
         public override void Dispose()
         {
             base.Dispose();
             Connection.Instance.NewMessageReceivedEvent -= OnNewMessageReceived;
+            Connection.Instance.FriendStatusChangedEvent -= OnFriendStatusChanged;
         }
 
         #endregion
@@ -185,53 +205,110 @@ namespace Client.ViewModels
                 CurrentConversation.Add(e.Message);
         }
 
+        private void OnFriendStatusChanged(object sender, FriendStatusChangedEventArgs e)
+        {
+            if (FriendsList == null)
+                FriendsList = new ObservableCollection<FriendViewModel>();
+
+            var friendVM = FriendsList.Where(vm => vm.FriendUserInfo.Id == e.FriendUser.Id).FirstOrDefault();
+
+            if (friendVM != null)
+            {
+                friendVM.FriendInfo = e.Friend;
+                return;
+            }
+
+            FriendsList?.Add(new FriendViewModel(e.Friend, e.FriendUser));
+        }
+
         private async Task<IEnumerable<FriendViewModel>> GetFriendsWithSpecificStatus(FriendStatus status, int friendCount = 50)
         {
             // Checks which user id belongs to the friend and returns it
             int getFriendUserId(int fromId, int toId) => fromId == Globals.LoggedUser.Id ? toId : fromId;
 
-            var friends = Connection.Instance.Service.GetFriends(status, friendCount);
-            if (friends == null) return null;
+            try
+            {
+                var friends = Connection.Instance.Service.GetFriends(status, friendCount);
+                if (friends == null) return null;
 
-            var downloadingFriendUsers =
-                 from friend in friends
-                 select Connection.Instance.Service.GetUserAsync(getFriendUserId(friend.UserId1, friend.UserId2));
+                var downloadingFriendUsers =
+                     from friend in friends
+                     select Connection.Instance.Service.GetUserAsync(getFriendUserId(friend.UserId1, friend.UserId2));
 
-            var friendUsers = await Task.WhenAll(downloadingFriendUsers);
-            var friendViewModelsToAdd =
-                 from friend in friends
-                 from user in friendUsers
-                 where friend != null && user != null
-                 select new FriendViewModel(friend, user);
+                var friendUsers = await Task.WhenAll(downloadingFriendUsers);
 
-            return friendViewModelsToAdd;
+                var friendViewModelsToAdd = new List<FriendViewModel>();
+                for (var i = 0; i < friends.Count; i++)
+                {
+                    friendViewModelsToAdd.Add(new FriendViewModel(friends[i], friendUsers[i]));
+                }
+
+                return friendViewModelsToAdd;
+            }
+            catch (FaultException<OperationFault> of)
+            {
+                ShowFault(of);
+                return null;
+            }
         }
 
-        private async void SendMessage()
+        private async Task SendMessage()
         {
             if (string.IsNullOrEmpty(MessageText))
                 return;
-            var message = await Connection.Instance.Service.SendMessageAsync(SelectedUser.FriendUserInfo.Id, MessageText);
-            CurrentConversation.Add(message);
-            MessageText = null;
+            try
+            {
+                var message = await Connection.Instance.Service.SendMessageAsync(SelectedUser.FriendUserInfo.Id, MessageText);
+                CurrentConversation.Add(message);
+                MessageText = null;
+            }
+            catch (FaultException<OperationFault> of)
+            {
+                ShowFault(of);
+            }
         }
 
-        private async Task GetFriendsByStatus(string statusString)
+        private async Task GetFriendsByStatus()
         {
-            var status = (FriendStatus)Enum.Parse(typeof(FriendStatus), statusString);
-            var friends = await GetFriendsWithSpecificStatus(status);
+            List<FriendViewModel> friends;
+
+            if (selectedStatusFilter == "Sort By")
+                return;
+
+            if (selectedStatusFilter != "All")
+            {
+                var status = (FriendStatus)Enum.Parse(typeof(FriendStatus), selectedStatusFilter);
+                FriendsList = new ObservableCollection<FriendViewModel>(await GetFriendsWithSpecificStatus(status));
+                return;
+            }
+
+            friends = (await GetFriendsWithSpecificStatus(FriendStatus.Accepted)).ToList();
+            friends?.AddRange(await GetFriendsWithSpecificStatus(FriendStatus.Waiting));
+            friends?.AddRange(await GetFriendsWithSpecificStatus(FriendStatus.Denied));
+            friends?.AddRange(await GetFriendsWithSpecificStatus(FriendStatus.Removed));
+
             FriendsList = new ObservableCollection<FriendViewModel>(friends);
+            selectedStatusFilter = null;
         }
 
         private async Task SearchForUsersByQuery()
         {
+            SelectedStatusFilter = "Sort By";
             var users = await Connection.Instance.Service.GetUsersAsync(SearchQuery, 50);
 
-            var friendViewModelsToAdd =
-                 from user in users
-                 where user != null
-                 select new FriendViewModel(Connection.Instance.Service.GetFriendIfExists(user.Id), user);
-            
+            IEnumerable<FriendViewModel> friendViewModelsToAdd = null;
+            try
+            {
+                friendViewModelsToAdd =
+                     from user in users
+                     where user != null
+                     select new FriendViewModel(Connection.Instance.Service.GetFriendIfExists(user.Id), user);
+            }
+            catch (FaultException<OperationFault> of)
+            {
+                ShowFault(of);
+            }
+
             FriendsList = new ObservableCollection<FriendViewModel>(friendViewModelsToAdd);
         }
 

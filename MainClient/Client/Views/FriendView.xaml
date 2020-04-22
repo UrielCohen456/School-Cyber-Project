@@ -4,19 +4,111 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Client.Views"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+             xmlns:Converters="clr-namespace:Client.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="800"
-             Background="White">
-    <Grid>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{Binding FriendUserInfo.Id}"
-                       FontSize="24" Margin="0 0 10 0"/>
-            <TextBlock Text="{Binding FriendUserInfo.Name}"
-                        FontSize="24" Margin="0 0 30 0"/>
-            
-            <TextBlock Text="{Binding FriendInfo.Status}"
-                                    FontSize="24"
-                       />
-        </StackPanel>
+             d:DesignHeight="400" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <Converters:FriendStatusToVisibilityConverter x:Key="FriendStatusToVisibilityConverter" />
+    </UserControl.Resources>
+    <Grid HorizontalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.3*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <TextBlock Grid.Column="0"
+                   Text="{Binding FriendUserInfo.Id}"
+                   FontSize="24"
+                   Margin="0 0 10 0"
+                   VerticalAlignment="Center"/>
+        <TextBlock Grid.Column="1"
+                   Text="{Binding FriendUserInfo.Name}"
+                   FontSize="24"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"/>
+        <!-- TextBlock that indicates the current status -->
+        <TextBlock Grid.Column="2"
+                   Visibility="{Binding FriendExists, Mode=OneWay
+                    , Converter={StaticResource BooleanToVisibilityConverter}}"
+                   Text="{Binding FriendInfo.Status}"
+                   FontSize="24"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+        <TextBlock Grid.Column="2"
+                   Visibility="{Binding FriendExists, Mode=OneWay
+                    , Converter={StaticResource BooleanToVisibilityConverter}
+                    , ConverterParameter=IsReversed}"
+                   Text="Not Friends"
+                   FontSize="24"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+
+        <!-- Button for sending a friend request -->
+        <Button Grid.Column="3"
+                Visibility="{Binding FriendExists, Mode=OneWay
+                , Converter={StaticResource BooleanToVisibilityConverter}
+                , ConverterParameter=IsReversed}"
+                HorizontalAlignment="Stretch"
+                FontSize="24"
+                Content="Add"
+                Command="{Binding SendFriendRequestCommand}"/>
+
+        <!-- Button when friend has been removed -->
+        <Button Grid.Column="3"
+                FontSize="24"
+                Content="Add"
+                HorizontalAlignment="Stretch"
+                Visibility="{Binding FriendInfo.Status, Mode=OneWay
+                , Converter={StaticResource FriendStatusToVisibilityConverter}
+                , ConverterParameter=Removed
+                , FallbackValue=Collapsed}"
+                Command="{Binding ChangeFriendStatusCommand}"
+                CommandParameter="Waiting"/>
+
+        <!-- Button when friend is in status Accepted -->
+        <Button Grid.Column="3"
+                FontSize="24"
+                Content="Remove Friend"
+                HorizontalAlignment="Stretch"
+                Visibility="{Binding FriendInfo.Status, Mode=OneWay
+                , Converter={StaticResource FriendStatusToVisibilityConverter}
+                , ConverterParameter=Accepted
+                , FallbackValue=Collapsed}"
+                Command="{Binding ChangeFriendStatusCommand}"
+                CommandParameter="Removed"/>
+
+        <!-- Button when friend is in status Accepted -->
+        <Grid Grid.Column="3"
+              Visibility="{Binding DidFriendSendTheRequest
+              , Converter={StaticResource BooleanToVisibilityConverter}
+              , FallbackValue=Collapsed}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Button Grid.Row="0"
+                    FontSize="24"
+                    Content="Accept"
+                    HorizontalAlignment="Stretch"
+                    Visibility="{Binding FriendInfo.Status, Mode=OneWay
+                    , Converter={StaticResource FriendStatusToVisibilityConverter}
+                    , ConverterParameter=Waiting}"
+                    Command="{Binding ChangeFriendStatusCommand}"
+                    CommandParameter="Accepted"/>
+            <Button Grid.Row="1"
+                    FontSize="24"
+                    Content="Deny"
+                    HorizontalAlignment="Stretch"
+                    Visibility="{Binding FriendInfo.Status, Mode=OneWay
+                    , Converter={StaticResource FriendStatusToVisibilityConverter}
+                    , ConverterParameter=Waiting}"
+                    Command="{Binding ChangeFriendStatusCommand}"
+                    CommandParameter="Denied"/>
+        </Grid>
+
     </Grid>
 </UserControl>

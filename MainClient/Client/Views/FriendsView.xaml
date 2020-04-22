@@ -14,15 +14,9 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
-        <!-- <Label Grid.Row="0" Grid.Column="0"
-            Grid.ColumnSpan="2"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Left"
-            TextBlock.FontSize="24"
-            Content="{Binding Username}" /> -->
-
+        
         <!-- Friends Tab -->
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
@@ -30,49 +24,74 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="10*"/>
             </Grid.RowDefinitions>
-            
-            <!-- Add friend -->
+
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*"/>
                     <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
+                <!-- Search for friend -->
                 <TextBox Text="{Binding SearchQuery}"/>
                 <Button Grid.Column="1"
                         Content="Search"
-                        Command="{Binding SearchForUsersByQueryCommand}" /> 
+                        Command="{Binding SearchForUsersByQueryCommand}" />
+                
+                <!-- Change Selection Based on status-->
+                <ComboBox Grid.Column="2" 
+                          Text="Sort By" VerticalContentAlignment="Center"
+                          IsReadOnly="True" IsEditable="True"
+                          SelectedValuePath="Tag"
+                          SelectedValue="{Binding SelectedStatusFilter}">
+                    <ComboBoxItem Content="All"
+                                  Tag="All"
+                                  HorizontalAlignment="Center"/>
+                    <ComboBoxItem Content="Accepted"
+                                  Tag="Accepted"
+                                  HorizontalAlignment="Center"/>
+                    <ComboBoxItem Content="Waiting"
+                                  Tag="Waiting"
+                                  HorizontalAlignment="Center"/>
+                    <ComboBoxItem Content="Denied"
+                                  Tag="Denied"
+                                  HorizontalAlignment="Center"/>
+                    <ComboBoxItem Content="Removed"
+                                  Tag="Removed"
+                                  HorizontalAlignment="Center"/>
+                </ComboBox>
             </Grid>
-            
-            <!-- Change Selection -->
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0"
-                        Content="Accepted"
-                        Command="{Binding GetFriendsByStatusCommand}"
-                        CommandParameter="Accepted"/>
-                <Button Grid.Column="1"
-                        Content="Waiting"
-                        Command="{Binding GetFriendsByStatusCommand}"
-                        CommandParameter="Waiting"/>
-                <Button Grid.Column="2"
-                        Content="Denied"
-                        Command="{Binding GetFriendsByStatusCommand}"
-                        CommandParameter="Denied"/>
-                <Button Grid.Column="3"
-                        Content="Removed"
-                        Command="{Binding GetFriendsByStatusCommand}"
-                        CommandParameter="Removed"/>
-            </Grid>
-            
+
             <!-- Friends list -->
-            <ListBox Grid.Row="2"
-                     ItemsSource="{Binding FriendsList}"
-                     SelectedItem="{Binding SelectedUser}"/>
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid Background="White"
+                      Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.3*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"
+                               Text="Id" />
+                    <TextBlock Grid.Column="1"
+                               HorizontalAlignment="Center"
+                               Text="Name" />
+                    <TextBlock Grid.Column="2"
+                               HorizontalAlignment="Center"
+                               Text="Status" />
+                    <TextBlock Grid.Column="3"
+                               HorizontalAlignment="Center"
+                               Text="Action" />
+                </Grid>
+                <ListBox Grid.Row="1"
+                        ItemsSource="{Binding FriendsList}"
+                        SelectedItem="{Binding SelectedUser}"
+                        HorizontalContentAlignment="Stretch"/>
+            </Grid>
         </Grid>
         
         <!-- User Conversation Tab -->
@@ -81,10 +100,13 @@
                 <RowDefinition Height="4*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <ListView Grid.Row="0" ScrollViewer.CanContentScroll="True"
+            <ListView Grid.Row="0" ScrollViewer.CanContentScroll="True" x:Name="messagesListView"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      SelectionMode="Single"
                       ItemsSource="{Binding CurrentConversation}">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem" >
+                        <Setter Property="Tag" Value="{Binding Id}" />
                         <Setter Property="Content" Value="{Binding Text}" />
                         <Setter Property="Background" Value="{Binding FromId, Converter={StaticResource MessageIdToColorBackgroundConverter}}" />
                         <Setter Property="HorizontalAlignment" Value="{Binding FromId, Converter={StaticResource MessageIdToAlignmentConverter}}" />
@@ -94,8 +116,14 @@
                         <Setter Property="Width" Value="auto" />
                         <Setter Property="Height" Value="auto" />
                         <Setter Property="FontSize" Value="20" />
+                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
                     </Style>
                 </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=.}" TextWrapping="Wrap"></TextBlock>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
 
             <Grid Grid.Column="1" Grid.Row="2">

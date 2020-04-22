@@ -488,10 +488,10 @@ namespace Client.MainServer {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/ChangeFriendStatus", ReplyAction="http://tempuri.org/IClientService/ChangeFriendStatusResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/ChangeFriendStatusOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
-        void ChangeFriendStatus(int userId, Client.MainServer.FriendStatus status);
+        Client.MainServer.Friend ChangeFriendStatus(int userId, Client.MainServer.FriendStatus status);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/ChangeFriendStatus", ReplyAction="http://tempuri.org/IClientService/ChangeFriendStatusResponse")]
-        System.Threading.Tasks.Task ChangeFriendStatusAsync(int userId, Client.MainServer.FriendStatus status);
+        System.Threading.Tasks.Task<Client.MainServer.Friend> ChangeFriendStatusAsync(int userId, Client.MainServer.FriendStatus status);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/SendMessage", ReplyAction="http://tempuri.org/IClientService/SendMessageResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/SendMessageOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
@@ -518,14 +518,14 @@ namespace Client.MainServer {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface IClientServiceCallback {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/NewUserJoinedGameSession", ReplyAction="http://tempuri.org/IClientService/NewUserJoinedGameSessionResponse")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IClientService/NewUserJoinedGameSession")]
         void NewUserJoinedGameSession(Client.MainServer.User user);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/NewMessageReceived", ReplyAction="http://tempuri.org/IClientService/NewMessageReceivedResponse")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IClientService/NewMessageReceived")]
         void NewMessageReceived(Client.MainServer.User user, Client.MainServer.Message message);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/FriendStatusChanged", ReplyAction="http://tempuri.org/IClientService/FriendStatusChangedResponse")]
-        void FriendStatusChanged(Client.MainServer.Friend friend);
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IClientService/FriendStatusChanged")]
+        void FriendStatusChanged(Client.MainServer.Friend friend, Client.MainServer.User friendUser);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -620,11 +620,11 @@ namespace Client.MainServer {
             return base.Channel.AddFriendAsync(userId);
         }
         
-        public void ChangeFriendStatus(int userId, Client.MainServer.FriendStatus status) {
-            base.Channel.ChangeFriendStatus(userId, status);
+        public Client.MainServer.Friend ChangeFriendStatus(int userId, Client.MainServer.FriendStatus status) {
+            return base.Channel.ChangeFriendStatus(userId, status);
         }
         
-        public System.Threading.Tasks.Task ChangeFriendStatusAsync(int userId, Client.MainServer.FriendStatus status) {
+        public System.Threading.Tasks.Task<Client.MainServer.Friend> ChangeFriendStatusAsync(int userId, Client.MainServer.FriendStatus status) {
             return base.Channel.ChangeFriendStatusAsync(userId, status);
         }
         

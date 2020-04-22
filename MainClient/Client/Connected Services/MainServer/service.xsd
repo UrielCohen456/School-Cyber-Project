@@ -124,7 +124,9 @@
   </xs:element>
   <xs:element name="ChangeFriendStatusResponse">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="ChangeFriendStatusResult" nillable="true" type="q10:Friend" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SendMessage">
@@ -138,7 +140,7 @@
   <xs:element name="SendMessageResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="SendMessageResult" nillable="true" type="q10:Message" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="SendMessageResult" nillable="true" type="q11:Message" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -152,7 +154,7 @@
   <xs:element name="GetConversationWithUserResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="GetConversationWithUserResult" nillable="true" type="q11:ArrayOfMessage" />
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="GetConversationWithUserResult" nillable="true" type="q12:ArrayOfMessage" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -164,45 +166,31 @@
   <xs:element name="GetActiveGameSessionsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="GetActiveGameSessionsResult" nillable="true" type="q12:ArrayOfGameSession" />
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="GetActiveGameSessionsResult" nillable="true" type="q13:ArrayOfGameSession" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="NewUserJoinedGameSession">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="user" nillable="true" type="q13:User" />
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="user" nillable="true" type="q14:User" />
       </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="NewUserJoinedGameSessionResponse">
-    <xs:complexType>
-      <xs:sequence />
     </xs:complexType>
   </xs:element>
   <xs:element name="NewMessageReceived">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="user" nillable="true" type="q14:User" />
-        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="message" nillable="true" type="q15:Message" />
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="user" nillable="true" type="q15:User" />
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="message" nillable="true" type="q16:Message" />
       </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="NewMessageReceivedResponse">
-    <xs:complexType>
-      <xs:sequence />
     </xs:complexType>
   </xs:element>
   <xs:element name="FriendStatusChanged">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="friend" nillable="true" type="q16:Friend" />
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="friend" nillable="true" type="q17:Friend" />
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="friendUser" nillable="true" type="q18:User" />
       </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="FriendStatusChangedResponse">
-    <xs:complexType>
-      <xs:sequence />
     </xs:complexType>
   </xs:element>
 </xs:schema>

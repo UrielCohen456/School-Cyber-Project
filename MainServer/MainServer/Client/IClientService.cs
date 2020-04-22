@@ -97,9 +97,10 @@ namespace MainServer
         /// </summary>
         /// <param name="friendId">The id of the friendship (not the friend's userId)</param>
         /// <param name="status">The requested status</param>
+        /// <returns>The updated friend</returns>
         [OperationContract]
         [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
-        void ChangeFriendStatus(int userId, FriendStatus status);
+        Friend ChangeFriendStatus(int userId, FriendStatus status);
 
         /// <summary>
         /// Sends a message to a requested user

@@ -7,9 +7,12 @@ namespace Client.Models.Networking
     {
         public Friend Friend { get; set; }
 
-        public FriendStatusChangedEventArgs(Friend friend)
+        public User FriendUser { get; set; }
+
+        public FriendStatusChangedEventArgs(Friend friend, User friendUser)
         {
             Friend = friend;
+            FriendUser = friendUser;
         }
     }
 }
