@@ -290,18 +290,21 @@ namespace Client.MainServer {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="GameSession", Namespace="http://schemas.datacontract.org/2004/07/DataLayer")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Room", Namespace="http://schemas.datacontract.org/2004/07/DataLayer")]
     [System.SerializableAttribute()]
-    public partial class GameSession : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class Room : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private Client.MainServer.GameSessionData GameSessionDataField;
+        private Client.MainServer.User AdminField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Collections.Generic.List<Client.MainServer.User> UsersField;
+        private Client.MainServer.RoomData DataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Collections.Generic.Dictionary<int, Client.MainServer.User> UsersField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -314,20 +317,33 @@ namespace Client.MainServer {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public Client.MainServer.GameSessionData GameSessionData {
+        public Client.MainServer.User Admin {
             get {
-                return this.GameSessionDataField;
+                return this.AdminField;
             }
             set {
-                if ((object.ReferenceEquals(this.GameSessionDataField, value) != true)) {
-                    this.GameSessionDataField = value;
-                    this.RaisePropertyChanged("GameSessionData");
+                if ((object.ReferenceEquals(this.AdminField, value) != true)) {
+                    this.AdminField = value;
+                    this.RaisePropertyChanged("Admin");
                 }
             }
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Collections.Generic.List<Client.MainServer.User> Users {
+        public Client.MainServer.RoomData Data {
+            get {
+                return this.DataField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DataField, value) != true)) {
+                    this.DataField = value;
+                    this.RaisePropertyChanged("Data");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Collections.Generic.Dictionary<int, Client.MainServer.User> Users {
             get {
                 return this.UsersField;
             }
@@ -351,9 +367,9 @@ namespace Client.MainServer {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="GameSessionData", Namespace="http://schemas.datacontract.org/2004/07/DataLayer")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="RoomData", Namespace="http://schemas.datacontract.org/2004/07/DataLayer")]
     [System.SerializableAttribute()]
-    public partial class GameSessionData : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class RoomData : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
@@ -362,10 +378,16 @@ namespace Client.MainServer {
         private bool HasPasswordField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int MaxPlayersCountField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string NameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Client.MainServer.RoomState StateField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -386,6 +408,19 @@ namespace Client.MainServer {
                 if ((this.HasPasswordField.Equals(value) != true)) {
                     this.HasPasswordField = value;
                     this.RaisePropertyChanged("HasPassword");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
                 }
             }
         }
@@ -416,6 +451,19 @@ namespace Client.MainServer {
             }
         }
         
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Client.MainServer.RoomState State {
+            get {
+                return this.StateField;
+            }
+            set {
+                if ((this.StateField.Equals(value) != true)) {
+                    this.StateField = value;
+                    this.RaisePropertyChanged("State");
+                }
+            }
+        }
+        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
@@ -424,6 +472,31 @@ namespace Client.MainServer {
                 propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
             }
         }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="RoomState", Namespace="http://schemas.datacontract.org/2004/07/DataLayer")]
+    public enum RoomState : byte {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Open = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Closed = 1,
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="RoomUpdate", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
+    public enum RoomUpdate : byte {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        StateChanged = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        UserLeft = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        UserJoined = 2,
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -507,12 +580,40 @@ namespace Client.MainServer {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/GetConversationWithUser", ReplyAction="http://tempuri.org/IClientService/GetConversationWithUserResponse")]
         System.Threading.Tasks.Task<System.Collections.Generic.List<Client.MainServer.Message>> GetConversationWithUserAsync(int userId);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/GetActiveGameSessions", ReplyAction="http://tempuri.org/IClientService/GetActiveGameSessionsResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/GetActiveGameSessionsOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
-        System.Collections.Generic.List<Client.MainServer.GameSession> GetActiveGameSessions();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/GetAllRooms", ReplyAction="http://tempuri.org/IClientService/GetAllRoomsResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/GetAllRoomsOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
+        System.Collections.Generic.List<Client.MainServer.Room> GetAllRooms();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/GetActiveGameSessions", ReplyAction="http://tempuri.org/IClientService/GetActiveGameSessionsResponse")]
-        System.Threading.Tasks.Task<System.Collections.Generic.List<Client.MainServer.GameSession>> GetActiveGameSessionsAsync();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/GetAllRooms", ReplyAction="http://tempuri.org/IClientService/GetAllRoomsResponse")]
+        System.Threading.Tasks.Task<System.Collections.Generic.List<Client.MainServer.Room>> GetAllRoomsAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/CreateRoom", ReplyAction="http://tempuri.org/IClientService/CreateRoomResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/CreateRoomOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
+        Client.MainServer.Room CreateRoom(int maxPlayerCount, string roomName, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/CreateRoom", ReplyAction="http://tempuri.org/IClientService/CreateRoomResponse")]
+        System.Threading.Tasks.Task<Client.MainServer.Room> CreateRoomAsync(int maxPlayerCount, string roomName, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/JoinRoom", ReplyAction="http://tempuri.org/IClientService/JoinRoomResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/JoinRoomOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
+        Client.MainServer.Room JoinRoom(int roomId, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/JoinRoom", ReplyAction="http://tempuri.org/IClientService/JoinRoomResponse")]
+        System.Threading.Tasks.Task<Client.MainServer.Room> JoinRoomAsync(int roomId, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/LeaveRoom", ReplyAction="http://tempuri.org/IClientService/LeaveRoomResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/LeaveRoomOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
+        void LeaveRoom(int roomId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/LeaveRoom", ReplyAction="http://tempuri.org/IClientService/LeaveRoomResponse")]
+        System.Threading.Tasks.Task LeaveRoomAsync(int roomId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/ChangeRoomState", ReplyAction="http://tempuri.org/IClientService/ChangeRoomStateResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/ChangeRoomStateOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
+        void ChangeRoomState(int roomId, Client.MainServer.RoomState newState);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/ChangeRoomState", ReplyAction="http://tempuri.org/IClientService/ChangeRoomStateResponse")]
+        System.Threading.Tasks.Task ChangeRoomStateAsync(int roomId, Client.MainServer.RoomState newState);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -526,6 +627,9 @@ namespace Client.MainServer {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IClientService/FriendStatusChanged")]
         void FriendStatusChanged(Client.MainServer.Friend friend, Client.MainServer.User friendUser);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IClientService/RoomUpdated")]
+        void RoomUpdated(Client.MainServer.Room updatedRoom, Client.MainServer.RoomUpdate update);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -644,12 +748,44 @@ namespace Client.MainServer {
             return base.Channel.GetConversationWithUserAsync(userId);
         }
         
-        public System.Collections.Generic.List<Client.MainServer.GameSession> GetActiveGameSessions() {
-            return base.Channel.GetActiveGameSessions();
+        public System.Collections.Generic.List<Client.MainServer.Room> GetAllRooms() {
+            return base.Channel.GetAllRooms();
         }
         
-        public System.Threading.Tasks.Task<System.Collections.Generic.List<Client.MainServer.GameSession>> GetActiveGameSessionsAsync() {
-            return base.Channel.GetActiveGameSessionsAsync();
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<Client.MainServer.Room>> GetAllRoomsAsync() {
+            return base.Channel.GetAllRoomsAsync();
+        }
+        
+        public Client.MainServer.Room CreateRoom(int maxPlayerCount, string roomName, string password) {
+            return base.Channel.CreateRoom(maxPlayerCount, roomName, password);
+        }
+        
+        public System.Threading.Tasks.Task<Client.MainServer.Room> CreateRoomAsync(int maxPlayerCount, string roomName, string password) {
+            return base.Channel.CreateRoomAsync(maxPlayerCount, roomName, password);
+        }
+        
+        public Client.MainServer.Room JoinRoom(int roomId, string password) {
+            return base.Channel.JoinRoom(roomId, password);
+        }
+        
+        public System.Threading.Tasks.Task<Client.MainServer.Room> JoinRoomAsync(int roomId, string password) {
+            return base.Channel.JoinRoomAsync(roomId, password);
+        }
+        
+        public void LeaveRoom(int roomId) {
+            base.Channel.LeaveRoom(roomId);
+        }
+        
+        public System.Threading.Tasks.Task LeaveRoomAsync(int roomId) {
+            return base.Channel.LeaveRoomAsync(roomId);
+        }
+        
+        public void ChangeRoomState(int roomId, Client.MainServer.RoomState newState) {
+            base.Channel.ChangeRoomState(roomId, newState);
+        }
+        
+        public System.Threading.Tasks.Task ChangeRoomStateAsync(int roomId, Client.MainServer.RoomState newState) {
+            return base.Channel.ChangeRoomStateAsync(roomId, newState);
         }
     }
 }

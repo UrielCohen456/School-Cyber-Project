@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/DataLayer" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/DataLayer" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
   <xs:complexType name="User">
     <xs:complexContent mixed="false">
       <xs:extension base="tns:BaseEntity">
@@ -73,25 +74,40 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOfMessage" nillable="true" type="tns:ArrayOfMessage" />
-  <xs:complexType name="ArrayOfGameSession">
+  <xs:complexType name="ArrayOfRoom">
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="GameSession" nillable="true" type="tns:GameSession" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Room" nillable="true" type="tns:Room" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ArrayOfGameSession" nillable="true" type="tns:ArrayOfGameSession" />
-  <xs:complexType name="GameSession">
+  <xs:element name="ArrayOfRoom" nillable="true" type="tns:ArrayOfRoom" />
+  <xs:complexType name="Room">
     <xs:sequence>
-      <xs:element minOccurs="0" name="GameSessionData" nillable="true" type="tns:GameSessionData" />
-      <xs:element minOccurs="0" name="Users" nillable="true" type="tns:ArrayOfUser" />
+      <xs:element minOccurs="0" name="Admin" nillable="true" type="tns:User" />
+      <xs:element minOccurs="0" name="Data" nillable="true" type="tns:RoomData" />
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Users" nillable="true" type="q1:ArrayOfKeyValueOfintUserq7tfFZ9B" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="GameSession" nillable="true" type="tns:GameSession" />
-  <xs:complexType name="GameSessionData">
+  <xs:element name="Room" nillable="true" type="tns:Room" />
+  <xs:complexType name="RoomData">
     <xs:sequence>
       <xs:element minOccurs="0" name="HasPassword" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
       <xs:element minOccurs="0" name="MaxPlayersCount" type="xs:int" />
       <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="State" type="tns:RoomState" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="GameSessionData" nillable="true" type="tns:GameSessionData" />
+  <xs:element name="RoomData" nillable="true" type="tns:RoomData" />
+  <xs:simpleType name="RoomState">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedByte" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Open" />
+      <xs:enumeration value="Closed" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="RoomState" nillable="true" type="tns:RoomState" />
 </xs:schema>

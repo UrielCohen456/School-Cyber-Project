@@ -120,15 +120,65 @@ namespace MainServer
         [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
         List<Message> GetConversationWithUser(int userId);
 
-        #endregion 
+        #endregion
+
+        #region Room Methods
 
         /// <summary>
-        /// Returns all the active game sessions
+        /// Gets all active rooms
         /// </summary>
-        /// <returns>List of game sessions</returns>
+        /// <returns></returns>
         [OperationContract]
         [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
-        List<GameSession> GetActiveGameSessions();
+        List<Room> GetAllRooms();
+
+        /// <summary>
+        /// Creates a room and returns it
+        /// </summary>
+        /// <param name="maxPlayerCount"></param>
+        /// <param name="roomName"></param>
+        /// <param name="password">Will be null or empty if the room doesn't need a password</param>
+        /// <returns></returns>
+        [OperationContract]
+        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
+        Room CreateRoom(int maxPlayerCount, string roomName, string password);
+
+        /// <summary>
+        /// Attempts to join a room
+        /// </summary>
+        /// <param name="roomId"></param>
+        /// <param name="password">Will be null or empty if room doesn't have a password</param>
+        /// <returns></returns>
+        [OperationContract]
+        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
+        Room JoinRoom(int roomId, string password);
+
+        /// <summary>
+        /// Attempts to leave the current room
+        /// </summary>
+        /// <param name="roomId"></param>
+        [OperationContract]
+        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
+        void LeaveRoom(int roomId);
+
+        /// <summary>
+        /// Changes the room state 
+        /// </summary>
+        /// <param name="newState"></param>
+        [OperationContract]
+        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
+        void ChangeRoomState(int roomId, RoomState newState);
+        
+        ///// <summary>
+        ///// Sends an invite request to the friend and he can then send a join request to the server to join the room
+        ///// </summary>
+        ///// <param name="friendUserId"></param>
+        ///// <param name="roomId"></param>
+        //[OperationContract]
+        //[FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
+        //void InviteFriendToRoom(int friendUserId, int roomId);
+
+        #endregion
     }
 
     /// <summary>

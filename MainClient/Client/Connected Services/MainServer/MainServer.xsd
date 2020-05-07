@@ -7,4 +7,17 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="OperationFault" nillable="true" type="tns:OperationFault" />
+  <xs:simpleType name="RoomUpdate">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedByte" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="StateChanged" />
+      <xs:enumeration value="UserLeft" />
+      <xs:enumeration value="UserJoined" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="RoomUpdate" nillable="true" type="tns:RoomUpdate" />
 </xs:schema>

@@ -85,6 +85,17 @@ namespace MainServer
             }
         }
 
+        private void NotifyUsersOfRoomChange(Room room, RoomUpdate update)
+        {
+            // Getting all other users in the room beside the logged user
+            var users = room.Users.ToList().Where(user => user.Key != LoggedUser.Id);
+            foreach (var user in users)
+            {
+                var callback = userCallbacks.First(pair => pair.Key == user.Value.Id).Value;
+                callback.RoomUpdated(room, update);
+            }
+        }
+
         #endregion
 
         #region Authentication Methods
@@ -256,6 +267,76 @@ namespace MainServer
 
         #endregion
 
+        #region Room Methods
+
+        public List<Room> GetAllRooms()
+        {
+            return Operation(() =>
+            {
+                CheckIsUserAuthenticated();
+
+                return serverManager.GetAllRooms().ToList();
+            });
+        }
+
+        public Room CreateRoom(int maxPlayerCount, string roomName, string password)
+        {
+            return Operation(() =>
+            {
+                CheckIsUserAuthenticated();
+
+                var room = serverManager.CreateRoom(LoggedUser, maxPlayerCount, roomName, password);
+
+                return room;
+            });
+        }
+
+        public Room JoinRoom(int roomId, string password)
+        {
+            return Operation(() =>
+            {
+                CheckIsUserAuthenticated();
+
+                var room = serverManager.AddUserToRoom(LoggedUser, roomId, password);
+
+                NotifyUsersOfRoomChange(room, RoomUpdate.UserJoined);
+
+                return room;
+            });
+        }
+
+        public void LeaveRoom(int roomId)
+        {
+            Operation(() =>
+            {
+                CheckIsUserAuthenticated();
+                if (!serverManager.IsUserInRoom(LoggedUser.Id, roomId))
+                    throw new Exception("Can't leave a room you are not in");
+
+                var room = serverManager.RemoveUserFromRoom(LoggedUser, roomId);
+
+                // Room has been deleted
+                if (room == null)
+                    return;
+
+                NotifyUsersOfRoomChange(room, RoomUpdate.UserLeft);
+            });
+        }
+
+        public void ChangeRoomState(int roomId, RoomState newState)
+        {
+            Operation(() =>
+            {
+                CheckIsUserAuthenticated();
+
+                var room = serverManager.ChangeRoomState(roomId, newState);
+
+                NotifyUsersOfRoomChange(room, RoomUpdate.StateChanged);
+            });
+        }
+
+        #endregion
+
         private void Operation(Action func, [CallerMemberName] string operation = null)
         {
             try
@@ -277,11 +358,6 @@ namespace MainServer
             {
                 throw CreateFault(e.Message, operation);
             }
-        }
-
-        public List<GameSession> GetActiveGameSessions()
-        {
-            throw new NotImplementedException();
         }
     }
 }

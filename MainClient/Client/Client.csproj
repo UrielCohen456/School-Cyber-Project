@@ -145,13 +145,16 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Connected Services\MainServer\Arrays.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Connected Services\MainServer\Client.MainServer.Friend.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\MainServer\Client.MainServer.GameSession.datasource">
+    <None Include="Connected Services\MainServer\Client.MainServer.Message.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\MainServer\Client.MainServer.Message.datasource">
+    <None Include="Connected Services\MainServer\Client.MainServer.Room.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\MainServer\Client.MainServer.User.datasource">

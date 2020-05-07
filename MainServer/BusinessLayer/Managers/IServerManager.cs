@@ -38,5 +38,20 @@ namespace BusinessLayer
         Message SaveMessage(int fromId, int toId, string text);
 
         IEnumerable<Message> GetConversation(int userId1, int userId2, int messagesCount = 50);
+
+        IEnumerable<Room> GetAllRooms();
+
+        bool DoesRoomExist(int roomId);
+        bool DoesRoomExist(string roomName);
+
+        bool IsUserInRoom(int userId, int roomId);
+
+        Room ChangeRoomState(int roomId, RoomState newState);
+
+        Room CreateRoom(User creator, int maxPlayerCount, string roomName, string password);
+
+        Room AddUserToRoom(User userToAdd, int roomId, string password);
+
+        Room RemoveUserFromRoom(User userToRemove, int roomId);
     }
 }

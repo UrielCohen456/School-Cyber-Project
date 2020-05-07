@@ -14,6 +14,7 @@ namespace BusinessLayer
         private readonly IMessagesRepository messagesRepository;
 
         private readonly ConcurrentDictionary<int, User> LoggedUsers;
+        private readonly ConcurrentDictionary<int, Room> ActiveRooms;
 
         public int UserCount => LoggedUsers.Count();
 
@@ -23,7 +24,9 @@ namespace BusinessLayer
             this.friendsRepository = friendsRepository;
             this.messagesRepository = messagesRepository;
             LoggedUsers = new ConcurrentDictionary<int, User>();
+            ActiveRooms = new ConcurrentDictionary<int, Room>();
         }
+        
         public User Login(string username, string password)
         {
             if (IsUserConnected(username))
@@ -76,6 +79,7 @@ namespace BusinessLayer
         {
             return usersRepository.SelectSpecificUser(id);
         }
+
         public List<User> GetUsersByQuery(string searchQuery, int userCount = 20)
         {
             return usersRepository.GetUsersByQuery(searchQuery, userCount);
@@ -126,7 +130,6 @@ namespace BusinessLayer
             friendsRepository.ChangeFriendStatus(friend, newStatus);
         }
 
-
         public Message SaveMessage(int fromId, int toId, string text)
         {
             return messagesRepository.SaveMessage(fromId, toId, text);
@@ -137,6 +140,82 @@ namespace BusinessLayer
             return messagesRepository.GetConversation(userId1, userId2, messagesCount);
         }
 
+        public IEnumerable<Room> GetAllRooms()
+        {
+            return ActiveRooms.Values;
+        }
 
+        public bool DoesRoomExist(int roomId)
+        {
+            return ActiveRooms.ToList().Exists(item => item.Value.Data.Id == roomId);
+        }
+
+        public bool DoesRoomExist(string roomName)
+        {
+            return ActiveRooms.ToList().Exists(item => item.Value.Data.Name == roomName);
+        }
+
+        public bool IsUserInRoom(int userId, int roomId)
+        {
+            return ActiveRooms.ToList().Exists(
+                roomIdPair => roomIdPair.Value.Data.Id == roomId &&
+                roomIdPair.Value.Users.ToList().Exists(user => user.Value.Id == userId));
+        }
+
+        public Room ChangeRoomState(int roomId, RoomState newState)
+        {
+            if (!DoesRoomExist(roomId))
+                throw new Exception("Room doesn't exist");
+
+            ActiveRooms.TryGetValue(roomId, out var room);
+
+            room.Data.State = newState;
+
+            return room;
+        }
+
+        public Room CreateRoom(User creator, int maxPlayerCount, string roomName, string password)
+        {
+            if (DoesRoomExist(roomName))
+                throw new Exception("Room with the same name already exists");
+            
+            var roomId = ActiveRooms.IsEmpty ? 1 : ActiveRooms.Count + 1;
+            var roomData = new RoomData {
+                Id = roomId, Name = roomName, MaxPlayersCount = maxPlayerCount,
+                Password = password, State = RoomState.Open };
+
+            var room = new Room(creator, roomData, password);
+
+            ActiveRooms.TryAdd(roomId, room);
+
+            return room;
+        }
+
+        public Room AddUserToRoom(User userToAdd, int roomId, string password)
+        {
+            if (!DoesRoomExist(roomId))
+                throw new Exception("Room doesn't exist");
+
+            ActiveRooms.TryGetValue(roomId, out var room);
+
+            room.AddUser(userToAdd, password);
+
+            return room;
+        }
+
+        public Room RemoveUserFromRoom(User userToRemove, int roomId)
+        {
+            if (!DoesRoomExist(roomId))
+                throw new Exception("Room doesn't exist");
+
+            ActiveRooms.TryGetValue(roomId, out var room);
+
+            var shouldDeleteRoom = room.RemoveUser(userToRemove);
+            if (!shouldDeleteRoom)
+                return room;
+        
+            ActiveRooms.TryRemove(roomId, out var _);
+            return null;
+        }
     }
 }

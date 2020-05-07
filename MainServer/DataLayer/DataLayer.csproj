@@ -47,8 +47,8 @@
   <ItemGroup>
     <Compile Include="Models\Friend.cs" />
     <Compile Include="Models\FriendStatus.cs" />
-    <Compile Include="Models\GameSessionData.cs" />
-    <Compile Include="Models\GameSession.cs" />
+    <Compile Include="Models\RoomData.cs" />
+    <Compile Include="Models\Room.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="ORM\Base\BaseEntity.cs" />
