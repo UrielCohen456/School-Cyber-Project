@@ -21,7 +21,28 @@
             <DataTemplate DataType="{x:Type ViewModels:FriendViewModel}">
                 <Views:FriendView/>
             </DataTemplate>
-
+            <DataTemplate DataType="{x:Type ViewModels:RoomsMainViewModel}">
+                <Views:RoomsMenuView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModels:RoomsFinderViewModel}">
+                <Views:RoomsFinderView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModels:CreateRoomViewModel}">
+                <Views:CreateRoomView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModels:RoomLobbyViewModel}">
+                <Views:RoomLobbyView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModels:GameViewModel}">
+                <Views:GameView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModels:PlayerViewModel}">
+                <Views:PlayerView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModels:GameScoreScreenViewModel}">
+                <Views:GameScoreScreenView/>
+            </DataTemplate>
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

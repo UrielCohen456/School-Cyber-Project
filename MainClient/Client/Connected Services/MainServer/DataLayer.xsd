@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/DataLayer" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/DataLayer" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/DataLayer" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/DataLayer" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
   <xs:complexType name="User">
     <xs:complexContent mixed="false">
       <xs:extension base="tns:BaseEntity">
@@ -107,7 +108,111 @@
     <xs:restriction base="xs:string">
       <xs:enumeration value="Open" />
       <xs:enumeration value="Closed" />
+      <xs:enumeration value="GameBegun" />
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="RoomState" nillable="true" type="tns:RoomState" />
+  <xs:complexType name="RoomParameters">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MaxPlayersCount" type="xs:int" />
+      <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RoomName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RoomParameters" nillable="true" type="tns:RoomParameters" />
+  <xs:complexType name="GameParameters">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="NumberOfRounds" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GameParameters" nillable="true" type="tns:GameParameters" />
+  <xs:complexType name="GameInformation">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CurrentRoundNumber" type="xs:int" />
+      <xs:element minOccurs="0" name="CurrentWordLength" type="xs:int" />
+      <xs:element minOccurs="0" name="IsGameFinished" type="xs:boolean" />
+      <xs:element minOccurs="0" name="NumberOfRounds" type="xs:int" />
+      <xs:element minOccurs="0" name="Painter" nillable="true" type="tns:User" />
+      <xs:element minOccurs="0" name="RemainingTime" type="xs:int" />
+      <xs:element minOccurs="0" name="RevealedLetters" nillable="true" type="tns:ArrayOfRevealedLetter" />
+      <xs:element minOccurs="0" name="TurnReset" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GameInformation" nillable="true" type="tns:GameInformation" />
+  <xs:complexType name="ArrayOfRevealedLetter">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="RevealedLetter" type="tns:RevealedLetter" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfRevealedLetter" nillable="true" type="tns:ArrayOfRevealedLetter" />
+  <xs:complexType name="RevealedLetter">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Letter" type="ser:char" />
+      <xs:element minOccurs="0" name="LetterIndex" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RevealedLetter" nillable="true" type="tns:RevealedLetter" />
+  <xs:simpleType name="AnswerSubmitResult">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Wrong">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Right">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="TimesUp">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="AnsweredAlready">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="GameFinished">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">5</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="AnswerSubmitResult" nillable="true" type="tns:AnswerSubmitResult" />
+  <xs:complexType name="ArrayOfPlayerGameData">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PlayerGameData" nillable="true" type="tns:PlayerGameData" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPlayerGameData" nillable="true" type="tns:ArrayOfPlayerGameData" />
+  <xs:complexType name="PlayerGameData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="score" type="xs:int" />
+      <xs:element minOccurs="0" name="userId" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PlayerGameData" nillable="true" type="tns:PlayerGameData" />
 </xs:schema>

@@ -74,17 +74,10 @@ namespace Client.ViewModels
             ViewModelController.ChangeViewModel(new LoginViewModel());
         }
 
-        private async void Signup(PasswordBox passwordBox)
+        private void Signup(PasswordBox passwordBox)
         {
-            try
-            {
-                Globals.LoggedUser = await Connection.Instance.Service?.SignupAsync(Name, Username, passwordBox?.Password);
-                ViewModelController.ChangeViewModel(new MainViewModel());
-            }
-            catch (FaultException<OperationFault> fault)
-            {
-                MessageBox.Show(fault.Detail.ErrorMessage);
-            }
+            Globals.LoggedUser = ExecuteFaultableMethod(() => Connection.Instance.Service.Signup(Name, Username, passwordBox.Password));
+            ViewModelController.ChangeViewModel(new MainViewModel());
         } 
 
         #endregion

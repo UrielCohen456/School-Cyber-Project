@@ -12,11 +12,12 @@ namespace DataLayer
     [DataContract]
     public class Room
     {
+        #region Fields
+
+        #endregion
+
         #region Properties
 
-        /// <summary>
-        /// All the id's of the users inside the game session
-        /// </summary>
         [DataMember]
         public ConcurrentDictionary<int, User> Users { get; set; }
 
@@ -59,18 +60,21 @@ namespace DataLayer
             if (Data.State == RoomState.Closed)
                 throw new Exception("Admin closed the room");
             
-            if (Users.ToList().Exists(pair => pair.Key == userToAdd.Id))
+            if (Users.Any(pair => pair.Key == userToAdd.Id))
                 throw new Exception("User already in the room");
 
             if (Data.HasPassword && Data.Password != password)
                 throw new Exception("Incorrect password");
+
+            if (Users.Count >= Data.MaxPlayersCount)
+                throw new Exception("Max user count reached");
 
             Users.TryAdd(userToAdd.Id, userToAdd);
         }
 
         public bool RemoveUser(User userToRemove)
         {
-            if (!Users.ToList().Exists(pair => pair.Key == userToRemove.Id))
+            if (!Users.Any(pair => pair.Key == userToRemove.Id))
                 throw new Exception("User isn't in the room");
 
             Users.TryRemove(userToRemove.Id, out var _);
@@ -79,7 +83,7 @@ namespace DataLayer
                 return true;
 
             if (Admin.Id == userToRemove.Id)
-                Admin = Users.ToList().ElementAt(0).Value;
+                Admin = Users.ElementAt(0).Value;
 
             return false;
         }
@@ -90,5 +94,18 @@ namespace DataLayer
         }
 
         #endregion
+    }
+
+    [DataContract]
+    public struct RoomParameters
+    {
+        [DataMember]
+        public int MaxPlayersCount { get; set; }
+
+        [DataMember]
+        public string RoomName { get; set; }
+
+        [DataMember]
+        public string Password { get; set; }
     }
 }

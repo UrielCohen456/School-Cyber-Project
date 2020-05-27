@@ -483,6 +483,428 @@ namespace Client.MainServer {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         Closed = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        GameBegun = 2,
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="RoomParameters", Namespace="http://schemas.datacontract.org/2004/07/DataLayer")]
+    [System.SerializableAttribute()]
+    public partial struct RoomParameters : System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int MaxPlayersCountField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string PasswordField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string RoomNameField;
+        
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int MaxPlayersCount {
+            get {
+                return this.MaxPlayersCountField;
+            }
+            set {
+                if ((this.MaxPlayersCountField.Equals(value) != true)) {
+                    this.MaxPlayersCountField = value;
+                    this.RaisePropertyChanged("MaxPlayersCount");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Password {
+            get {
+                return this.PasswordField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PasswordField, value) != true)) {
+                    this.PasswordField = value;
+                    this.RaisePropertyChanged("Password");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string RoomName {
+            get {
+                return this.RoomNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.RoomNameField, value) != true)) {
+                    this.RoomNameField = value;
+                    this.RaisePropertyChanged("RoomName");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="GameParameters", Namespace="http://schemas.datacontract.org/2004/07/DataLayer")]
+    [System.SerializableAttribute()]
+    public partial class GameParameters : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int NumberOfRoundsField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int NumberOfRounds {
+            get {
+                return this.NumberOfRoundsField;
+            }
+            set {
+                if ((this.NumberOfRoundsField.Equals(value) != true)) {
+                    this.NumberOfRoundsField = value;
+                    this.RaisePropertyChanged("NumberOfRounds");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="GameInformation", Namespace="http://schemas.datacontract.org/2004/07/DataLayer")]
+    [System.SerializableAttribute()]
+    public partial class GameInformation : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CurrentRoundNumberField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CurrentWordLengthField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsGameFinishedField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int NumberOfRoundsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Client.MainServer.User PainterField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int RemainingTimeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Collections.Generic.List<Client.MainServer.RevealedLetter> RevealedLettersField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool TurnResetField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int CurrentRoundNumber {
+            get {
+                return this.CurrentRoundNumberField;
+            }
+            set {
+                if ((this.CurrentRoundNumberField.Equals(value) != true)) {
+                    this.CurrentRoundNumberField = value;
+                    this.RaisePropertyChanged("CurrentRoundNumber");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int CurrentWordLength {
+            get {
+                return this.CurrentWordLengthField;
+            }
+            set {
+                if ((this.CurrentWordLengthField.Equals(value) != true)) {
+                    this.CurrentWordLengthField = value;
+                    this.RaisePropertyChanged("CurrentWordLength");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsGameFinished {
+            get {
+                return this.IsGameFinishedField;
+            }
+            set {
+                if ((this.IsGameFinishedField.Equals(value) != true)) {
+                    this.IsGameFinishedField = value;
+                    this.RaisePropertyChanged("IsGameFinished");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int NumberOfRounds {
+            get {
+                return this.NumberOfRoundsField;
+            }
+            set {
+                if ((this.NumberOfRoundsField.Equals(value) != true)) {
+                    this.NumberOfRoundsField = value;
+                    this.RaisePropertyChanged("NumberOfRounds");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Client.MainServer.User Painter {
+            get {
+                return this.PainterField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PainterField, value) != true)) {
+                    this.PainterField = value;
+                    this.RaisePropertyChanged("Painter");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int RemainingTime {
+            get {
+                return this.RemainingTimeField;
+            }
+            set {
+                if ((this.RemainingTimeField.Equals(value) != true)) {
+                    this.RemainingTimeField = value;
+                    this.RaisePropertyChanged("RemainingTime");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Collections.Generic.List<Client.MainServer.RevealedLetter> RevealedLetters {
+            get {
+                return this.RevealedLettersField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.RevealedLettersField, value) != true)) {
+                    this.RevealedLettersField = value;
+                    this.RaisePropertyChanged("RevealedLetters");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool TurnReset {
+            get {
+                return this.TurnResetField;
+            }
+            set {
+                if ((this.TurnResetField.Equals(value) != true)) {
+                    this.TurnResetField = value;
+                    this.RaisePropertyChanged("TurnReset");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="RevealedLetter", Namespace="http://schemas.datacontract.org/2004/07/DataLayer")]
+    [System.SerializableAttribute()]
+    public partial struct RevealedLetter : System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private char LetterField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int LetterIndexField;
+        
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public char Letter {
+            get {
+                return this.LetterField;
+            }
+            set {
+                if ((this.LetterField.Equals(value) != true)) {
+                    this.LetterField = value;
+                    this.RaisePropertyChanged("Letter");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int LetterIndex {
+            get {
+                return this.LetterIndexField;
+            }
+            set {
+                if ((this.LetterIndexField.Equals(value) != true)) {
+                    this.LetterIndexField = value;
+                    this.RaisePropertyChanged("LetterIndex");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="AnswerSubmitResult", Namespace="http://schemas.datacontract.org/2004/07/DataLayer")]
+    public enum AnswerSubmitResult : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Wrong = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Right = 2,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        TimesUp = 3,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        AnsweredAlready = 4,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        GameFinished = 5,
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PlayerGameData", Namespace="http://schemas.datacontract.org/2004/07/DataLayer")]
+    [System.SerializableAttribute()]
+    public partial class PlayerGameData : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int scoreField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int userIdField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int score {
+            get {
+                return this.scoreField;
+            }
+            set {
+                if ((this.scoreField.Equals(value) != true)) {
+                    this.scoreField = value;
+                    this.RaisePropertyChanged("score");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int userId {
+            get {
+                return this.userIdField;
+            }
+            set {
+                if ((this.userIdField.Equals(value) != true)) {
+                    this.userIdField = value;
+                    this.RaisePropertyChanged("userId");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
@@ -490,13 +912,22 @@ namespace Client.MainServer {
     public enum RoomUpdate : byte {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        StateChanged = 0,
+        Created = 0,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        UserLeft = 1,
+        Closed = 1,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        UserJoined = 2,
+        StateChanged = 2,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        UserLeft = 3,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        UserJoined = 4,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Started = 5,
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -589,10 +1020,10 @@ namespace Client.MainServer {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/CreateRoom", ReplyAction="http://tempuri.org/IClientService/CreateRoomResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/CreateRoomOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
-        Client.MainServer.Room CreateRoom(int maxPlayerCount, string roomName, string password);
+        Client.MainServer.Room CreateRoom(Client.MainServer.RoomParameters roomParams);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/CreateRoom", ReplyAction="http://tempuri.org/IClientService/CreateRoomResponse")]
-        System.Threading.Tasks.Task<Client.MainServer.Room> CreateRoomAsync(int maxPlayerCount, string roomName, string password);
+        System.Threading.Tasks.Task<Client.MainServer.Room> CreateRoomAsync(Client.MainServer.RoomParameters roomParams);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/JoinRoom", ReplyAction="http://tempuri.org/IClientService/JoinRoomResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/JoinRoomOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
@@ -614,13 +1045,59 @@ namespace Client.MainServer {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/ChangeRoomState", ReplyAction="http://tempuri.org/IClientService/ChangeRoomStateResponse")]
         System.Threading.Tasks.Task ChangeRoomStateAsync(int roomId, Client.MainServer.RoomState newState);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/StartGame", ReplyAction="http://tempuri.org/IClientService/StartGameResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/StartGameOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
+        int StartGame(int roomId, Client.MainServer.GameParameters parameters);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/StartGame", ReplyAction="http://tempuri.org/IClientService/StartGameResponse")]
+        System.Threading.Tasks.Task<int> StartGameAsync(int roomId, Client.MainServer.GameParameters parameters);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/LeaveGame", ReplyAction="http://tempuri.org/IClientService/LeaveGameResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/LeaveGameOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
+        void LeaveGame(int gameId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/LeaveGame", ReplyAction="http://tempuri.org/IClientService/LeaveGameResponse")]
+        System.Threading.Tasks.Task LeaveGameAsync(int gameId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/GetAllPlayers", ReplyAction="http://tempuri.org/IClientService/GetAllPlayersResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/GetAllPlayersOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
+        System.Collections.Generic.List<Client.MainServer.User> GetAllPlayers(int gameId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/GetAllPlayers", ReplyAction="http://tempuri.org/IClientService/GetAllPlayersResponse")]
+        System.Threading.Tasks.Task<System.Collections.Generic.List<Client.MainServer.User>> GetAllPlayersAsync(int gameId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/GetGameInformation", ReplyAction="http://tempuri.org/IClientService/GetGameInformationResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/GetGameInformationOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
+        Client.MainServer.GameInformation GetGameInformation(int gameId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/GetGameInformation", ReplyAction="http://tempuri.org/IClientService/GetGameInformationResponse")]
+        System.Threading.Tasks.Task<Client.MainServer.GameInformation> GetGameInformationAsync(int gameId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/SubmitGuess", ReplyAction="http://tempuri.org/IClientService/SubmitGuessResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/SubmitGuessOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
+        Client.MainServer.AnswerSubmitResult SubmitGuess(int gameId, string guess);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/SubmitGuess", ReplyAction="http://tempuri.org/IClientService/SubmitGuessResponse")]
+        System.Threading.Tasks.Task<Client.MainServer.AnswerSubmitResult> SubmitGuessAsync(int gameId, string guess);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/SubmitDraw", ReplyAction="http://tempuri.org/IClientService/SubmitDrawResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/SubmitDrawOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
+        void SubmitDraw(int gameId, System.IO.MemoryStream strokes);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/SubmitDraw", ReplyAction="http://tempuri.org/IClientService/SubmitDrawResponse")]
+        System.Threading.Tasks.Task SubmitDrawAsync(int gameId, System.IO.MemoryStream strokes);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/GetScores", ReplyAction="http://tempuri.org/IClientService/GetScoresResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/GetScoresOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
+        System.Collections.Generic.List<Client.MainServer.PlayerGameData> GetScores(int gameId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/GetScores", ReplyAction="http://tempuri.org/IClientService/GetScoresResponse")]
+        System.Threading.Tasks.Task<System.Collections.Generic.List<Client.MainServer.PlayerGameData>> GetScoresAsync(int gameId);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface IClientServiceCallback {
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IClientService/NewUserJoinedGameSession")]
-        void NewUserJoinedGameSession(Client.MainServer.User user);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IClientService/NewMessageReceived")]
         void NewMessageReceived(Client.MainServer.User user, Client.MainServer.Message message);
@@ -630,6 +1107,21 @@ namespace Client.MainServer {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IClientService/RoomUpdated")]
         void RoomUpdated(Client.MainServer.Room updatedRoom, Client.MainServer.RoomUpdate update);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IClientService/GameStarted")]
+        void GameStarted(int gameId);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IClientService/PlayerLeftTheGame")]
+        void PlayerLeftTheGame(Client.MainServer.User player);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IClientService/BoardChanged")]
+        void BoardChanged(System.IO.MemoryStream newBoard);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IClientService/PlayerSubmitedGuess")]
+        void PlayerSubmitedGuess(Client.MainServer.User player, string guess);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IClientService/PlayerAnsweredCorrectly")]
+        void PlayerAnsweredCorrectly(Client.MainServer.User player, Client.MainServer.PlayerGameData playerData);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -756,12 +1248,12 @@ namespace Client.MainServer {
             return base.Channel.GetAllRoomsAsync();
         }
         
-        public Client.MainServer.Room CreateRoom(int maxPlayerCount, string roomName, string password) {
-            return base.Channel.CreateRoom(maxPlayerCount, roomName, password);
+        public Client.MainServer.Room CreateRoom(Client.MainServer.RoomParameters roomParams) {
+            return base.Channel.CreateRoom(roomParams);
         }
         
-        public System.Threading.Tasks.Task<Client.MainServer.Room> CreateRoomAsync(int maxPlayerCount, string roomName, string password) {
-            return base.Channel.CreateRoomAsync(maxPlayerCount, roomName, password);
+        public System.Threading.Tasks.Task<Client.MainServer.Room> CreateRoomAsync(Client.MainServer.RoomParameters roomParams) {
+            return base.Channel.CreateRoomAsync(roomParams);
         }
         
         public Client.MainServer.Room JoinRoom(int roomId, string password) {
@@ -786,6 +1278,62 @@ namespace Client.MainServer {
         
         public System.Threading.Tasks.Task ChangeRoomStateAsync(int roomId, Client.MainServer.RoomState newState) {
             return base.Channel.ChangeRoomStateAsync(roomId, newState);
+        }
+        
+        public int StartGame(int roomId, Client.MainServer.GameParameters parameters) {
+            return base.Channel.StartGame(roomId, parameters);
+        }
+        
+        public System.Threading.Tasks.Task<int> StartGameAsync(int roomId, Client.MainServer.GameParameters parameters) {
+            return base.Channel.StartGameAsync(roomId, parameters);
+        }
+        
+        public void LeaveGame(int gameId) {
+            base.Channel.LeaveGame(gameId);
+        }
+        
+        public System.Threading.Tasks.Task LeaveGameAsync(int gameId) {
+            return base.Channel.LeaveGameAsync(gameId);
+        }
+        
+        public System.Collections.Generic.List<Client.MainServer.User> GetAllPlayers(int gameId) {
+            return base.Channel.GetAllPlayers(gameId);
+        }
+        
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<Client.MainServer.User>> GetAllPlayersAsync(int gameId) {
+            return base.Channel.GetAllPlayersAsync(gameId);
+        }
+        
+        public Client.MainServer.GameInformation GetGameInformation(int gameId) {
+            return base.Channel.GetGameInformation(gameId);
+        }
+        
+        public System.Threading.Tasks.Task<Client.MainServer.GameInformation> GetGameInformationAsync(int gameId) {
+            return base.Channel.GetGameInformationAsync(gameId);
+        }
+        
+        public Client.MainServer.AnswerSubmitResult SubmitGuess(int gameId, string guess) {
+            return base.Channel.SubmitGuess(gameId, guess);
+        }
+        
+        public System.Threading.Tasks.Task<Client.MainServer.AnswerSubmitResult> SubmitGuessAsync(int gameId, string guess) {
+            return base.Channel.SubmitGuessAsync(gameId, guess);
+        }
+        
+        public void SubmitDraw(int gameId, System.IO.MemoryStream strokes) {
+            base.Channel.SubmitDraw(gameId, strokes);
+        }
+        
+        public System.Threading.Tasks.Task SubmitDrawAsync(int gameId, System.IO.MemoryStream strokes) {
+            return base.Channel.SubmitDrawAsync(gameId, strokes);
+        }
+        
+        public System.Collections.Generic.List<Client.MainServer.PlayerGameData> GetScores(int gameId) {
+            return base.Channel.GetScores(gameId);
+        }
+        
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<Client.MainServer.PlayerGameData>> GetScoresAsync(int gameId) {
+            return base.Channel.GetScoresAsync(gameId);
         }
     }
 }

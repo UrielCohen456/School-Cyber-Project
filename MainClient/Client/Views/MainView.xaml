@@ -39,19 +39,18 @@
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
 
-            <Button Content="Game" Grid.Column="0" FontSize="40"
-                    Command="{Binding ChangeToGameViewCommand}"/>
+            <Button Content="Rooms" Grid.Column="0" FontSize="40"
+                    Command="{Binding ChangeToRoomsViewCommand}"/>
             
             <Button Content="Friends" Grid.Column="1" FontSize="40"
                     Command="{Binding ChangeToFriendsViewCommand}"/>
             
             <Button Content="Profile" Grid.Column="2" FontSize="40"
                     Command="{Binding ChangeToProfileViewCommand}"/>
-            
+
             <Button Content="Logout"  Grid.Column="3" FontSize="40"
                     Padding="20 0 20 0"
                     Command="{Binding LogoutCommand}" />
-
         </Grid>
 
         <ContentControl Grid.Row="2"

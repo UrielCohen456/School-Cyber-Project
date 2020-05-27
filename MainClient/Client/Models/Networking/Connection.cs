@@ -1,7 +1,11 @@
 ﻿using Client.MainServer;
 using System;
+using System.IO;
 using System.ServiceModel;
 using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Ink;
 
 namespace Client.Models.Networking
 {
@@ -14,22 +18,30 @@ namespace Client.Models.Networking
         /// Singleton class accesable by the static Instance property
         /// </summary>
         public static Connection Instance { get; private set; } = null;
-        
+
         /// <summary>
         /// Initalizes the connection singleton
         /// </summary>
-        public static void Initalize() { Instance = new Connection(); }
+        public static void Initalize() 
+        {
+            Instance = new Connection(); 
+        }
 
         private Connection()
         {
-            while (Service == null || Service.State != CommunicationState.Created)
+            try
             {
-                Thread.Sleep(100);
-                try { Service = new ClientServiceClient(new InstanceContext(this)); Thread.Sleep(100); }
-                catch { }
+                while (Service == null || Service?.State != CommunicationState.Opened)
+                {
+                    Thread.Sleep(500);
+                    Service = new ClientServiceClient(new InstanceContext(this));
+                    Service.Open();
+                }
             }
-
-            Service.Open();
+            catch(Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
 
         /// <summary>
@@ -51,10 +63,47 @@ namespace Client.Models.Networking
             NewMessageReceivedEvent?.Invoke(this, new NewMessageReceivedEventArgs(user, message));
         }
 
-        // TODO: Implement this when starting to work on the game
+        public event EventHandler<NewUserJoinedGameSessionEventArgs> NewUserJoinedGameSessionEvent;
         public void NewUserJoinedGameSession(User user)
         {
-            throw new System.NotImplementedException();
+            NewUserJoinedGameSessionEvent?.Invoke(this, new NewUserJoinedGameSessionEventArgs(user));
+        }
+
+        public event EventHandler<RoomUpdatedEventArgs> RoomUpdatedEvent;
+        public void RoomUpdated(Room updatedRoom, RoomUpdate update)
+        {
+            RoomUpdatedEvent?.Invoke(this, new RoomUpdatedEventArgs(updatedRoom, update));
+        }
+
+        public event EventHandler<GameStartedEventArgs> GameStartedEvent;
+        public void GameStarted(int gameId)
+        {
+            GameStartedEvent?.Invoke(this, new GameStartedEventArgs(gameId));
+        }
+
+        public event EventHandler<PlayerLeftTheGameEventArgs> PlayerLeftTheGameEvent;
+        public void PlayerLeftTheGame(User player)
+        {
+            PlayerLeftTheGameEvent?.Invoke(this, new PlayerLeftTheGameEventArgs(player));
+        }
+
+        public event EventHandler<BoardChangedEventArgs> BoardChangedEvent;
+        public void BoardChanged(MemoryStream newBoard)
+        {
+            //var strokes = new StrokeCollection(newBoard);
+            BoardChangedEvent?.Invoke(this, new BoardChangedEventArgs(newBoard));
+        }
+
+        public event EventHandler<PlayerSubmitedGuessEventArgs> PlayerSubmitedGuessEvent;
+        public void PlayerSubmitedGuess(User player, string guess)
+        {
+            PlayerSubmitedGuessEvent?.Invoke(this, new PlayerSubmitedGuessEventArgs(player, guess));
+        }
+
+        public event EventHandler<PlayerAnsweredCorrectlyEventArgs> PlayerAnsweredCorrectlyEvent;
+        public void PlayerAnsweredCorrectly(User player, PlayerGameData playerData)
+        {
+            PlayerAnsweredCorrectlyEvent?.Invoke(this, new PlayerAnsweredCorrectlyEventArgs(player, playerData));
         }
 
         #endregion

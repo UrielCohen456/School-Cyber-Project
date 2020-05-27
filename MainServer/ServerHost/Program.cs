@@ -8,19 +8,30 @@ namespace ServerHost
     {
         public static void Main(string[] args)
         {
-            using (var host = new ServiceHost(typeof(ClientService)))
+            try
             {
-                host.Open();
+                using (var host = new ServiceHost(typeof(ClientService)))
+                {
+                    host.Open();
 
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                foreach (var uri in host.BaseAddresses)
-                    Console.WriteLine($"Listening on: {uri.AbsoluteUri}");
-                Console.WriteLine("Press <Enter> to stop the service.");
-                Console.ReadLine();
-                
-                // Close the ServiceHost.
-                host.Close();
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    foreach (var uri in host.BaseAddresses)
+                        Console.WriteLine($"Listening on: {uri.AbsoluteUri}");
+                    Console.WriteLine("Press <Enter> to stop the service.");
+                    Console.ReadLine();
+
+                    // Close the ServiceHost.
+                    host.Close();
+                }
             }
+            catch (Exception e)
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine($"Error: {e.Message}");
+                Console.ReadLine();
+            }
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
         }
     }
 }

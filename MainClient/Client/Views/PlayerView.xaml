@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="Client.Views.PlayerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Client.Views"
+             xmlns:Converters="clr-namespace:Client.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <Converters:FriendStatusToVisibilityConverter x:Key="FriendStatusToVisibilityConverter" />
+    </UserControl.Resources>
+    <Grid HorizontalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.3*" />
+            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="0.5*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Column="0"
+                   Text="{Binding Position}"
+                   FontSize="24"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center" 
+                   Margin="0 0 20 0"/>
+
+        <TextBlock Grid.Column="1"
+                   Text="{Binding Player.Name}"
+                   FontSize="24"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+        <StackPanel Orientation="Horizontal"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Margin="0 50 0 0">
+            <TextBlock Text="Score: "
+                       FontSize="24" />
+            <TextBlock Text="{Binding Score}"
+                       FontSize="24"
+                       Margin="10 0 0 0"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+
+        </StackPanel>
+        <TextBlock Grid.Column="2"
+                   Text="🎨"
+                   Visibility="{Binding IsPainter, Converter={StaticResource BooleanToVisibilityConverter}}"
+                   FontSize="24"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+
+    </Grid>
+</UserControl>

@@ -82,27 +82,13 @@ namespace Client.ViewModels
 
         private async Task ChangeFriendStatus(string statusStr)
         {
-            try
-            {
-                var status = (FriendStatus)Enum.Parse(typeof(FriendStatus), statusStr);
-                FriendInfo = await Connection.Instance.Service.ChangeFriendStatusAsync(FriendUserInfo.Id, status);
-            }
-            catch (FaultException<OperationFault> of)
-            {
-                ShowFault(of);
-            }
+            var status = (FriendStatus)Enum.Parse(typeof(FriendStatus), statusStr);
+            FriendInfo = await ExecuteFaultableMethod(() => Connection.Instance.Service.ChangeFriendStatusAsync(FriendUserInfo.Id, status));
         }
 
         private async Task SendFriendRequest()
         {
-            try
-            {
-                FriendInfo = await Connection.Instance.Service.AddFriendAsync(FriendUserInfo.Id);
-            }
-            catch (FaultException<OperationFault> of)
-            {
-                ShowFault(of);
-            }
+            FriendInfo = await ExecuteFaultableMethod(() => Connection.Instance.Service.AddFriendAsync(FriendUserInfo.Id));
         }
 
         #endregion

@@ -1,25 +1,11 @@
-﻿using Client.Utility;
+﻿using Client.Models.Networking;
+using Client.Utility;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Client.Models.Networking;
-using System.Windows;
-using System.ServiceModel;
-using Client.MainServer;
 
 namespace Client.ViewModels
 {
-    //#region Fields
-    //#endregion
-
-    //#region Properties
-    //#endregion
-
-    //#region Constructors
-    //#endregion
-
-    //#region Methods
-    //#endregion
-
     public class LoginViewModel : BaseViewModel
     {
         #region Fields
@@ -57,13 +43,21 @@ namespace Client.ViewModels
         /// </summary>
         public ICommand LoginCommand => new RelayCommand<PasswordBox>(Login);
 
-        public ICommand Idan1 => new RelayCommand<PasswordBox>((passBox) => {
+        public ICommand Idan1 => new RelayCommand<PasswordBox>((passBox) =>
+        {
             Username = "Idan1";
             passBox.Password = "Idan1";
         });
-        public ICommand Uriel1 => new RelayCommand<PasswordBox>((passBox) => {
+        public ICommand Uriel1 => new RelayCommand<PasswordBox>((passBox) =>
+        {
             Username = "Uriel1";
             passBox.Password = "Uriel1";
+        });
+
+        public ICommand Ehud1 => new RelayCommand<PasswordBox>((passBox) =>
+        {
+            Username = "Ehud1";
+            passBox.Password = "Ehud1";
         });
 
 
@@ -79,19 +73,16 @@ namespace Client.ViewModels
             ViewModelController.ChangeViewModel(new SignupViewModel());
         }
 
-        private async void Login(PasswordBox passwordBox)
+        private void Login(PasswordBox passwordBox)
         {
-            try
+            Globals.LoggedUser = ExecuteFaultableMethod(() => Connection.Instance.Service.Login(Username, passwordBox.Password));
+            if (Globals.LoggedUser == null)
             {
-                Globals.LoggedUser = await Connection.Instance.Service.LoginAsync(Username, passwordBox?.Password);
-                ViewModelController.ChangeViewModel(new MainViewModel());
+                return;
             }
-            catch (FaultException<OperationFault> fault)
-            {
-                MessageBox.Show(fault.Detail.ErrorMessage);
-            }
+            ViewModelController.ChangeViewModel(new MainViewModel());
         }
 
-    #endregion
-}
+        #endregion
+    }
 }

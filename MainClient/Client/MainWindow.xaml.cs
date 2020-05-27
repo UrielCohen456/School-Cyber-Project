@@ -4,6 +4,8 @@ using Client.Utility;
 using Client.ViewModels;
 using System;
 using System.ServiceModel;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Client
@@ -13,22 +15,28 @@ namespace Client
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Thread connectionThread;
+
         public MainWindow()
         {
             InitializeComponent();
+            Globals.UIDispatcher = Dispatcher;
             DataContext = ViewModelController.Instance;
-            ViewModelController.ChangeViewModel(new LoginViewModel()); // TODO: Change to LoginViewModel or something
-            Connection.Initalize();
+            ViewModelController.ChangeViewModel(new LoginViewModel());
+            //Connection.Initalize();// TODO: Change to LoginViewModel or something
+            connectionThread = new Thread(() => Connection.Initalize());
+            connectionThread.Start();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             try
             {
-                if (Globals.LoggedUser != null && Connection.Instance.Service.State == CommunicationState.Opened)
+                ViewModelController.ChangeViewModel(null);
+
+                if (Globals.LoggedUser != null && Connection.Instance.Service?.State == CommunicationState.Opened)
                     Connection.Instance.Service?.Logout();
-                if (Connection.Instance.Service.State == CommunicationState.Opened)
-                    Connection.Instance.Service?.Close();
+                Connection.Instance.Service?.Abort();
             }
             catch (FaultException<OperationFault> faultException)
             {

@@ -62,10 +62,11 @@ namespace DataLayer
         [EnumMember]
         Open,
 
-        //[EnumMember]
-        //OpenForFriends,
+        [EnumMember]
+        Closed,
 
         [EnumMember]
-        Closed
+        GameBegun,
+
     }
 }

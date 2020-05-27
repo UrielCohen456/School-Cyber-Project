@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -63,33 +66,73 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\CollectionToStringConverter.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Converters\UserDictionaryToListConverter.cs" />
     <Compile Include="Converters\FriendStatusToVisibilityConverter.cs" />
+    <Compile Include="Converters\LoggedUserToVisibleConverter.cs" />
     <Compile Include="Converters\MessageIdToAlignmentConverter.cs" />
     <Compile Include="Converters\MessageIdToColorBackgroundConverter.cs" />
     <Compile Include="Models\Globals.cs" />
+    <Compile Include="Models\Networking\BoardChangedEventArgs.cs" />
     <Compile Include="Models\Networking\Connection.cs" />
     <Compile Include="Models\Networking\FriendStatusChangedEventArgs.cs" />
+    <Compile Include="Models\Networking\GameStartedEventArgs.cs" />
     <Compile Include="Models\Networking\NewMessageReceivedEventArgs.cs" />
+    <Compile Include="Models\Networking\NewUserJoinedGameSessionEventArgs.cs" />
+    <Compile Include="Models\Networking\PlayerAnsweredCorrectlyEventArgs.cs" />
+    <Compile Include="Models\Networking\PlayerLeftTheGameEventArgs.cs" />
+    <Compile Include="Models\Networking\PlayerSubmitedGuessEventArgs.cs" />
+    <Compile Include="Models\Networking\RoomUpdatedEventArgs.cs" />
     <Compile Include="Utility\ObservableObject.cs" />
     <Compile Include="Utility\BaseViewModel.cs" />
     <Compile Include="Utility\RelayCommand.cs" />
     <Compile Include="Utility\ViewModelController.cs" />
+    <Compile Include="ViewModels\CreateRoomViewModel.cs" />
     <Compile Include="ViewModels\FriendsViewModel.cs" />
     <Compile Include="ViewModels\FriendViewModel.cs" />
+    <Compile Include="ViewModels\GameScoreScreenViewModel.cs" />
+    <Compile Include="ViewModels\GameViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\ObservableObject.cs" />
+    <Compile Include="ViewModels\PlayerViewModel.cs" />
+    <Compile Include="ViewModels\RoomLobbyViewModel.cs" />
+    <Compile Include="ViewModels\RoomsFinderViewModel.cs" />
+    <Compile Include="ViewModels\RoomsMainViewModel.cs" />
     <Compile Include="ViewModels\SignupViewModel.cs" />
+    <Compile Include="Views\CreateRoomView.xaml.cs">
+      <DependentUpon>CreateRoomView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\FriendsView.xaml.cs">
       <DependentUpon>FriendsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FriendView.xaml.cs">
       <DependentUpon>FriendView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GameScoreScreenView.xaml.cs">
+      <DependentUpon>GameScoreScreenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GameView.xaml.cs">
+      <DependentUpon>GameView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PlayerView.xaml.cs">
+      <DependentUpon>PlayerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RoomLobbyView.xaml.cs">
+      <DependentUpon>RoomLobbyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RoomsFinderView.xaml.cs">
+      <DependentUpon>RoomsFinderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RoomsMainView.xaml.cs">
+      <DependentUpon>RoomsMainView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SignupView.xaml.cs">
       <DependentUpon>SignupView.xaml</DependentUpon>
@@ -106,6 +149,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\CreateRoomView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\FriendsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -114,11 +161,35 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\GameScoreScreenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PlayerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RoomLobbyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RoomsFinderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RoomsMainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -148,10 +219,19 @@
     <None Include="Connected Services\MainServer\Arrays.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Connected Services\MainServer\Client.MainServer.AnswerSubmitResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\MainServer\Client.MainServer.Friend.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Connected Services\MainServer\Client.MainServer.GameInformation.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\MainServer\Client.MainServer.Message.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\MainServer\Client.MainServer.PlayerGameData.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\MainServer\Client.MainServer.Room.datasource">
@@ -171,6 +251,12 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\MainServer\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\MainServer\System.IO.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\MainServer\System.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\Settings.settings">

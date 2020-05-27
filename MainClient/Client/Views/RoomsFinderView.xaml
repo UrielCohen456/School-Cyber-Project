@@ -1,0 +1,96 @@
+﻿<UserControl x:Class="Client.Views.RoomsFinderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:Converters="clr-namespace:Client.Converters"
+             d:DesignHeight="720" d:DesignWidth="1280">
+    <UserControl.Resources>
+        <Converters:CollectionToStringConverter x:Key="CollectionToStringConverter" />
+        <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="5*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="14*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5*" />
+                <RowDefinition Height="*"  />
+                <RowDefinition Height="*"  />
+                <RowDefinition Height="*"  />
+                <RowDefinition Height="*"  />
+            </Grid.RowDefinitions>
+            <DataGrid ItemsSource="{Binding Path=Rooms, IsAsync=True}"
+                      SelectedItem="{Binding Path=SelectedRoom}"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      CanUserResizeRows="False"
+                      CanUserResizeColumns="False"
+                      CanUserReorderColumns="False" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Data.Id}"
+                                        Header="Room Id" />
+                    <DataGridTextColumn Binding="{Binding Data.Name}"
+                                        Header="Room Name" />
+                    <DataGridTextColumn Binding="{Binding Data.MaxPlayersCount}"
+                                        Header="Max Players"/>
+                    <DataGridTextColumn Binding="{Binding Users.Count}"
+                                        Header="Connected Players">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="ToolTip" Value="{Binding Users, Converter={StaticResource CollectionToStringConverter}}" />
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding Admin.Name}"
+                                        Header="Admin"/>
+                    <DataGridTextColumn Binding="{Binding Data.State}"
+                                        Header="State"/>
+                    <DataGridTextColumn Binding="{Binding Data.HasPassword}"
+                                        Header="Is Private"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <TextBox Grid.Row="1"
+                     Text="{Binding Password}"
+                     Visibility="{Binding RoomRequiresPassword, Converter={StaticResource BooleanToVisibilityConverter }}"
+                     FontSize="30"
+                     VerticalContentAlignment="Center"
+                     HorizontalContentAlignment="Center"/>
+
+
+            <Button Grid.Row="2"  
+                Content="Refresh" 
+                TextBlock.FontSize="30"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Command="{Binding RefreshRoomsCommand}" />
+            <Button Grid.Row="3"  
+                Content="Join Room" 
+                TextBlock.FontSize="30"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Command="{Binding JoinSelectedRoomCommand}" />
+            
+            <Button Grid.Row="4"  
+                Content="Create Room" 
+                TextBlock.FontSize="30"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Command="{Binding ChangeToCreateRoomViewCommand}"/>
+            <!-- Command="{Binding MainController.ChangeToCreateRoomViewCommand}"   -->
+        </Grid>
+    </Grid>
+</UserControl>

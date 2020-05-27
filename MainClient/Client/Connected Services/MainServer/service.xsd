@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import namespace="http://schemas.datacontract.org/2004/07/DataLayer" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/System.IO" />
   <xs:import namespace="http://schemas.datacontract.org/2004/07/MainServer" />
   <xs:element name="Login">
     <xs:complexType>
@@ -174,16 +175,14 @@
   <xs:element name="CreateRoom">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="maxPlayerCount" type="xs:int" />
-        <xs:element minOccurs="0" name="roomName" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="roomParams" type="q14:RoomParameters" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="CreateRoomResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="CreateRoomResult" nillable="true" type="q14:Room" />
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="CreateRoomResult" nillable="true" type="q15:Room" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -198,7 +197,7 @@
   <xs:element name="JoinRoomResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="JoinRoomResult" nillable="true" type="q15:Room" />
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="JoinRoomResult" nillable="true" type="q16:Room" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -218,7 +217,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="roomId" type="xs:int" />
-        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="newState" type="q16:RoomState" />
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="newState" type="q17:RoomState" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -227,34 +226,161 @@
       <xs:sequence />
     </xs:complexType>
   </xs:element>
-  <xs:element name="NewUserJoinedGameSession">
+  <xs:element name="StartGame">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="user" nillable="true" type="q17:User" />
+        <xs:element minOccurs="0" name="roomId" type="xs:int" />
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="parameters" nillable="true" type="q18:GameParameters" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="StartGameResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="StartGameResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LeaveGame">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="gameId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LeaveGameResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllPlayers">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="gameId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllPlayersResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="GetAllPlayersResult" nillable="true" type="q19:ArrayOfUser" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetGameInformation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="gameId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetGameInformationResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="GetGameInformationResult" nillable="true" type="q20:GameInformation" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SubmitGuess">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="gameId" type="xs:int" />
+        <xs:element minOccurs="0" name="guess" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SubmitGuessResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="SubmitGuessResult" type="q21:AnswerSubmitResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SubmitDraw">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="gameId" type="xs:int" />
+        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/System.IO" minOccurs="0" name="strokes" nillable="true" type="q22:MemoryStream" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SubmitDrawResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetScores">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="gameId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetScoresResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="GetScoresResult" nillable="true" type="q23:ArrayOfPlayerGameData" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="NewMessageReceived">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="user" nillable="true" type="q18:User" />
-        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="message" nillable="true" type="q19:Message" />
+        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="user" nillable="true" type="q24:User" />
+        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="message" nillable="true" type="q25:Message" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="FriendStatusChanged">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="friend" nillable="true" type="q20:Friend" />
-        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="friendUser" nillable="true" type="q21:User" />
+        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="friend" nillable="true" type="q26:Friend" />
+        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="friendUser" nillable="true" type="q27:User" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RoomUpdated">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="updatedRoom" nillable="true" type="q22:Room" />
-        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/MainServer" minOccurs="0" name="update" type="q23:RoomUpdate" />
+        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="updatedRoom" nillable="true" type="q28:Room" />
+        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/MainServer" minOccurs="0" name="update" type="q29:RoomUpdate" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GameStarted">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="gameId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PlayerLeftTheGame">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="player" nillable="true" type="q30:User" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="BoardChanged">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/System.IO" minOccurs="0" name="newBoard" nillable="true" type="q31:MemoryStream" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PlayerSubmitedGuess">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="player" nillable="true" type="q32:User" />
+        <xs:element minOccurs="0" name="guess" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PlayerAnsweredCorrectly">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q33="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="player" nillable="true" type="q33:User" />
+        <xs:element xmlns:q34="http://schemas.datacontract.org/2004/07/DataLayer" minOccurs="0" name="playerData" nillable="true" type="q34:PlayerGameData" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

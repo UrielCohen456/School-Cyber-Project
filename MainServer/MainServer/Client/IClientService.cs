@@ -1,8 +1,10 @@
 ﻿using DataLayer;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Security;
 using System.Runtime.Serialization;
 using System.ServiceModel;
+using System.Windows.Ink;
 
 namespace MainServer
 {
@@ -141,7 +143,7 @@ namespace MainServer
         /// <returns></returns>
         [OperationContract]
         [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
-        Room CreateRoom(int maxPlayerCount, string roomName, string password);
+        Room CreateRoom(RoomParameters roomParams);
 
         /// <summary>
         /// Attempts to join a room
@@ -168,7 +170,7 @@ namespace MainServer
         [OperationContract]
         [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
         void ChangeRoomState(int roomId, RoomState newState);
-        
+
         ///// <summary>
         ///// Sends an invite request to the friend and he can then send a join request to the server to join the room
         ///// </summary>
@@ -177,6 +179,71 @@ namespace MainServer
         //[OperationContract]
         //[FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
         //void InviteFriendToRoom(int friendUserId, int roomId);
+
+        #endregion
+
+        #region Game Methods
+
+        /// <summary>
+        /// Starts a game from the room screen (only works from the admin) and returns the game's id
+        /// </summary>
+        /// <param name="roomId"></param>
+        [OperationContract]
+        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
+        int StartGame(int roomId, GameParameters parameters);
+
+        /// <summary>
+        /// Removes the user from the current game
+        /// </summary>
+        /// <param name="gameId"></param>
+        [OperationContract]
+        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
+        void LeaveGame(int gameId);
+
+        /// <summary>
+        /// Retrieves all the players in the game
+        /// </summary>
+        /// <param name="gameId"></param>
+        /// <returns></returns>
+        [OperationContract]
+        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
+        List<User> GetAllPlayers(int gameId);
+
+        /// <summary>
+        /// Gets the remaining time for the current round
+        /// </summary>
+        /// <param name="gameId"></param>
+        [OperationContract]
+        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
+        GameInformation GetGameInformation(int gameId);
+
+        /// <summary>
+        /// Submits a guess (Called by the guessers)
+        /// </summary>
+        /// <param name="gameId"></param>
+        /// <param name="guess"></param>
+        /// <returns></returns>
+        [OperationContract]
+        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
+        AnswerSubmitResult SubmitGuess(int gameId, string guess);
+
+        /// <summary>
+        /// Submit the board when it is changed (Called by the painter of that round)
+        /// </summary>
+        /// <param name="gameId"></param>
+        /// <param name="strokes"></param>
+        [OperationContract]
+        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
+        void SubmitDraw(int gameId, MemoryStream strokes);
+
+        /// <summary>
+        /// Returns the scores of the match
+        /// </summary>
+        /// <param name="gameId"></param>
+        /// <returns></returns>
+        [OperationContract]
+        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
+        List<PlayerGameData> GetScores(int gameId);
 
         #endregion
     }

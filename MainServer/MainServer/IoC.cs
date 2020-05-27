@@ -24,6 +24,8 @@ namespace MainServer
                 .RegisterType<IFriendsRepository, FriendsRepository>()
                 .RegisterType<IDb<Message>, MessagesDB>()
                 .RegisterType<IMessagesRepository, MessagesRepository>()
+                .RegisterType<IDb<Word>, WordsDB>()
+                .RegisterType<IWordsRepository, WordsRepository>()
                 .RegisterType<IServerManager, ServerManager>();
         }
     }

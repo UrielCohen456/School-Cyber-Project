@@ -20,11 +20,14 @@ namespace Client.ViewModels
         /// <summary>
         /// The friends view model
         /// </summary>
-        private readonly FriendsViewModel friendsViewModel;
+        private FriendsViewModel friendsViewModel = new FriendsViewModel();
 
+        /// <summary>
+        /// Controls what to show - create room screen, in a room screen, room finder
+        /// </summary>
+        private RoomsMainViewModel roomsMenuViewModel = new RoomsMainViewModel();
 
         #endregion
-
 
         #region Properties
 
@@ -46,43 +49,54 @@ namespace Client.ViewModels
         /// </summary>
         public string LoggedUserName => Globals.LoggedUser.Name;
 
+        public BaseViewModel FriendsViewModel
+        {
+            get
+            {
+                return friendsViewModel;
+            }
+        }
+
+        public BaseViewModel RoomsMenuViewModel
+        {
+            get
+            {
+                return roomsMenuViewModel;
+            }
+        }
+
         public ICommand LogoutCommand => new RelayCommand(Logout);
 
-        public ICommand ChangeToFriendsViewCommand => new RelayCommand(() => CurrentViewModel = friendsViewModel);
+        public ICommand ChangeToFriendsViewCommand => new RelayCommand(() => CurrentViewModel = FriendsViewModel);
         public ICommand ChangeToProfileViewCommand => new RelayCommand(() => CurrentViewModel = new LoginViewModel());
-        public ICommand ChangeToGameViewCommand => new RelayCommand(() => CurrentViewModel = new SignupViewModel());
+        public ICommand ChangeToRoomsViewCommand => new RelayCommand(() => CurrentViewModel = RoomsMenuViewModel);
 
 
         #endregion
-
 
         #region Constructors
 
         public MainViewModel()
-        {
-            friendsViewModel = new FriendsViewModel();
-            
+        { 
+            CurrentViewModel = FriendsViewModel;
+        }
 
-            CurrentViewModel = friendsViewModel;
+        public override void Dispose()
+        {
+            base.Dispose();
+            FriendsViewModel?.Dispose();
+            RoomsMenuViewModel?.Dispose();
         }
 
         #endregion
-
 
         #region Methods
 
         private void Logout()
         {
-            try
-            {
-                Connection.Instance.Service.Logout();
-                Globals.LoggedUser = null;
-                ViewModelController.ChangeViewModel(new LoginViewModel());
-            }
-            catch (FaultException<OperationFault> of)
-            {
-                ShowFault(of);
-            }
+            ExecuteFaultableMethod(() => Connection.Instance.Service.Logout());
+            Globals.LoggedUser = null;
+            ViewModelController.ChangeViewModel(new LoginViewModel());
         }
 
         #endregion

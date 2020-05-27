@@ -64,6 +64,10 @@
                     FontSize="40"
                     Command="{Binding Uriel1}"
                     CommandParameter="{Binding ElementName=passwordBox}">Uriel</Button>
+            <Button Grid.Row="2"
+                    FontSize="40"
+                    Command="{Binding Ehud1}"
+                    CommandParameter="{Binding ElementName=passwordBox}">Ehud</Button>
         </Grid>
     </Grid>
 </UserControl>
