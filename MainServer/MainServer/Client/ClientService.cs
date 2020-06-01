@@ -61,6 +61,8 @@ namespace MainServer
             serverManager.Logout(LoggedUser);
             userCallbacks.TryRemove(LoggedUser.Id, out _);
 
+            serverManager.SaveUser(LoggedUser);
+
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"Removed user: {LoggedUser.Name}");
             LoggedUser = null;
@@ -164,6 +166,16 @@ namespace MainServer
                 users.RemoveAll(u => u.Id == LoggedUser.Id);
 
                 return users;
+            });
+        }
+
+        public UserProfileInfo GetProfileInfo()
+        {
+            return Operation(() =>
+            {
+                CheckIsUserAuthenticated();
+
+                return LoggedUser.GetProfileInfo();
             });
         }
 

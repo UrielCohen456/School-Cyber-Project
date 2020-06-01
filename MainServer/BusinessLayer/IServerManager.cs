@@ -12,6 +12,7 @@ namespace BusinessLayer
         #region Authentication Methods
 
         public List<User> Users { get; }
+
         User Login(string username, string password);
 
         User Signup(string name, string username, string password);
@@ -35,6 +36,8 @@ namespace BusinessLayer
         bool DoesUserExist(int userId);
 
         Tuple<int?, int?> GetUserRoomAndGameId(User user);
+
+        void SaveUser(User user);
 
         #endregion
 

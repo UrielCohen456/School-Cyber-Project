@@ -44,6 +44,12 @@ namespace DataLayer
         /// <param name="userCount"></param>
         /// <returns></returns>
         List<User> GetUsersByQuery(string searchQuery = "", int userCount = 20);
+
+        /// <summary>
+        /// Saves the user to the database
+        /// </summary>
+        /// <param name="user"></param>
+        void SaveUser(User user);
     }
 
     public class UsersRepository : IUsersRepository
@@ -111,6 +117,11 @@ namespace DataLayer
             var user = Db.Select(1, sqlWhereString, sqlParameters)?.FirstOrDefault();
 
             return user;
+        }
+
+        public void SaveUser(User user)
+        {
+            Db.Update(user);
         }
     }
 }

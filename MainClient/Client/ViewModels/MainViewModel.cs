@@ -20,13 +20,13 @@ namespace Client.ViewModels
         /// <summary>
         /// The friends view model
         /// </summary>
-        private FriendsViewModel friendsViewModel = new FriendsViewModel();
+        private readonly FriendsViewModel friendsViewModel = new FriendsViewModel();
 
         /// <summary>
         /// Controls what to show - create room screen, in a room screen, room finder
         /// </summary>
-        private RoomsMainViewModel roomsMenuViewModel = new RoomsMainViewModel();
-
+        private readonly RoomsMainViewModel roomsMenuViewModel = new RoomsMainViewModel();
+        
         #endregion
 
         #region Properties
@@ -49,27 +49,11 @@ namespace Client.ViewModels
         /// </summary>
         public string LoggedUserName => Globals.LoggedUser.Name;
 
-        public BaseViewModel FriendsViewModel
-        {
-            get
-            {
-                return friendsViewModel;
-            }
-        }
-
-        public BaseViewModel RoomsMenuViewModel
-        {
-            get
-            {
-                return roomsMenuViewModel;
-            }
-        }
-
         public ICommand LogoutCommand => new RelayCommand(Logout);
 
-        public ICommand ChangeToFriendsViewCommand => new RelayCommand(() => CurrentViewModel = FriendsViewModel);
-        public ICommand ChangeToProfileViewCommand => new RelayCommand(() => CurrentViewModel = new LoginViewModel());
-        public ICommand ChangeToRoomsViewCommand => new RelayCommand(() => CurrentViewModel = RoomsMenuViewModel);
+        public ICommand ChangeToFriendsViewCommand => new RelayCommand(() => CurrentViewModel = friendsViewModel);
+        public ICommand ChangeToProfileViewCommand => new RelayCommand(() => CurrentViewModel = new ProfileViewModel());
+        public ICommand ChangeToRoomsViewCommand => new RelayCommand(() => CurrentViewModel = roomsMenuViewModel);
 
 
         #endregion
@@ -78,14 +62,14 @@ namespace Client.ViewModels
 
         public MainViewModel()
         { 
-            CurrentViewModel = FriendsViewModel;
+            CurrentViewModel = roomsMenuViewModel;
         }
 
         public override void Dispose()
         {
             base.Dispose();
-            FriendsViewModel?.Dispose();
-            RoomsMenuViewModel?.Dispose();
+            friendsViewModel?.Dispose();
+            roomsMenuViewModel?.Dispose();
         }
 
         #endregion

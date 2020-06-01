@@ -1,5 +1,4 @@
-﻿using DataLayer;
-using System.Linq;
+﻿using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Cryptography;
 
@@ -34,6 +33,31 @@ namespace DataLayer
         /// </summary>
         public byte[] Salt { get; set; }
 
+        /// <summary>
+        /// The total games played by the user (Finished the game)
+        /// </summary>
+        public int GamesPlayed { get; set; }
+
+        /// <summary>
+        /// The total games won by the user
+        /// </summary>
+        public int GamesWon { get; set; }
+
+        /// <summary>
+        /// The total games lost by the user
+        /// </summary>
+        public int GamesLost { get; set; }
+
+        /// <summary>
+        /// The highest score the user achieved ever on a game
+        /// </summary>
+        public int HighestScore { get; set; }
+
+        /// <summary>
+        /// The total score of the user from all the games
+        /// </summary>
+        public int TotalScore { get; set; }
+
         #endregion
 
         public static HashedPassword HashPassword(string password)
@@ -43,7 +67,7 @@ namespace DataLayer
 
             var salt = deriveBytes.Salt;
             var passwordBytes = deriveBytes.GetBytes(20);  // derive a 20-byte key
-            
+
             return new HashedPassword { Salt = salt, Password = passwordBytes };
         }
 
@@ -53,6 +77,11 @@ namespace DataLayer
             var newKey = deriveBytes.GetBytes(20);  // derive a 20-byte key
 
             return newKey.SequenceEqual(Password);
+        }
+
+        public UserProfileInfo GetProfileInfo()
+        {
+            return new UserProfileInfo { GamesLost = GamesLost, GamesPlayed = GamesPlayed, GamesWon = GamesWon, HighestScore = HighestScore, TotalScore = TotalScore };
         }
     }
 

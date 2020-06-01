@@ -310,6 +310,75 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
+  <wsp:Policy wsu:Id="WSDualHttpBinding_IClientService_GetProfileInfo_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="Sequence" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="SequenceAcknowledgement" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="AckRequested" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="ChannelInstance" Namespace="http://schemas.microsoft.com/ws/2005/02/duplex" />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSDualHttpBinding_IClientService_GetProfileInfo_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="Sequence" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="SequenceAcknowledgement" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="AckRequested" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="ChannelInstance" Namespace="http://schemas.microsoft.com/ws/2005/02/duplex" />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSDualHttpBinding_IClientService_GetProfileInfo_OperationFaultFault_Fault">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="Sequence" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="SequenceAcknowledgement" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="AckRequested" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="ChannelInstance" Namespace="http://schemas.microsoft.com/ws/2005/02/duplex" />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
   <wsp:Policy wsu:Id="WSDualHttpBinding_IClientService_GetUser_Input_policy">
     <wsp:ExactlyOne>
       <wsp:All>
@@ -1912,6 +1981,15 @@
   <wsdl:message name="IClientService_Logout_OperationFaultFault_FaultMessage">
     <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q3:OperationFault" />
   </wsdl:message>
+  <wsdl:message name="IClientService_GetProfileInfo_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetProfileInfo" />
+  </wsdl:message>
+  <wsdl:message name="IClientService_GetProfileInfo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetProfileInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IClientService_GetProfileInfo_OperationFaultFault_FaultMessage">
+    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q4:OperationFault" />
+  </wsdl:message>
   <wsdl:message name="IClientService_GetUser_InputMessage">
     <wsdl:part name="parameters" element="tns:GetUser" />
   </wsdl:message>
@@ -1919,7 +1997,7 @@
     <wsdl:part name="parameters" element="tns:GetUserResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetUser_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q4:OperationFault" />
+    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q5:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetUsers_InputMessage">
     <wsdl:part name="parameters" element="tns:GetUsers" />
@@ -1928,7 +2006,7 @@
     <wsdl:part name="parameters" element="tns:GetUsersResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetUsers_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q5:OperationFault" />
+    <wsdl:part xmlns:q6="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q6:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetFriends_InputMessage">
     <wsdl:part name="parameters" element="tns:GetFriends" />
@@ -1937,7 +2015,7 @@
     <wsdl:part name="parameters" element="tns:GetFriendsResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetFriends_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q6="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q6:OperationFault" />
+    <wsdl:part xmlns:q7="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q7:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetFriendIfExists_InputMessage">
     <wsdl:part name="parameters" element="tns:GetFriendIfExists" />
@@ -1946,7 +2024,7 @@
     <wsdl:part name="parameters" element="tns:GetFriendIfExistsResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetFriendIfExists_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q7="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q7:OperationFault" />
+    <wsdl:part xmlns:q8="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q8:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_AddFriend_InputMessage">
     <wsdl:part name="parameters" element="tns:AddFriend" />
@@ -1955,7 +2033,7 @@
     <wsdl:part name="parameters" element="tns:AddFriendResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_AddFriend_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q8="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q8:OperationFault" />
+    <wsdl:part xmlns:q9="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q9:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_ChangeFriendStatus_InputMessage">
     <wsdl:part name="parameters" element="tns:ChangeFriendStatus" />
@@ -1964,7 +2042,7 @@
     <wsdl:part name="parameters" element="tns:ChangeFriendStatusResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_ChangeFriendStatus_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q9="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q9:OperationFault" />
+    <wsdl:part xmlns:q10="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q10:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_SendMessage_InputMessage">
     <wsdl:part name="parameters" element="tns:SendMessage" />
@@ -1973,7 +2051,7 @@
     <wsdl:part name="parameters" element="tns:SendMessageResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_SendMessage_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q10="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q10:OperationFault" />
+    <wsdl:part xmlns:q11="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q11:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetConversationWithUser_InputMessage">
     <wsdl:part name="parameters" element="tns:GetConversationWithUser" />
@@ -1982,7 +2060,7 @@
     <wsdl:part name="parameters" element="tns:GetConversationWithUserResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetConversationWithUser_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q11="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q11:OperationFault" />
+    <wsdl:part xmlns:q12="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q12:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetAllRooms_InputMessage">
     <wsdl:part name="parameters" element="tns:GetAllRooms" />
@@ -1991,7 +2069,7 @@
     <wsdl:part name="parameters" element="tns:GetAllRoomsResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetAllRooms_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q12="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q12:OperationFault" />
+    <wsdl:part xmlns:q13="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q13:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_CreateRoom_InputMessage">
     <wsdl:part name="parameters" element="tns:CreateRoom" />
@@ -2000,7 +2078,7 @@
     <wsdl:part name="parameters" element="tns:CreateRoomResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_CreateRoom_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q13="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q13:OperationFault" />
+    <wsdl:part xmlns:q14="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q14:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_JoinRoom_InputMessage">
     <wsdl:part name="parameters" element="tns:JoinRoom" />
@@ -2009,7 +2087,7 @@
     <wsdl:part name="parameters" element="tns:JoinRoomResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_JoinRoom_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q14="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q14:OperationFault" />
+    <wsdl:part xmlns:q15="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q15:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_LeaveRoom_InputMessage">
     <wsdl:part name="parameters" element="tns:LeaveRoom" />
@@ -2018,7 +2096,7 @@
     <wsdl:part name="parameters" element="tns:LeaveRoomResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_LeaveRoom_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q15="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q15:OperationFault" />
+    <wsdl:part xmlns:q16="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q16:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_ChangeRoomState_InputMessage">
     <wsdl:part name="parameters" element="tns:ChangeRoomState" />
@@ -2027,7 +2105,7 @@
     <wsdl:part name="parameters" element="tns:ChangeRoomStateResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_ChangeRoomState_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q16="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q16:OperationFault" />
+    <wsdl:part xmlns:q17="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q17:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_StartGame_InputMessage">
     <wsdl:part name="parameters" element="tns:StartGame" />
@@ -2036,7 +2114,7 @@
     <wsdl:part name="parameters" element="tns:StartGameResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_StartGame_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q17="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q17:OperationFault" />
+    <wsdl:part xmlns:q18="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q18:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_LeaveGame_InputMessage">
     <wsdl:part name="parameters" element="tns:LeaveGame" />
@@ -2045,7 +2123,7 @@
     <wsdl:part name="parameters" element="tns:LeaveGameResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_LeaveGame_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q18="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q18:OperationFault" />
+    <wsdl:part xmlns:q19="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q19:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetAllPlayers_InputMessage">
     <wsdl:part name="parameters" element="tns:GetAllPlayers" />
@@ -2054,7 +2132,7 @@
     <wsdl:part name="parameters" element="tns:GetAllPlayersResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetAllPlayers_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q19="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q19:OperationFault" />
+    <wsdl:part xmlns:q20="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q20:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetGameInformation_InputMessage">
     <wsdl:part name="parameters" element="tns:GetGameInformation" />
@@ -2063,7 +2141,7 @@
     <wsdl:part name="parameters" element="tns:GetGameInformationResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetGameInformation_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q20="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q20:OperationFault" />
+    <wsdl:part xmlns:q21="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q21:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_SubmitGuess_InputMessage">
     <wsdl:part name="parameters" element="tns:SubmitGuess" />
@@ -2072,7 +2150,7 @@
     <wsdl:part name="parameters" element="tns:SubmitGuessResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_SubmitGuess_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q21="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q21:OperationFault" />
+    <wsdl:part xmlns:q22="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q22:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_SubmitDraw_InputMessage">
     <wsdl:part name="parameters" element="tns:SubmitDraw" />
@@ -2081,7 +2159,7 @@
     <wsdl:part name="parameters" element="tns:SubmitDrawResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_SubmitDraw_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q22="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q22:OperationFault" />
+    <wsdl:part xmlns:q23="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q23:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetScores_InputMessage">
     <wsdl:part name="parameters" element="tns:GetScores" />
@@ -2090,7 +2168,7 @@
     <wsdl:part name="parameters" element="tns:GetScoresResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetScores_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q23="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q23:OperationFault" />
+    <wsdl:part xmlns:q24="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q24:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_NewMessageReceived_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:NewMessageReceived" />
@@ -2131,6 +2209,11 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IClientService/Logout" message="tns:IClientService_Logout_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IClientService/LogoutResponse" message="tns:IClientService_Logout_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IClientService/LogoutOperationFaultFault" name="OperationFaultFault" message="tns:IClientService_Logout_OperationFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetProfileInfo">
+      <wsdl:input wsaw:Action="http://tempuri.org/IClientService/GetProfileInfo" message="tns:IClientService_GetProfileInfo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IClientService/GetProfileInfoResponse" message="tns:IClientService_GetProfileInfo_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IClientService/GetProfileInfoOperationFaultFault" name="OperationFaultFault" message="tns:IClientService_GetProfileInfo_OperationFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetUser">
       <wsdl:input wsaw:Action="http://tempuri.org/IClientService/GetUser" message="tns:IClientService_GetUser_InputMessage" />
@@ -2302,6 +2385,21 @@
       </wsdl:output>
       <wsdl:fault name="OperationFaultFault">
         <wsp:PolicyReference URI="#WSDualHttpBinding_IClientService_Logout_OperationFaultFault_Fault" />
+        <soap12:fault use="literal" name="OperationFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetProfileInfo">
+      <soap12:operation soapAction="http://tempuri.org/IClientService/GetProfileInfo" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSDualHttpBinding_IClientService_GetProfileInfo_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSDualHttpBinding_IClientService_GetProfileInfo_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="OperationFaultFault">
+        <wsp:PolicyReference URI="#WSDualHttpBinding_IClientService_GetProfileInfo_OperationFaultFault_Fault" />
         <soap12:fault use="literal" name="OperationFaultFault" namespace="" />
       </wsdl:fault>
     </wsdl:operation>

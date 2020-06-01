@@ -54,6 +54,7 @@
     <Compile Include="Models\Room.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserProfileInfo.cs" />
     <Compile Include="Models\Word.cs" />
     <Compile Include="ORM\Base\BaseEntity.cs" />
     <Compile Include="ORM\Base\Db.cs" />

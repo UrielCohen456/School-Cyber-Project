@@ -46,13 +46,20 @@ namespace MainServer
         #region Users Methods
 
         /// <summary>
+        /// Gets the logged user's profile info
+        /// </summary>
+        /// <returns></returns>
+        [OperationContract]
+        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
+        UserProfileInfo GetProfileInfo();
+
+        /// <summary>
         /// Gets a specific user based on his id
         /// </summary>
         /// <returns>The selected user or null if not found</returns>
         [OperationContract]
         [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
         User GetUser(int id);
-
 
         /// <summary>
         /// Gets all users based on a query (or just first users if it is empty)

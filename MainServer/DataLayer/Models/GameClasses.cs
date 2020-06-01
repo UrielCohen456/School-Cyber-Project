@@ -17,9 +17,8 @@ namespace DataLayer
         [DataMember]
         public int score;
 
-        public void AddScore(int remainingTime, float remainingPlayersRatio)
+        public void AddScore(int addedScore)
         {
-            var addedScore = remainingTime * (int)Math.Ceiling(remainingPlayersRatio);
             Interlocked.Add(ref score, addedScore);
         }
     }

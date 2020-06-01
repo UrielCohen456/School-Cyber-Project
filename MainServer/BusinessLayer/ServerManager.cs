@@ -82,8 +82,9 @@ namespace BusinessLayer
             if (!IsUserConnected(user.Id))
                 throw new Exception("User is not logged in");
 
-            if (!LoggedUsers.TryRemove(user.Id, out _))
+            if (!LoggedUsers.TryRemove(user.Id, out var us))
                 throw new Exception("Couldn't remove user, something went wrong");
+
         }
 
         public Tuple<int?, int?> GetUserRoomAndGameId(User user)
@@ -139,6 +140,12 @@ namespace BusinessLayer
         {
             return usersRepository.SelectSpecificUser(userId) != null;
         }
+
+        public void SaveUser(User user)
+        {
+            usersRepository.SaveUser(user);
+        }
+
 
         #endregion
 

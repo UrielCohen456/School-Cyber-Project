@@ -290,6 +290,115 @@ namespace Client.MainServer {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="UserProfileInfo", Namespace="http://schemas.datacontract.org/2004/07/DataLayer")]
+    [System.SerializableAttribute()]
+    public partial class UserProfileInfo : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int GamesLostField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int GamesPlayedField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int GamesWonField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int HighestScoreField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int TotalScoreField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int GamesLost {
+            get {
+                return this.GamesLostField;
+            }
+            set {
+                if ((this.GamesLostField.Equals(value) != true)) {
+                    this.GamesLostField = value;
+                    this.RaisePropertyChanged("GamesLost");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int GamesPlayed {
+            get {
+                return this.GamesPlayedField;
+            }
+            set {
+                if ((this.GamesPlayedField.Equals(value) != true)) {
+                    this.GamesPlayedField = value;
+                    this.RaisePropertyChanged("GamesPlayed");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int GamesWon {
+            get {
+                return this.GamesWonField;
+            }
+            set {
+                if ((this.GamesWonField.Equals(value) != true)) {
+                    this.GamesWonField = value;
+                    this.RaisePropertyChanged("GamesWon");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int HighestScore {
+            get {
+                return this.HighestScoreField;
+            }
+            set {
+                if ((this.HighestScoreField.Equals(value) != true)) {
+                    this.HighestScoreField = value;
+                    this.RaisePropertyChanged("HighestScore");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int TotalScore {
+            get {
+                return this.TotalScoreField;
+            }
+            set {
+                if ((this.TotalScoreField.Equals(value) != true)) {
+                    this.TotalScoreField = value;
+                    this.RaisePropertyChanged("TotalScore");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="Room", Namespace="http://schemas.datacontract.org/2004/07/DataLayer")]
     [System.SerializableAttribute()]
     public partial class Room : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
@@ -955,6 +1064,13 @@ namespace Client.MainServer {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/Logout", ReplyAction="http://tempuri.org/IClientService/LogoutResponse")]
         System.Threading.Tasks.Task LogoutAsync();
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/GetProfileInfo", ReplyAction="http://tempuri.org/IClientService/GetProfileInfoResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/GetProfileInfoOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
+        Client.MainServer.UserProfileInfo GetProfileInfo();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/GetProfileInfo", ReplyAction="http://tempuri.org/IClientService/GetProfileInfoResponse")]
+        System.Threading.Tasks.Task<Client.MainServer.UserProfileInfo> GetProfileInfoAsync();
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/GetUser", ReplyAction="http://tempuri.org/IClientService/GetUserResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/GetUserOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
         Client.MainServer.User GetUser(int id);
@@ -1174,6 +1290,14 @@ namespace Client.MainServer {
         
         public System.Threading.Tasks.Task LogoutAsync() {
             return base.Channel.LogoutAsync();
+        }
+        
+        public Client.MainServer.UserProfileInfo GetProfileInfo() {
+            return base.Channel.GetProfileInfo();
+        }
+        
+        public System.Threading.Tasks.Task<Client.MainServer.UserProfileInfo> GetProfileInfoAsync() {
+            return base.Channel.GetProfileInfoAsync();
         }
         
         public Client.MainServer.User GetUser(int id) {

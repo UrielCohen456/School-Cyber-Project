@@ -151,6 +151,8 @@ namespace DataLayer
         /// </summary>
         private int currentRoundNumber;
 
+        private User winner = null;
+
         #endregion
 
         #region Properties
@@ -297,12 +299,25 @@ namespace DataLayer
                     currentRoundPainters.Remove(player.Id);
 
                 while (!gameRoom.Users.TryRemove(player.Id, out var _)) ;
-                while (!playersData.TryRemove(player.Id, out var _)) ;
+
+                PlayerGameData gameData;
+                while (!playersData.TryRemove(player.Id, out gameData)) ;
 
                 if (gameRoom.Users.Count < 2)
                     IsGameFinished = true;
-                
-                
+
+                player.TotalScore += gameData.score;
+                if (player.HighestScore < gameData.score) player.HighestScore = gameData.score;
+                if (IsGameFinished) player.GamesPlayed += 1;
+
+                if (winner != null)
+                {
+                    if (winner.Id == player.Id)
+                        player.GamesWon += 1;
+                    else
+                        player.GamesLost += 1;
+                }
+
                 return gameRoom.Users.Count == 0;
             }
         }
@@ -361,15 +376,21 @@ namespace DataLayer
                 {
                     userData.GuessedCurrentWord = true;
 
+                    PlayerGameData painterData = null;
                     // Calculate the ratio between the remaining players and amount of players
                     var remainingPlayersRatio = 0.0f;
                     foreach (var pair in playersData)
                     {
-                        remainingPlayersRatio += pair.Value.GuessedCurrentWord ? 1 : 0;
+                        if (pair.Key == currentPainterId)
+                            painterData = pair.Value;
+                        else
+                            remainingPlayersRatio += pair.Value.GuessedCurrentWord ? 1 : 0;
                     }
                     remainingPlayersRatio /= playersData.Count;
+                    var addedScore = RemainingTime * (int)Math.Ceiling(remainingPlayersRatio);
 
-                    userData.AddScore(RemainingTime, remainingPlayersRatio);
+                    userData.AddScore(addedScore);
+                    painterData?.AddScore(addedScore / 4);
 
                     return AnswerSubmitResult.Right;
                 }
@@ -388,6 +409,11 @@ namespace DataLayer
             if (IsGameFinished)
             {
                 mainGameTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                lock(playersLock)
+                {
+                    this.winner = GetWinner();
+                }
+
                 return;
             }
 
@@ -428,6 +454,7 @@ namespace DataLayer
                 RemainingTime--;
             }
         }
+
 
         /// <summary>
         /// Reveales the whole word in the RevealedLetters list
@@ -507,6 +534,27 @@ namespace DataLayer
             currentWord = word;
             RevealedLetters.Clear();
             RemainingTime = GuessTime;
+        }
+
+        /// <summary>
+        /// Gets the winner (doesnt lock the players data)
+        /// </summary>
+        /// <returns></returns>
+        private User GetWinner()
+        {
+            var highestScore = -1;
+            User winner = null;
+
+            foreach (var pair in playersData)
+            {
+                if (pair.Value.score > highestScore)
+                {
+                    highestScore = pair.Value.score;
+                    winner = gameRoom.Users[pair.Key];
+                }
+            }
+
+            return winner;
         }
 
         #endregion
