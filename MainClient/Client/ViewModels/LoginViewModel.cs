@@ -10,7 +10,7 @@ namespace Client.ViewModels
     {
         #region Fields
 
-        private string username = "Uriel1";
+        private string username;
 
         #endregion
 

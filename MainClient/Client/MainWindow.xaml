@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
         Closing="Window_Closing"
         Title="Uriel's Skribbl"
@@ -11,7 +10,12 @@
         ResizeMode="NoResize"
         Height="720" Width="1280"
         MinHeight="720" MinWidth="1280">
-    <Grid>
+    <Border>
+        <Border.Background>
+            <ImageBrush ImageSource="/Images/MainBackground.png" 
+                        Stretch="UniformToFill"/>
+        </Border.Background>
+        
         <ContentControl Content="{Binding CurrentViewModel}" />
-    </Grid>
+    </Border>
 </Window>

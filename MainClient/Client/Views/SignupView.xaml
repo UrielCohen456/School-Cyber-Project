@@ -3,15 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Client.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
     <Grid>
-        <Grid>
+        <Grid Margin="3,12,-3,-12">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="0.2*"/>
+                <RowDefinition Height="0.7*"/>
+                <RowDefinition Height="0.1*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -19,48 +19,53 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Label Content="Uriel's Skribbl" 
-               Grid.Column="1" Grid.Row="0"
-               FontSize="50"
-               HorizontalContentAlignment="Center"
-               VerticalContentAlignment="Center"/>
+            <TextBlock Text="Uriel's Skribbl" 
+                       Grid.Column="1" Grid.Row="0"
+                       Style="{StaticResource MaterialDesignHeadline1TextBlock}"       
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
 
             <Border BorderThickness="2" BorderBrush="Black"
-                Grid.Row="1" Grid.Column="1"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Center"
-                MinWidth="200">
-                <Border Padding="10">
-                    <StackPanel>
-                        <StackPanel Orientation="Vertical">
-                            <Label Content="Name (Public to everyone)" HorizontalContentAlignment="Center"/>
-                            <TextBox HorizontalContentAlignment="Center" 
-                             Text="{Binding Name}"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Vertical">
-                            <Label Content="Username (Used for logging in)" HorizontalContentAlignment="Center"/>
-                            <TextBox HorizontalContentAlignment="Center" 
-                             Text="{Binding Username}"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Vertical">
-                            <Label Content="Password" HorizontalContentAlignment="Center"/>
-                            <PasswordBox Name="passwordBox" HorizontalContentAlignment="Center"/>
-                        </StackPanel>
-
-                        <Button Command="{Binding SignupCommand}"
+                    Grid.Row="1" Grid.Column="1"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch"
+                    MinWidth="200">
+                <Grid Background="{StaticResource MaterialDesignDarkSeparatorBackground}">
+                    <TextBox materialDesign:HintAssist.Hint="Name" 
+                             Text="{Binding Name}"
+                             ToolTip="The public name everyone sees"
+                             HorizontalContentAlignment="Center" 
+                             VerticalAlignment="Top"
+                             Margin="50"/>
+                    <TextBox materialDesign:HintAssist.Hint="Username" 
+                            Text="{Binding Username}"
+                            ToolTip="Used for signing in"
+                            HorizontalContentAlignment="Center" 
+                            VerticalAlignment="Top"
+                            Margin="50 150 50 0"/>
+                    <PasswordBox x:Name="passwordBox" 
+                                 materialDesign:HintAssist.Hint="Password"
+                                 HorizontalContentAlignment="Center"
+                                 VerticalAlignment="Top"
+                                 Margin="50 250 50 0"/>
+                    <Button Command="{Binding SignupCommand}"
                                 CommandParameter="{Binding ElementName=passwordBox}"
-                        Content="Signup"
-                        HorizontalAlignment="Center"
-                        Padding="5"
-                        Margin="5 15"
-                        MinHeight="30"/>
+                                Style="{StaticResource MaterialDesignRaisedLightButton}"
+                                Content="Signup"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Stretch"
+                                Margin="50 250 50 0"/>
 
-                        <Button Command="{Binding SwitchToLoginViewCommand}"
-                        Content="Change to login"
-                        HorizontalAlignment="Center"
-                        MinHeight="15"/>
-                    </StackPanel>
-                </Border>
+                    <Button Command="{Binding SwitchToLoginViewCommand}"
+                                Style="{StaticResource MaterialDesignFlatButton}"
+                                materialDesign:ButtonAssist.CornerRadius="10"
+                                ToolTip="Change to login form"
+                                Content="Already have have an account?"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                Margin="0 0 0 50"/>
+
+                </Grid>
             </Border>
         </Grid>
     </Grid>
