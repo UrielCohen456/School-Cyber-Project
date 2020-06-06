@@ -85,12 +85,13 @@ namespace MainServer
         StateChanged,
 
         [EnumMember]
+        Started,
+
+        [EnumMember]
         UserLeft,
 
         [EnumMember]
         UserJoined,
 
-        [EnumMember]
-        Started,
     }
 }

@@ -257,7 +257,7 @@ namespace DataLayer
             lock (playersLock)
             {
                 var guessedWord = playersData.First(pair => pair.Key == player.Id).Value.GuessedCurrentWord;
-                var revealAllLetters = guessedWord || CurrentPainter.Id == player.Id;
+                var revealAllLetters = guessedWord || IsGameFinished || CurrentPainter.Id == player.Id;
 
                 var info = new GameInformation
                 {
@@ -292,7 +292,7 @@ namespace DataLayer
         {
             lock (playersLock)
             {
-                if (player.Id == CurrentPainter.Id)
+                if (CurrentPainter != null && player.Id == CurrentPainter.Id)
                     isTurnFinished = true;
 
                 if (currentRoundPainters.Any(id => id == player.Id))
@@ -454,7 +454,6 @@ namespace DataLayer
                 RemainingTime--;
             }
         }
-
 
         /// <summary>
         /// Reveales the whole word in the RevealedLetters list

@@ -56,8 +56,6 @@
                     </DataGridTextColumn>
                     <DataGridTextColumn Binding="{Binding Admin.Name}"
                                         Header="Admin"/>
-                    <DataGridTextColumn Binding="{Binding Data.State}"
-                                        Header="State"/>
                     <DataGridTextColumn Binding="{Binding Data.HasPassword}"
                                         Header="Is Private"/>
                 </DataGrid.Columns>

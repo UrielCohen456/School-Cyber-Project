@@ -33,9 +33,6 @@ namespace DataLayer
         [DataMember]
         public int MaxPlayersCount { get; set; }
 
-        [DataMember]
-        public RoomState State { get; set; }
-
         #endregion
 
         #region Constructors
@@ -49,24 +46,9 @@ namespace DataLayer
             Name = name;
             MaxPlayersCount = maxPlayersCount;
             Password = password;
-            State = RoomState.Open;
         }
 
         #endregion
-
-    }
-
-    [DataContract]
-    public enum RoomState : byte
-    {
-        [EnumMember]
-        Open,
-
-        [EnumMember]
-        Closed,
-
-        [EnumMember]
-        GameBegun,
 
     }
 }

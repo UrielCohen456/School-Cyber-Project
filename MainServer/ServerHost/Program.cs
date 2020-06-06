@@ -30,8 +30,6 @@ namespace ServerHost
                 Console.WriteLine($"Error: {e.Message}");
                 Console.ReadLine();
             }
-
-            Console.ForegroundColor = ConsoleColor.Yellow;
         }
     }
 }

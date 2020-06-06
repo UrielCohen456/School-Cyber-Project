@@ -52,9 +52,11 @@ namespace Client.ViewModels
         {
             this.mainController = mainController;
             GameId = screenParams.GameId;
-            Players = screenParams.Players;
-            foreach (var playerVM in Players)
+
+            foreach (var playerVM in screenParams.Players)
                 playerVM.IsPainter = false;
+
+            Players = screenParams.Players;
         }
 
         private void LeaveGame()

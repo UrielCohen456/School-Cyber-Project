@@ -17,9 +17,9 @@
       <xs:enumeration value="Created" />
       <xs:enumeration value="Closed" />
       <xs:enumeration value="StateChanged" />
+      <xs:enumeration value="Started" />
       <xs:enumeration value="UserLeft" />
       <xs:enumeration value="UserJoined" />
-      <xs:enumeration value="Started" />
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="RoomUpdate" nillable="true" type="tns:RoomUpdate" />

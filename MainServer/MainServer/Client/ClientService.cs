@@ -350,26 +350,14 @@ namespace MainServer
 
                 var room = serverManager.RemoveUserFromRoom(LoggedUser, roomId);
 
-                // Room has been deleted
-                if (room == null)
+                // Room has been deleted because it is empty
+                if (room.Users.IsEmpty)
                 {
                     NotifyUsersOfRoomChange(room, RoomUpdate.Closed);
                     return;
                 }
 
                 NotifyUsersOfRoomChange(room, RoomUpdate.UserLeft);
-            });
-        }
-
-        public void ChangeRoomState(int roomId, RoomState newState)
-        {
-            Operation(() =>
-            {
-                CheckIsUserAuthenticated();
-
-                var room = serverManager.ChangeRoomState(roomId, newState);
-
-                NotifyUsersOfRoomChange(room, RoomUpdate.StateChanged);
             });
         }
 

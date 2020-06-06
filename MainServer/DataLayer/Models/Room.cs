@@ -56,10 +56,7 @@ namespace DataLayer
         #region Methods
 
         public void AddUser(User userToAdd, string password)
-        {
-            if (Data.State == RoomState.Closed)
-                throw new Exception("Admin closed the room");
-            
+        {            
             if (Users.Any(pair => pair.Key == userToAdd.Id))
                 throw new Exception("User already in the room");
 

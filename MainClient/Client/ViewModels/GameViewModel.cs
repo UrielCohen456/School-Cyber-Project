@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Ink;
 using System.Windows.Input;
@@ -229,19 +230,51 @@ namespace Client.ViewModels
 
         #region Methods
 
+        private void OnPlayerAnsweredCorrectly(object sender, PlayerAnsweredCorrectlyEventArgs e)
+        {
+            Globals.UIDispatcher.Invoke(() =>
+            {
+                Messages.Add($"{e.Player.Name} guessed currectly");
+            });
+        }
+
+        private void OnPlayerSubmitedGuess(object sender, PlayerSubmitedGuessEventArgs e)
+        {
+            Globals.UIDispatcher.Invoke(() =>
+            {
+                Messages.Add($"{e.Player.Name}: {e.Guess}");
+            });
+        }
+
+        private void OnBoardChanged(object sender, BoardChangedEventArgs e)
+        {
+            Globals.UIDispatcher.Invoke(() =>
+            {
+                Strokes = new StrokeCollection(e.Strokes);
+            });
+        }
+
+        private void OnPlayerLeft(object sender, PlayerLeftTheGameEventArgs e)
+        {
+            var playerVM = Players.FirstOrDefault(vm => vm.Player.Id == e.Player.Id);
+            if (playerVM == null)
+                return;
+
+            Globals.UIDispatcher.Invoke(() =>
+            {
+                Players.Remove(playerVM);
+            });
+        }
+
         private void Timer_Tick(object sender, EventArgs e)
         {
-            var newGameInfo = ExecuteFaultableMethod(() => Connection.Instance.Service.GetGameInformation(gameId));
+            var newGameInfo = ExecuteFaultableMethod(() => Connection.Instance.Service.GetGameInformation(gameId) );
+            
             if (newGameInfo == null)
-            {
-                if (gameInfo.IsGameFinished)
-                {
-                    GameFinished();
-                    return;
-                }
-            }
+                return;
 
             gameInfo = newGameInfo;
+
             if (gameInfo.IsGameFinished)
             {
                 GameFinished();
@@ -266,40 +299,7 @@ namespace Client.ViewModels
                 UpdatePlayersList();
             }
         }
-
-        private void OnPlayerAnsweredCorrectly(object sender, PlayerAnsweredCorrectlyEventArgs e)
-        {
-            Globals.UIDispatcher.Invoke(() =>
-            {
-                Messages.Add($"{e.Player.Name} guessed currectly");
-            });
-        }
-
-        private void OnPlayerSubmitedGuess(object sender, PlayerSubmitedGuessEventArgs e)
-        {
-            Globals.UIDispatcher.Invoke(() =>
-            {
-                Messages.Add($"{e.Player.Name}: {e.Guess}");
-            });
-        }
-
-        private void OnBoardChanged(object sender, BoardChangedEventArgs e)
-        {
-            Strokes = new StrokeCollection(e.Strokes);
-        }
-
-        private void OnPlayerLeft(object sender, PlayerLeftTheGameEventArgs e)
-        {
-            var playerVM = Players.FirstOrDefault(vm => vm.Player.Id == e.Player.Id);
-            if (playerVM == null)
-                return;
-
-            Globals.UIDispatcher.Invoke(() =>
-            {
-                Players.Remove(playerVM);
-            });
-        }
-
+       
         private void StrokesChanged(object sender, StrokeCollectionChangedEventArgs e)
         {
             Strokes = (StrokeCollection)sender;
@@ -319,7 +319,7 @@ namespace Client.ViewModels
         {
             timer.Stop();
             UpdatePlayersList();
-            mainController.ChangeToGameScoreScreenCommand.Execute(new GameScoreScreenParams(gameId, Players));
+            mainController.ChangeToGameScoreScreenCommand.Execute(new GameScoreScreenParams(gameId, new ObservableCollection<PlayerViewModel>(Players)));
         }
 
         private void UpdatePlayersList()
@@ -336,7 +336,7 @@ namespace Client.ViewModels
                            orderby score.score
                            select new PlayerViewModel(
                                user,
-                               gameInfo.Painter.Id == user.Id,
+                               gameInfo.Painter == null ? false : gameInfo.Painter.Id == user.Id,
                                score.score,
                                0)).ToList();
             for (var i = 0; i < users.Count; i++)
@@ -344,8 +344,11 @@ namespace Client.ViewModels
                 players[i].Position = i;
             }
 
-            Players.Clear();
-            players.ForEach(player => Players.Add(player));
+            Globals.UIDispatcher.Invoke(() =>
+            {
+                Players.Clear();
+                players.ForEach(player => Players.Add(player));
+            });
         }
 
         private void ExtractWordLetters()

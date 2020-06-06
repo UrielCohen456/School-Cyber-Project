@@ -82,9 +82,8 @@ namespace BusinessLayer
             if (!IsUserConnected(user.Id))
                 throw new Exception("User is not logged in");
 
-            if (!LoggedUsers.TryRemove(user.Id, out var us))
+            if (!LoggedUsers.TryRemove(user.Id, out var _))
                 throw new Exception("Couldn't remove user, something went wrong");
-
         }
 
         public Tuple<int?, int?> GetUserRoomAndGameId(User user)
@@ -208,18 +207,6 @@ namespace BusinessLayer
             return room.Users.Any(pair => pair.Key == userId);
         }
 
-        public Room ChangeRoomState(int roomId, RoomState newState)
-        {
-            var roomExists = ActiveRooms.TryGetValue(roomId, out var room);
-
-            if (!roomExists)
-                throw new Exception("Room doesn't exist");
-                
-            room.Data.State = newState;
-
-            return room;
-        }
-
         public Room CreateRoom(User creator, RoomParameters roomParams)
         {
             if (ActiveRooms.Any(pair => pair.Value.Data.Name == roomParams.RoomName))
@@ -228,7 +215,7 @@ namespace BusinessLayer
             var roomId = ActiveRooms.IsEmpty ? 1 : ActiveRooms.Last().Key + 1;
             var roomData = new RoomData {
                 Id = roomId, Name = roomParams.RoomName, MaxPlayersCount = roomParams.MaxPlayersCount,
-                Password = roomParams.Password, State = RoomState.Open };
+                Password = roomParams.Password };
 
             var room = new Room(creator, roomData, roomParams.Password);
 
@@ -257,11 +244,11 @@ namespace BusinessLayer
             ActiveRooms.TryGetValue(roomId, out var room);
 
             var shouldDeleteRoom = room.RemoveUser(userToRemove);
-            if (!shouldDeleteRoom)
-                return room;
+
+            if (shouldDeleteRoom)
+                ActiveRooms.TryRemove(roomId, out var _);
         
-            ActiveRooms.TryRemove(roomId, out var _);
-            return null;
+            return room;
         }
 
         #endregion
@@ -287,7 +274,6 @@ namespace BusinessLayer
 
             ActiveRooms.TryRemove(roomId, out var _);
 
-            room.Data.State = RoomState.GameBegun;
             var gameId = ActiveGames.IsEmpty ? 1 : ActiveGames.Last().Key + 1;
             var numberOfWords = parameters.NumberOfRounds * room.Users.Count;
             var words = wordsRepository.GetRandomWords(numberOfWords).ToList();

@@ -68,8 +68,6 @@ namespace BusinessLayer
 
         bool IsUserInRoom(int userId, int roomId);
 
-        Room ChangeRoomState(int roomId, RoomState newState);
-
         Room CreateRoom(User creator, RoomParameters roomParams);
 
         Room AddUserToRoom(User userToAdd, int roomId, string password);

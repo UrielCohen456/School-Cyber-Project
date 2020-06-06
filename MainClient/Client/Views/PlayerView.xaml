@@ -25,25 +25,29 @@
                    VerticalAlignment="Center" 
                    Margin="0 0 20 0"/>
 
-        <TextBlock Grid.Column="1"
-                   Text="{Binding Player.Name}"
-                   FontSize="24"
+        <DockPanel Grid.Column="1"
                    HorizontalAlignment="Center"
-                   VerticalAlignment="Center"/>
-        <StackPanel Orientation="Horizontal"
-                    Grid.Column="1"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Margin="0 50 0 0">
-            <TextBlock Text="Score: "
-                       FontSize="24" />
-            <TextBlock Text="{Binding Score}"
+                   VerticalAlignment="Center" >
+            <TextBlock DockPanel.Dock="Top"
+                       Text="{Binding Player.Name}"
                        FontSize="24"
-                       Margin="10 0 0 0"
                        HorizontalAlignment="Center"
-                       VerticalAlignment="Center"/>
+                       VerticalAlignment="Center" />
+            
+            <StackPanel Orientation="Horizontal"
+                        DockPanel.Dock="Bottom"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <TextBlock Text="Score: "
+                           FontSize="24" />
+                <TextBlock Text="{Binding Score}"
+                           FontSize="24"
+                           Margin="10 0 0 0"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
 
-        </StackPanel>
+            </StackPanel>
+        </DockPanel>
         <TextBlock Grid.Column="2"
                    Text="🎨"
                    Visibility="{Binding IsPainter, Converter={StaticResource BooleanToVisibilityConverter}}"

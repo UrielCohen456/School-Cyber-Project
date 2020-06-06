@@ -33,7 +33,7 @@ namespace Client.ViewModels
 
         public ProfileViewModel()
         {
-            ProfileInfo = ExecuteFaultableMethod( () =>  Connection.Instance.Service.GetProfileInfo());
+            ProfileInfo = ExecuteFaultableMethod(() =>  Connection.Instance.Service.GetProfileInfo());
         }
 
         #endregion

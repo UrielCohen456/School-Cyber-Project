@@ -8,6 +8,7 @@
         Closing="Window_Closing"
         Title="Uriel's Skribbl"
         FontSize="26"
+        ResizeMode="NoResize"
         Height="720" Width="1280"
         MinHeight="720" MinWidth="1280">
     <Grid>

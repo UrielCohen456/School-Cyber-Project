@@ -133,17 +133,26 @@ namespace Client.ViewModels
                 Rooms.Add(e.UpdatedRoom);
                 OnPropertyChanged(nameof(Rooms));
             }
-            else if (e.Update == RoomUpdate.Closed)
+            else if (e.Update == RoomUpdate.Closed || e.Update == RoomUpdate.Started)
             {
-                Rooms.Remove(Rooms.First(r => r.Data.Id == e.UpdatedRoom.Data.Id));
+                
+                var room = Rooms.FirstOrDefault(r => r.Data.Id == e.UpdatedRoom.Data.Id);
+                if (room == null)
+                    return;
+
+                Rooms.Remove(room);
                 OnPropertyChanged(nameof(Rooms));
             }
-            else
+            else if (e.Update == RoomUpdate.UserJoined || e.Update == RoomUpdate.UserLeft)
             {
-                var dataGridRoom = Rooms.First(r => r.Data.Id == e.UpdatedRoom.Data.Id);
-                dataGridRoom.Data = e.UpdatedRoom.Data;
+                var room = Rooms.FirstOrDefault(r => r.Data.Id == e.UpdatedRoom.Data.Id);
+                if (room == null)
+                    return;
+
+                room.Users = e.UpdatedRoom.Users;
                 OnPropertyChanged(nameof(Rooms));
             }
+
         }
 
         private void JoinSelectedRoom()
@@ -170,8 +179,11 @@ namespace Client.ViewModels
             });
 
             Rooms.Clear();
-            Rooms.AddRange(rooms);
-            OnPropertyChanged(nameof(Rooms));
+            if (rooms != null)
+            {
+                Rooms.AddRange(rooms);
+                OnPropertyChanged(nameof(Rooms));
+            }
         }
 
         #endregion

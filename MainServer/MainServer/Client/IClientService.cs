@@ -170,14 +170,6 @@ namespace MainServer
         [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
         void LeaveRoom(int roomId);
 
-        /// <summary>
-        /// Changes the room state 
-        /// </summary>
-        /// <param name="newState"></param>
-        [OperationContract]
-        [FaultContract(typeof(OperationFault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
-        void ChangeRoomState(int roomId, RoomState newState);
-
         ///// <summary>
         ///// Sends an invite request to the friend and he can then send a join request to the server to join the room
         ///// </summary>

@@ -495,9 +495,6 @@ namespace Client.MainServer {
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string NameField;
         
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private Client.MainServer.RoomState StateField;
-        
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
             get {
@@ -560,19 +557,6 @@ namespace Client.MainServer {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public Client.MainServer.RoomState State {
-            get {
-                return this.StateField;
-            }
-            set {
-                if ((this.StateField.Equals(value) != true)) {
-                    this.StateField = value;
-                    this.RaisePropertyChanged("State");
-                }
-            }
-        }
-        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
@@ -581,20 +565,6 @@ namespace Client.MainServer {
                 propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
             }
         }
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="RoomState", Namespace="http://schemas.datacontract.org/2004/07/DataLayer")]
-    public enum RoomState : byte {
-        
-        [System.Runtime.Serialization.EnumMemberAttribute()]
-        Open = 0,
-        
-        [System.Runtime.Serialization.EnumMemberAttribute()]
-        Closed = 1,
-        
-        [System.Runtime.Serialization.EnumMemberAttribute()]
-        GameBegun = 2,
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -1030,13 +1000,13 @@ namespace Client.MainServer {
         StateChanged = 2,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        UserLeft = 3,
+        Started = 3,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        UserJoined = 4,
+        UserLeft = 4,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        Started = 5,
+        UserJoined = 5,
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -1154,13 +1124,6 @@ namespace Client.MainServer {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/LeaveRoom", ReplyAction="http://tempuri.org/IClientService/LeaveRoomResponse")]
         System.Threading.Tasks.Task LeaveRoomAsync(int roomId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/ChangeRoomState", ReplyAction="http://tempuri.org/IClientService/ChangeRoomStateResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/ChangeRoomStateOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
-        void ChangeRoomState(int roomId, Client.MainServer.RoomState newState);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/ChangeRoomState", ReplyAction="http://tempuri.org/IClientService/ChangeRoomStateResponse")]
-        System.Threading.Tasks.Task ChangeRoomStateAsync(int roomId, Client.MainServer.RoomState newState);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/StartGame", ReplyAction="http://tempuri.org/IClientService/StartGameResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Client.MainServer.OperationFault), Action="http://tempuri.org/IClientService/StartGameOperationFaultFault", Name="OperationFault", Namespace="http://schemas.datacontract.org/2004/07/MainServer")]
@@ -1394,14 +1357,6 @@ namespace Client.MainServer {
         
         public System.Threading.Tasks.Task LeaveRoomAsync(int roomId) {
             return base.Channel.LeaveRoomAsync(roomId);
-        }
-        
-        public void ChangeRoomState(int roomId, Client.MainServer.RoomState newState) {
-            base.Channel.ChangeRoomState(roomId, newState);
-        }
-        
-        public System.Threading.Tasks.Task ChangeRoomStateAsync(int roomId, Client.MainServer.RoomState newState) {
-            return base.Channel.ChangeRoomStateAsync(roomId, newState);
         }
         
         public int StartGame(int roomId, Client.MainServer.GameParameters parameters) {

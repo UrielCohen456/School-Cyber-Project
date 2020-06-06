@@ -1207,75 +1207,6 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
-  <wsp:Policy wsu:Id="WSDualHttpBinding_IClientService_ChangeRoomState_Input_policy">
-    <wsp:ExactlyOne>
-      <wsp:All>
-        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
-          <sp:Body />
-          <sp:Header Name="Sequence" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
-          <sp:Header Name="SequenceAcknowledgement" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
-          <sp:Header Name="AckRequested" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
-          <sp:Header Name="ChannelInstance" Namespace="http://schemas.microsoft.com/ws/2005/02/duplex" />
-          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
-        </sp:SignedParts>
-        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
-          <sp:Body />
-        </sp:EncryptedParts>
-      </wsp:All>
-    </wsp:ExactlyOne>
-  </wsp:Policy>
-  <wsp:Policy wsu:Id="WSDualHttpBinding_IClientService_ChangeRoomState_output_policy">
-    <wsp:ExactlyOne>
-      <wsp:All>
-        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
-          <sp:Body />
-          <sp:Header Name="Sequence" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
-          <sp:Header Name="SequenceAcknowledgement" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
-          <sp:Header Name="AckRequested" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
-          <sp:Header Name="ChannelInstance" Namespace="http://schemas.microsoft.com/ws/2005/02/duplex" />
-          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
-        </sp:SignedParts>
-        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
-          <sp:Body />
-        </sp:EncryptedParts>
-      </wsp:All>
-    </wsp:ExactlyOne>
-  </wsp:Policy>
-  <wsp:Policy wsu:Id="WSDualHttpBinding_IClientService_ChangeRoomState_OperationFaultFault_Fault">
-    <wsp:ExactlyOne>
-      <wsp:All>
-        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
-          <sp:Body />
-          <sp:Header Name="Sequence" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
-          <sp:Header Name="SequenceAcknowledgement" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
-          <sp:Header Name="AckRequested" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
-          <sp:Header Name="ChannelInstance" Namespace="http://schemas.microsoft.com/ws/2005/02/duplex" />
-          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
-        </sp:SignedParts>
-        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
-          <sp:Body />
-        </sp:EncryptedParts>
-      </wsp:All>
-    </wsp:ExactlyOne>
-  </wsp:Policy>
   <wsp:Policy wsu:Id="WSDualHttpBinding_IClientService_StartGame_Input_policy">
     <wsp:ExactlyOne>
       <wsp:All>
@@ -2098,15 +2029,6 @@
   <wsdl:message name="IClientService_LeaveRoom_OperationFaultFault_FaultMessage">
     <wsdl:part xmlns:q16="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q16:OperationFault" />
   </wsdl:message>
-  <wsdl:message name="IClientService_ChangeRoomState_InputMessage">
-    <wsdl:part name="parameters" element="tns:ChangeRoomState" />
-  </wsdl:message>
-  <wsdl:message name="IClientService_ChangeRoomState_OutputMessage">
-    <wsdl:part name="parameters" element="tns:ChangeRoomStateResponse" />
-  </wsdl:message>
-  <wsdl:message name="IClientService_ChangeRoomState_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q17="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q17:OperationFault" />
-  </wsdl:message>
   <wsdl:message name="IClientService_StartGame_InputMessage">
     <wsdl:part name="parameters" element="tns:StartGame" />
   </wsdl:message>
@@ -2114,7 +2036,7 @@
     <wsdl:part name="parameters" element="tns:StartGameResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_StartGame_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q18="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q18:OperationFault" />
+    <wsdl:part xmlns:q17="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q17:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_LeaveGame_InputMessage">
     <wsdl:part name="parameters" element="tns:LeaveGame" />
@@ -2123,7 +2045,7 @@
     <wsdl:part name="parameters" element="tns:LeaveGameResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_LeaveGame_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q19="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q19:OperationFault" />
+    <wsdl:part xmlns:q18="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q18:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetAllPlayers_InputMessage">
     <wsdl:part name="parameters" element="tns:GetAllPlayers" />
@@ -2132,7 +2054,7 @@
     <wsdl:part name="parameters" element="tns:GetAllPlayersResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetAllPlayers_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q20="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q20:OperationFault" />
+    <wsdl:part xmlns:q19="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q19:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetGameInformation_InputMessage">
     <wsdl:part name="parameters" element="tns:GetGameInformation" />
@@ -2141,7 +2063,7 @@
     <wsdl:part name="parameters" element="tns:GetGameInformationResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetGameInformation_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q21="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q21:OperationFault" />
+    <wsdl:part xmlns:q20="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q20:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_SubmitGuess_InputMessage">
     <wsdl:part name="parameters" element="tns:SubmitGuess" />
@@ -2150,7 +2072,7 @@
     <wsdl:part name="parameters" element="tns:SubmitGuessResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_SubmitGuess_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q22="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q22:OperationFault" />
+    <wsdl:part xmlns:q21="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q21:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_SubmitDraw_InputMessage">
     <wsdl:part name="parameters" element="tns:SubmitDraw" />
@@ -2159,7 +2081,7 @@
     <wsdl:part name="parameters" element="tns:SubmitDrawResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_SubmitDraw_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q23="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q23:OperationFault" />
+    <wsdl:part xmlns:q22="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q22:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetScores_InputMessage">
     <wsdl:part name="parameters" element="tns:GetScores" />
@@ -2168,7 +2090,7 @@
     <wsdl:part name="parameters" element="tns:GetScoresResponse" />
   </wsdl:message>
   <wsdl:message name="IClientService_GetScores_OperationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q24="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q24:OperationFault" />
+    <wsdl:part xmlns:q23="http://schemas.datacontract.org/2004/07/MainServer" name="detail" element="q23:OperationFault" />
   </wsdl:message>
   <wsdl:message name="IClientService_NewMessageReceived_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:NewMessageReceived" />
@@ -2274,11 +2196,6 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IClientService/LeaveRoom" message="tns:IClientService_LeaveRoom_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IClientService/LeaveRoomResponse" message="tns:IClientService_LeaveRoom_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IClientService/LeaveRoomOperationFaultFault" name="OperationFaultFault" message="tns:IClientService_LeaveRoom_OperationFaultFault_FaultMessage" />
-    </wsdl:operation>
-    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="ChangeRoomState">
-      <wsdl:input wsaw:Action="http://tempuri.org/IClientService/ChangeRoomState" message="tns:IClientService_ChangeRoomState_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IClientService/ChangeRoomStateResponse" message="tns:IClientService_ChangeRoomState_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IClientService/ChangeRoomStateOperationFaultFault" name="OperationFaultFault" message="tns:IClientService_ChangeRoomState_OperationFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="StartGame">
       <wsdl:input wsaw:Action="http://tempuri.org/IClientService/StartGame" message="tns:IClientService_StartGame_InputMessage" />
@@ -2580,21 +2497,6 @@
       </wsdl:output>
       <wsdl:fault name="OperationFaultFault">
         <wsp:PolicyReference URI="#WSDualHttpBinding_IClientService_LeaveRoom_OperationFaultFault_Fault" />
-        <soap12:fault use="literal" name="OperationFaultFault" namespace="" />
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="ChangeRoomState">
-      <soap12:operation soapAction="http://tempuri.org/IClientService/ChangeRoomState" style="document" />
-      <wsdl:input>
-        <wsp:PolicyReference URI="#WSDualHttpBinding_IClientService_ChangeRoomState_Input_policy" />
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <wsp:PolicyReference URI="#WSDualHttpBinding_IClientService_ChangeRoomState_output_policy" />
-        <soap12:body use="literal" />
-      </wsdl:output>
-      <wsdl:fault name="OperationFaultFault">
-        <wsp:PolicyReference URI="#WSDualHttpBinding_IClientService_ChangeRoomState_OperationFaultFault_Fault" />
         <soap12:fault use="literal" name="OperationFaultFault" namespace="" />
       </wsdl:fault>
     </wsdl:operation>

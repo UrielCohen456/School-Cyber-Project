@@ -105,23 +105,9 @@
       <xs:element minOccurs="0" name="Id" type="xs:int" />
       <xs:element minOccurs="0" name="MaxPlayersCount" type="xs:int" />
       <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="State" type="tns:RoomState" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="RoomData" nillable="true" type="tns:RoomData" />
-  <xs:simpleType name="RoomState">
-    <xs:annotation>
-      <xs:appinfo>
-        <ActualType Name="unsignedByte" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
-      </xs:appinfo>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Open" />
-      <xs:enumeration value="Closed" />
-      <xs:enumeration value="GameBegun" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:element name="RoomState" nillable="true" type="tns:RoomState" />
   <xs:complexType name="RoomParameters">
     <xs:annotation>
       <xs:appinfo>
