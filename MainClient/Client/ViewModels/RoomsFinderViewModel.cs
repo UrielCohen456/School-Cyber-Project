@@ -18,7 +18,7 @@ namespace Client.ViewModels
         /// <summary>
         /// The controller for the rooms portion of the main view
         /// </summary>
-        private readonly RoomsMainViewModel mainController;
+        private readonly GameMainViewModel mainController;
 
         /// <summary>
         /// List of all the available rooms
@@ -44,7 +44,7 @@ namespace Client.ViewModels
 
         #region Properties
 
-        public RoomsMainViewModel MainController
+        public GameMainViewModel MainController
         {
             get => mainController;
             set { }
@@ -65,12 +65,10 @@ namespace Client.ViewModels
             get => selectedRoom;
             set
             {
-                if (value == null)
-                    return;
-
                 selectedRoom = value;
-                RoomRequiresPassword = selectedRoom.Data.HasPassword;
+                RoomRequiresPassword = selectedRoom != null ? selectedRoom.Data.HasPassword : false;
                 OnPropertyChanged();
+                Password = null;
             }
         }
 
@@ -106,7 +104,7 @@ namespace Client.ViewModels
 
         #region Constructors
 
-        public RoomsFinderViewModel(RoomsMainViewModel menuController)
+        public RoomsFinderViewModel(GameMainViewModel menuController)
         {
             mainController = menuController;
             RoomRequiresPassword = false;
@@ -142,6 +140,8 @@ namespace Client.ViewModels
 
                 Rooms.Remove(room);
                 OnPropertyChanged(nameof(Rooms));
+                if (SelectedRoom != null && SelectedRoom.Data.Id == e.UpdatedRoom.Data.Id)
+                    SelectedRoom = null;
             }
             else if (e.Update == RoomUpdate.UserJoined || e.Update == RoomUpdate.UserLeft)
             {

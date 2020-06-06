@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Client.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:Converters="clr-namespace:Client.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -16,96 +16,122 @@
             <ColumnDefinition Width="2*" />
             <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
-        
+
         <!-- Friends Tab -->
-        <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1.5*"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="10*"/>
-            </Grid.RowDefinitions>
-
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <!-- Search for friend -->
-                <TextBox Text="{Binding SearchQuery}"/>
-                <Button Grid.Column="1"
-                        Content="Search"
-                        Command="{Binding SearchForUsersByQueryCommand}" />
-                
-                <!-- Change Selection Based on status-->
-                <ComboBox Grid.Column="2" 
-                          Text="Sort By" VerticalContentAlignment="Center"
-                          IsReadOnly="True" IsEditable="True"
-                          SelectedValuePath="Tag"
-                          SelectedValue="{Binding SelectedStatusFilter}">
-                    <ComboBoxItem Content="All"
-                                  Tag="All"
-                                  HorizontalAlignment="Center"/>
-                    <ComboBoxItem Content="Accepted"
-                                  Tag="Accepted"
-                                  HorizontalAlignment="Center"/>
-                    <ComboBoxItem Content="Waiting"
-                                  Tag="Waiting"
-                                  HorizontalAlignment="Center"/>
-                    <ComboBoxItem Content="Denied"
-                                  Tag="Denied"
-                                  HorizontalAlignment="Center"/>
-                    <ComboBoxItem Content="Removed"
-                                  Tag="Removed"
-                                  HorizontalAlignment="Center"/>
-                </ComboBox>
-            </Grid>
-
-            <!-- Friends list -->
-            <Grid Grid.Row="2">
+        <Border BorderThickness="0 0 1 0" BorderBrush="Black">
+            <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition />
+                    <RowDefinition Height="2.5*"/>
+                    <RowDefinition Height="10*"/>
                 </Grid.RowDefinitions>
-                <Grid Background="White"
-                      Grid.Row="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.3*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0"
-                               Text="Id" />
-                    <TextBlock Grid.Column="1"
-                               HorizontalAlignment="Center"
-                               Text="Name" />
-                    <TextBlock Grid.Column="2"
-                               HorizontalAlignment="Center"
-                               Text="Status" />
-                    <TextBlock Grid.Column="3"
-                               HorizontalAlignment="Center"
-                               Text="Action" />
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <materialDesign:ColorZone 
+                                Grid.Row="0"
+                                Mode="Standard"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Search for friend -->
+                                <TextBox Grid.Column="0" Grid.ColumnSpan="2"
+                                         x:Name="sQueryTextBox"
+                                         Margin="5 0 0 5"
+                                         FontSize="20" 
+                                         materialDesign:HintAssist.Hint="Search For"
+                                         materialDesign:HintAssist.FloatingScale="0.8"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                         VerticalAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         KeyDown="TextBox_KeyDown"/>
+                                <Button Grid.Column="1"
+                                        x:Name="searchByQueryButton"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Padding="10 -25 10 0"
+                                        Style="{StaticResource MaterialDesignFlatButton}"
+                                        Command="{Binding SearchForUsersByQueryCommand}"
+                                        CommandParameter="{Binding ElementName=sQueryTextBox, Path=Text}">
+                                    <materialDesign:PackIcon Kind="UserSearch" Height="80" Width="40"
+                                                             ToolTip="Search"/>
+                                </Button>
+                            </Grid>
+                        </materialDesign:ColorZone>
+                        
+                        <!-- Change Selection Based on status-->
+                        <ComboBox Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
+                                  BorderThickness="0 1 0 0"
+                                  BorderBrush="Black"
+                                  ToolTip="Sort By"
+                                  HorizontalAlignment="Stretch"
+                                  HorizontalContentAlignment="Left"
+                                  VerticalContentAlignment="Center"
+                                  VerticalAlignment="Stretch"
+                                  IsReadOnly="True" IsEditable="True"
+                                  SelectedValuePath="Tag"
+                                  SelectedValue="{Binding SelectedStatusFilter}"
+                                  Background="{StaticResource MaterialDesignDarkSeparatorBackground}"
+                                  Style="{StaticResource MaterialDesignComboBox}">
+                            <ComboBoxItem Content="All"
+                                            Tag="All"
+                                            HorizontalAlignment="Center"/>
+                            <ComboBoxItem Content="Accepted"
+                                            Tag="Accepted"
+                                            HorizontalAlignment="Center"/>
+                            <ComboBoxItem Content="Waiting"
+                                            Tag="Waiting"
+                                            HorizontalAlignment="Center"/>
+                            <ComboBoxItem Content="Denied"
+                                            Tag="Denied"
+                                            HorizontalAlignment="Center"/>
+                            <ComboBoxItem Content="Removed"
+                                            Tag="Removed"
+                                            HorizontalAlignment="Center"/>
+                        </ComboBox>
                 </Grid>
+
+
+                <!-- Friends list -->
                 <ListBox Grid.Row="1"
-                        ItemsSource="{Binding FriendsList}"
-                        SelectedItem="{Binding SelectedUser}"
-                        HorizontalContentAlignment="Stretch"/>
+                         Background="{StaticResource MaterialDesignDarkSeparatorBackground}"
+                         ItemsSource="{Binding FriendsList}"
+                         SelectedItem="{Binding SelectedUser}"
+                         HorizontalContentAlignment="Stretch"/>
             </Grid>
-        </Grid>
-        
+        </Border>
+
+
         <!-- User Conversation Tab -->
         <Grid Grid.Row="1" Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="4*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="9*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <ListView Grid.Row="0" ScrollViewer.CanContentScroll="True" x:Name="messagesListView"
+            <materialDesign:ColorZone Grid.Row="0" 
+                                      VerticalAlignment="Stretch" 
+                                      HorizontalAlignment="Stretch"
+                                      Mode="Dark">
+                <TextBlock Text="{Binding FriendName}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Style="{StaticResource MaterialDesignHeadline4TextBlock}"/>
+            </materialDesign:ColorZone>
+            <ListView Grid.Row="1" ScrollViewer.CanContentScroll="True" x:Name="messagesListView"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                       SelectionMode="Single"
                       ItemsSource="{Binding CurrentConversation}">
                 <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem" >
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Focusable" Value="False" />
                         <Setter Property="Tag" Value="{Binding Id}" />
                         <Setter Property="Content" Value="{Binding Text}" />
                         <Setter Property="Background" Value="{Binding FromId, Converter={StaticResource MessageIdToColorBackgroundConverter}}" />
@@ -117,6 +143,7 @@
                         <Setter Property="Height" Value="auto" />
                         <Setter Property="FontSize" Value="20" />
                         <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        <Setter Property="TextBlock.Foreground" Value="Black" />
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
@@ -126,22 +153,35 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <Grid Grid.Column="1" Grid.Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="5*" />
-                    <ColumnDefinition Width="0*"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBox Text="{Binding MessageText}" 
-                         Grid.Column="0" 
-                         HorizontalAlignment="Stretch"
-                         IsEnabled="{Binding CanSendMessage, Mode=OneWay}"/>
-                <Button Grid.Column="2" Content="Send"
-                        Command="{Binding SendMessageCommand}"
-                        IsEnabled="{Binding CanSendMessage, Mode=OneWay}"
-                        />
+            <materialDesign:ColorZone  Grid.Column="1" Grid.Row="2"
+                VerticalAlignment="Stretch" 
+                Mode="Dark">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*" />
+                        <ColumnDefinition Width="0*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Text="{Binding MessageText}" Grid.Column="0" 
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Center"
+                             FontSize="18"
+                             Margin="5"
+                             IsEnabled="{Binding CanSendMessage, Mode=OneWay}"
+                             Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                             Background="{StaticResource MaterialDesignDarkSeparatorBackground}"/>
+                    <Button Grid.Column="2"
+                            Command="{Binding SendMessageCommand}"
+                            IsEnabled="{Binding CanSendMessage, Mode=OneWay}"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Padding="10 -24 10 0"
+                            Style="{StaticResource MaterialDesignFlatButton}" >
+                        <materialDesign:PackIcon Kind="Send" Height="80" Width="40"/>
+                    </Button>
 
-            </Grid>
+                </Grid>
+            </materialDesign:ColorZone>
         </Grid>
 
     </Grid>

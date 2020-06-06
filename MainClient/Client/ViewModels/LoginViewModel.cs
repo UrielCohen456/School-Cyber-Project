@@ -80,7 +80,7 @@ namespace Client.ViewModels
             {
                 return;
             }
-            ViewModelController.ChangeViewModel(new MainViewModel());
+            ViewModelController.ChangeViewModel(new MainMenuViewModel());
         }
 
         #endregion

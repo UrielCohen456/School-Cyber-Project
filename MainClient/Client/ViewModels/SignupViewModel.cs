@@ -77,7 +77,7 @@ namespace Client.ViewModels
         private void Signup(PasswordBox passwordBox)
         {
             Globals.LoggedUser = ExecuteFaultableMethod(() => Connection.Instance.Service.Signup(Name, Username, passwordBox.Password));
-            ViewModelController.ChangeViewModel(new MainViewModel());
+            ViewModelController.ChangeViewModel(new MainMenuViewModel());
         } 
 
         #endregion

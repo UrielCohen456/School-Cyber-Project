@@ -5,7 +5,7 @@ using static Client.ViewModels.GameScoreScreenViewModel;
 
 namespace Client.ViewModels
 {
-    public class RoomsMainViewModel : BaseViewModel
+    public class GameMainViewModel : BaseViewModel
     {
         #region Fields
 
@@ -29,7 +29,7 @@ namespace Client.ViewModels
 
         #region Constructors
 
-        public RoomsMainViewModel()
+        public GameMainViewModel()
         {
             DisplayedViewModel = new RoomsFinderViewModel(this);
         }

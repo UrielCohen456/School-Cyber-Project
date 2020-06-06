@@ -31,8 +31,8 @@
                     HorizontalAlignment="Stretch"
                     MinWidth="200">
                     <Grid Background="{StaticResource MaterialDesignDarkSeparatorBackground}">
-                        <TextBox materialDesign:HintAssist.Hint="Username" 
-                                 Text="{Binding Username}"
+                        <TextBox Text="{Binding Username}"
+                                 materialDesign:HintAssist.Hint="Username" 
                                  HorizontalContentAlignment="Center" 
                                  VerticalAlignment="Top"
                                  Margin="50"/>
@@ -43,7 +43,7 @@
                                      Margin="50 150 50 0"/>
                         <Button Command="{Binding LoginCommand}"
                                 CommandParameter="{Binding ElementName=passwordBox}"
-                                Style="{StaticResource MaterialDesignRaisedLightButton}"
+                                Style="{StaticResource MaterialDesignRaisedButton}"
                                 Content="Login"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Stretch"

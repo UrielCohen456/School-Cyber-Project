@@ -22,7 +22,7 @@ namespace Client.ViewModels
         /// <summary>
         /// Controller
         /// </summary>
-        private readonly RoomsMainViewModel mainController;
+        private readonly GameMainViewModel mainController;
 
         /// <summary>
         /// Timer that ticks and asks the server for updates on the state of the game
@@ -186,7 +186,7 @@ namespace Client.ViewModels
         #endregion
 
         #region Constructors
-        public GameViewModel(RoomsMainViewModel mainController, int gameId)
+        public GameViewModel(GameMainViewModel mainController, int gameId)
         {
             this.mainController = mainController;
             this.gameId = gameId;

@@ -11,8 +11,8 @@ namespace Client.Converters
         {
             var id = (int)value;
             if (id == Globals.LoggedUser.Id)
-                return Brushes.Aqua;
-            return Brushes.Gray;
+                return Brushes.LightGreen;
+            return Brushes.White;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

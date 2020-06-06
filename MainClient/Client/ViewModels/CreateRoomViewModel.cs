@@ -10,7 +10,7 @@ namespace Client.ViewModels
     {
         #region Fields
 
-        private readonly RoomsMainViewModel mainController;
+        private readonly GameMainViewModel mainController;
 
         private RoomParameters roomParameters;
 
@@ -18,7 +18,7 @@ namespace Client.ViewModels
 
         #region Properties
 
-        public RoomsMainViewModel MainController
+        public GameMainViewModel MainController
         {
             get => mainController;
             set { }
@@ -69,10 +69,12 @@ namespace Client.ViewModels
 
         #region Constructors
 
-        public CreateRoomViewModel(RoomsMainViewModel mainController)
+        public CreateRoomViewModel(GameMainViewModel mainController)
         {
             this.mainController = mainController;
             roomParameters = new RoomParameters();
+            RoomName = Globals.LoggedUser.Name + "'s Room";
+            MaxPlayersCount = 3;
         }
 
         #endregion

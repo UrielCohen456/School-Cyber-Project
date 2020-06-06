@@ -50,7 +50,7 @@
                                  Margin="50 250 50 0"/>
                     <Button Command="{Binding SignupCommand}"
                                 CommandParameter="{Binding ElementName=passwordBox}"
-                                Style="{StaticResource MaterialDesignRaisedLightButton}"
+                                Style="{StaticResource MaterialDesignRaisedButton}"
                                 Content="Signup"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Stretch"

@@ -31,10 +31,6 @@ namespace Client.ViewModels
         /// </summary>
         private string messageText;
 
-        /// <summary>
-        /// The search query to search for friends
-        /// </summary>
-        private string searchQuery;
 
         /// <summary>
         /// Dictates wheter the user can send a message
@@ -68,6 +64,12 @@ namespace Client.ViewModels
             }
         }
 
+        public string FriendName
+        {
+            get => SelectedUser?.FriendUserInfo.Name;
+            set { }
+        }
+
         public FriendViewModel SelectedUser
         {
             get => selectedUser;
@@ -84,6 +86,7 @@ namespace Client.ViewModels
                     selectedUser = value;
                     CanSendMessage = selectedUser.FriendExists;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(FriendName));
 
                     if (selectedUser.FriendExists)
                     {
@@ -107,19 +110,6 @@ namespace Client.ViewModels
             set
             {
                 messageText = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Binding to the search query
-        /// </summary>
-        public string SearchQuery
-        {
-            get => searchQuery;
-            set
-            {
-                searchQuery = value;
                 OnPropertyChanged();
             }
         }
@@ -169,7 +159,7 @@ namespace Client.ViewModels
         /// <summary>
         /// Sends the search query to look for possible friends
         /// </summary>
-        public ICommand SearchForUsersByQueryCommand => new RelayCommand(async () => await SearchForUsersByQuery());
+        public ICommand SearchForUsersByQueryCommand => new RelayCommand<string>(async sQuery => await SearchForUsersByQuery(sQuery));
 
         /// <summary>
         /// Sends the current message to the current selected friend
@@ -277,13 +267,11 @@ namespace Client.ViewModels
             friends?.AddRange(await GetFriendsWithSpecificStatus(FriendStatus.Removed));
 
             FriendsList = new ObservableCollection<FriendViewModel>(friends);
-            selectedStatusFilter = null;
         }
 
-        private async Task SearchForUsersByQuery()
+        private async Task SearchForUsersByQuery(string sQuery)
         {
-            SelectedStatusFilter = "Sort By";
-            var users = await ExecuteFaultableMethod(() => Connection.Instance.Service.GetUsersAsync(SearchQuery, 50));
+            var users = await ExecuteFaultableMethod(() => Connection.Instance.Service.GetUsersAsync(sQuery, 50));
 
             IEnumerable<FriendViewModel> friendViewModelsToAdd = null;
 

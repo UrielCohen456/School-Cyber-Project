@@ -20,7 +20,7 @@ namespace Client.ViewModels
                 Players = players;
             }
         }
-        private readonly RoomsMainViewModel mainController;
+        private readonly GameMainViewModel mainController;
 
         private int gameId;
 
@@ -48,7 +48,7 @@ namespace Client.ViewModels
 
         public ICommand LeaveGameCommand => new RelayCommand(LeaveGame);
 
-        public GameScoreScreenViewModel(RoomsMainViewModel mainController, GameScoreScreenParams screenParams)
+        public GameScoreScreenViewModel(GameMainViewModel mainController, GameScoreScreenParams screenParams)
         {
             this.mainController = mainController;
             GameId = screenParams.GameId;

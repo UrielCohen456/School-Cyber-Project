@@ -9,7 +9,7 @@
         <ResourceDictionary>
             
             <ResourceDictionary.MergedDictionaries>
-                <materialDesign:BundledTheme BaseTheme="Dark" PrimaryColor="DeepPurple" SecondaryColor="Blue" />
+                <materialDesign:BundledTheme BaseTheme="Dark" PrimaryColor="Blue" SecondaryColor="Cyan" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
             
@@ -19,8 +19,8 @@
             <DataTemplate DataType="{x:Type ViewModels:SignupViewModel}">
                 <Views:SignupView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type ViewModels:MainViewModel}">
-                <Views:MenuView/>
+            <DataTemplate DataType="{x:Type ViewModels:MainMenuViewModel}">
+                <Views:MainMenuView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type ViewModels:FriendsViewModel}">
                 <Views:FriendsView/>
@@ -28,7 +28,7 @@
             <DataTemplate DataType="{x:Type ViewModels:FriendViewModel}">
                 <Views:FriendView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type ViewModels:RoomsMainViewModel}">
+            <DataTemplate DataType="{x:Type ViewModels:GameMainViewModel}">
                 <Views:RoomsMenuView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type ViewModels:RoomsFinderViewModel}">

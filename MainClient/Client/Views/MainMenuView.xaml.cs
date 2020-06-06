@@ -18,9 +18,9 @@ namespace Client.Views
     /// <summary>
     /// Interaction logic for MenuView.xaml
     /// </summary>
-    public partial class MenuView : UserControl
+    public partial class MainMenuView : UserControl
     {
-        public MenuView()
+        public MainMenuView()
         {
             InitializeComponent();
         }

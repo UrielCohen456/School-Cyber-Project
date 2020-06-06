@@ -17,7 +17,7 @@ namespace Client.ViewModels
         /// <summary>
         /// Controller
         /// </summary>
-        private readonly RoomsMainViewModel mainController;
+        private readonly GameMainViewModel mainController;
         
         /// <summary>
         /// The current room
@@ -69,7 +69,7 @@ namespace Client.ViewModels
 
         #region Constructors
 
-        public RoomLobbyViewModel(RoomsMainViewModel mainController, Room room)
+        public RoomLobbyViewModel(GameMainViewModel mainController, Room room)
         {
             this.mainController = mainController;
             this.room = room;

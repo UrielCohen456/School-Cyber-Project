@@ -8,7 +8,7 @@ using Client.MainServer;
 
 namespace Client.ViewModels
 {
-    public class MainViewModel : BaseViewModel
+    public class MainMenuViewModel : BaseViewModel
     {
         #region Fields
 
@@ -25,7 +25,7 @@ namespace Client.ViewModels
         /// <summary>
         /// Controls what to show - create room screen, in a room screen, room finder
         /// </summary>
-        private readonly RoomsMainViewModel roomsMenuViewModel = new RoomsMainViewModel();
+        private readonly GameMainViewModel gameMenuViewModel = new GameMainViewModel();
         
         #endregion
 
@@ -44,32 +44,27 @@ namespace Client.ViewModels
             }
         }
 
-        /// <summary>
-        /// The logged user's name for display
-        /// </summary>
-        public string LoggedUserName => Globals.LoggedUser.Name;
-
         public ICommand LogoutCommand => new RelayCommand(Logout);
 
         public ICommand ChangeToFriendsViewCommand => new RelayCommand(() => CurrentViewModel = friendsViewModel);
         public ICommand ChangeToProfileViewCommand => new RelayCommand(() => CurrentViewModel = new ProfileViewModel());
-        public ICommand ChangeToRoomsViewCommand => new RelayCommand(() => CurrentViewModel = roomsMenuViewModel);
+        public ICommand ChangeToGameViewCommand => new RelayCommand(() => CurrentViewModel = gameMenuViewModel);
 
 
         #endregion
 
         #region Constructors
 
-        public MainViewModel()
+        public MainMenuViewModel()
         { 
-            CurrentViewModel = roomsMenuViewModel;
+            CurrentViewModel = friendsViewModel;
         }
 
         public override void Dispose()
         {
             base.Dispose();
             friendsViewModel?.Dispose();
-            roomsMenuViewModel?.Dispose();
+            gameMenuViewModel?.Dispose();
         }
 
         #endregion
